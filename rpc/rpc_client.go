@@ -223,7 +223,7 @@ func (cc *CosmosCli) GetValPerformance(start int64, monitorObjs []*types.Monitor
 
 				valSign = append(valSign, &types.ValSign{
 					BlockHeight:  block.GetHeader().GetHeight(),
-					Moniker:      monikerMap[strings.ToLower(hex.EncodeToString(block.Header.GetProposerAddress()))],
+					Moniker:      monikerMap[strings.ToLower(hex.EncodeToString(sign.ValidatorAddress))],
 					OperatorAddr: addrMap[strings.ToLower(hex.EncodeToString(sign.ValidatorAddress))],
 					Status:       1,
 					DoubleSign:   false,

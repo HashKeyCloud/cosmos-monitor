@@ -189,3 +189,17 @@ func TestGetBlockHeightFromDb(t *testing.T) {
 	}
 	logger.Info("height:", height)
 }
+
+func TestBatchSaveValStats(t *testing.T) {
+	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		"xxxx", 5432, "ubuntu", "xxxx", "cosmos_monitor")
+	db, err := sqlx.Connect("postgres", pdqlInfo)
+	if err != nil {
+		logger.Errorf("Connected failed.err:%v\n", err)
+	}
+	dbCli := DbCli{
+		db,
+	}
+	_ = dbCli.BatchSaveValStats(12596732, 12596767)
+}

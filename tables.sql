@@ -27,7 +27,7 @@ create table val_info
 drop table if exists val_stats;
 create table val_stats
 (
-    moniker         text   not null,
+    moniker         text,
     operator_addr   text   not null,
     start_block     bigint not null default 0,
     end_block       bigint not null default 0,

@@ -18,10 +18,10 @@ type DBCli interface {
 	BatchSaveValSignMissed(valSignMissed []*types.ValSignMissed) error
 	BatchSaveProposalAssignments(proposalAssignments []*types.ProposalAssignment) error
 	BatchSaveProposals(proposals []*types.Proposal) error
-	BatchSaveSignNum(startBlock, endBlock int, operatorAddrs []string) error
-	BatchSaveUptime(startBlock, endBlock int, operatorAddrs []string) error
-	BatchSaveMissedSignNum(startBlock, endBlock int, operatorAddrs []string) error
-	BatchSaveProposalsNum(startBlock, endBlock int, operatorAddrs []string) error
+	BatchSaveSignNum(startBlock, endBlock int64, operatorAddrs []string) error
+	BatchSaveUptime(startBlock, endBlock int64, operatorAddrs []string) error
+	BatchSaveMissedSignNum(startBlock, endBlock int64, operatorAddrs []string) error
+	BatchSaveProposalsNum(startBlock, endBlock int64, operatorAddrs []string) error
 	GetBlockHeightFromDb() (int64, error)
 	GetValSignMissedFromDb(start, end int64) ([]*types.ValSignMissed, error)
 	GetValMoniker() ([]*types.ValMoniker, error)
@@ -302,7 +302,7 @@ func (c *DbCli) BatchSaveProposals(proposals []*types.Proposal) error {
 	return nil
 }
 
-func (c *DbCli) BatchSaveSignNum(startBlock, endBlock int, operatorAddrs []string) error {
+func (c *DbCli) BatchSaveSignNum(startBlock, endBlock int64, operatorAddrs []string) error {
 	for _, operatorAddr := range operatorAddrs {
 		logger.Infof("Begin SaveSignNum for %v validator succeeded\n", operatorAddr)
 		sql := `
@@ -312,7 +312,7 @@ func (c *DbCli) BatchSaveSignNum(startBlock, endBlock int, operatorAddrs []strin
 				WHERE operator_addr = $1 AND block_height >= $2 AND block_height <= $3
 				GROUP BY moniker, operator_addr
 			)
-			ON CONFLICT(operator_addr, start_block, end_block) do update set sign_num = excluded.sign_num;
+			ON CONFLICT(operator_addr, start_block, end_block) do update set  moniker = excluded.moniker, sign_num = excluded.sign_num;
 		`
 		_, err := c.Conn.Exec(sql, operatorAddr, startBlock, endBlock)
 		if err != nil {
@@ -326,7 +326,7 @@ func (c *DbCli) BatchSaveSignNum(startBlock, endBlock int, operatorAddrs []strin
 	return nil
 }
 
-func (c *DbCli) BatchSaveUptime(startBlock, endBlock int, operatorAddrs []string) error {
+func (c *DbCli) BatchSaveUptime(startBlock, endBlock int64, operatorAddrs []string) error {
 	logger.Infof("begin save uptime")
 	valSignNum := make([]*types.ValSignNum, 0)
 	valSignNumMap := make(map[string]float64)
@@ -382,7 +382,7 @@ func (c *DbCli) BatchSaveUptime(startBlock, endBlock int, operatorAddrs []string
 	return nil
 }
 
-func (c *DbCli) BatchSaveMissedSignNum(startBlock, endBlock int, operatorAddrs []string) error {
+func (c *DbCli) BatchSaveMissedSignNum(startBlock, endBlock int64, operatorAddrs []string) error {
 	for _, operatorAddr := range operatorAddrs {
 		logger.Infof("Begin MissedSignNum for %v validator succeeded\n", operatorAddr)
 		sql := `
@@ -392,7 +392,7 @@ func (c *DbCli) BatchSaveMissedSignNum(startBlock, endBlock int, operatorAddrs [
 				WHERE operator_addr = $1 AND block_height >= $2 AND block_height <= $3
 				GROUP BY moniker, operator_addr
 			)
-			ON CONFLICT(operator_addr, start_block, end_block) do update set missed_sign_num = excluded.missed_sign_num;
+			ON CONFLICT(operator_addr, start_block, end_block) do update set  moniker = excluded.moniker, missed_sign_num = excluded.missed_sign_num;
 		`
 		_, err := c.Conn.Exec(sql, operatorAddr, startBlock, endBlock)
 		if err != nil {
@@ -406,7 +406,7 @@ func (c *DbCli) BatchSaveMissedSignNum(startBlock, endBlock int, operatorAddrs [
 	return nil
 }
 
-func (c *DbCli) BatchSaveProposalsNum(startBlock, endBlock int, operatorAddrs []string) error {
+func (c *DbCli) BatchSaveProposalsNum(startBlock, endBlock int64, operatorAddrs []string) error {
 	for _, operatorAddr := range operatorAddrs {
 		logger.Infof("Begin ProposalsNum for %v validator succeeded\n", operatorAddr)
 		sql := `
@@ -416,7 +416,7 @@ func (c *DbCli) BatchSaveProposalsNum(startBlock, endBlock int, operatorAddrs []
 				WHERE operator_addr = $1 AND block_height >= $2 AND block_height <= $3
 				GROUP BY moniker, operator_addr
 			)
-			ON CONFLICT(operator_addr, start_block, end_block) do update set proposals_num = excluded.proposals_num;
+			ON CONFLICT(operator_addr, start_block, end_block) do update set  moniker = excluded.moniker, proposals_num = excluded.proposals_num;
 		`
 		_, err := c.Conn.Exec(sql, operatorAddr, startBlock, endBlock)
 		if err != nil {
@@ -494,51 +494,24 @@ func (c *DbCli) BatchSaveValStats(start, end int64) error {
 		logger.Error("Failed to query all validator, err:", err)
 		return err
 	}
-	for _, val := range allVal {
-		signNumSqld := `
-			INSERT INTO val_stats (moniker, operator_addr, start_block, end_block, sign_num)
-			(
-				SELECT moniker, operator_addr, $2, $3, COUNT(*) FROM val_sign_p
-				WHERE operator_addr = $1 AND block_height >= $2 AND block_height <= $3
-				GROUP BY moniker, operator_addr
-			)
-			ON CONFLICT(operator_addr, start_block, end_block) do update set sign_num = excluded.sign_num;
-		`
-		_, err = c.Conn.Exec(signNumSqld, val, start, end)
-		if err != nil {
-			logger.Error("Failed to write signature number, err:", err)
-		}
-		logger.Info("Write the number of signatures successfully")
+	err = c.BatchSaveSignNum(start, end, allVal)
+	if err != nil {
+		logger.Errorf("When the block height is %d to %d, saving the number of validator signatures failed, err:%v \n", start, end, err)
+	}
 
-		signMissedNumSqld := `
-			INSERT INTO val_stats (moniker, operator_addr, start_block, end_block, missed_sign_num)
-			(
-				SELECT moniker, operator_addr, $2, $3, COUNT(*) FROM val_sign_missed
-				WHERE operator_addr = $1 AND block_height >= $2 AND block_height <= $3
-				GROUP BY moniker, operator_addr
-			)
-			ON CONFLICT(operator_addr, start_block, end_block) do update set missed_sign_num = excluded.missed_sign_num;
-		`
-		_, err = c.Conn.Exec(signMissedNumSqld, val, start, end)
-		if err != nil {
-			logger.Error("Failed to write signature missed number, err:", err)
-		}
-		logger.Info("Write the number of signatures missed successfully")
+	err = c.BatchSaveMissedSignNum(start, end, allVal)
+	if err != nil {
+		logger.Errorf("When the block height is %d to %d, it fails to save the number of unsigned validators, err:%v \n", start, end, err)
+	}
 
-		proposalAssignmentsNumSqld := `
-			INSERT INTO val_stats (moniker, operator_addr, start_block, end_block, proposals_num)
-			(
-				SELECT moniker, operator_addr, $2, $3, COUNT(*) FROM proposal_assignments_p
-				WHERE operator_addr = $1 AND block_height >= $2 AND block_height <= $3
-				GROUP BY moniker, operator_addr
-			)
-			ON CONFLICT(operator_addr, start_block, end_block) do update set proposals_num = excluded.proposals_num;
-		`
-		_, err = c.Conn.Exec(proposalAssignmentsNumSqld, val, start, end)
-		if err != nil {
-			logger.Error("Failed to write proposal assignments number, err:", err)
-		}
-		logger.Info("Write the number of proposal assignments successfully")
+	err = c.BatchSaveProposalsNum(start, end, allVal)
+	if err != nil {
+		logger.Errorf("When the block height is %d to %d, it fails to save the number of blocks produced by the validator, err:%v \n", start, end, err)
+	}
+
+	err = c.BatchSaveUptime(start, end, allVal)
+	if err != nil {
+		logger.Errorf("Failed to save validator signature rate when block height is %d to %d, err:%v \n", start, end, err)
 	}
 
 	return nil

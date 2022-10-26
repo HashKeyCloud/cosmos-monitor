@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"strings"
+	"errors"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -487,6 +488,11 @@ func (c *DbCli) GetValMoniker() ([]*types.ValMoniker, error) {
 }
 
 func (c *DbCli) BatchSaveValStats(start, end int64) error {
+	if start < 0 && end > 0 {
+		start = 0
+	} else if start < 0 && end == 0 {
+		return errors.New("The starting block height is negative and the ending block height is 0")
+	}
 	allVal := make([]string, 0)
 	sqld := `SELECT operator_addr FROM val_info`
 	err := c.Conn.Select(&allVal, sqld)

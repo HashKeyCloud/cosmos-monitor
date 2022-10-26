@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	cosmossdk.io/api v0.2.1
-	github.com/cosmos/btcutil v1.0.4 // indirect
+	github.com/cosmos/btcutil v1.0.4
 	github.com/cosmos/cosmos-sdk v0.46.0-beta2.0.20220915170643-340c01bf5a84
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.10.6
@@ -14,10 +14,7 @@ require (
 	google.golang.org/grpc v1.49.0
 )
 
-require (
-	eagain.net/go/bech32 v0.0.1
-	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
-)
+require gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 
 require (
 	cosmossdk.io/errors v1.0.0-beta.7 // indirect
@@ -30,7 +27,6 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bgentry/speakeasy v0.1.0 // indirect
 	github.com/btcsuite/btcd v0.22.1 // indirect
-	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/confio/ics23/go v0.7.0 // indirect

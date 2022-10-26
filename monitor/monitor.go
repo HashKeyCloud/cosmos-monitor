@@ -264,7 +264,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 			logger.Error("Failed to query block height from database，err:", err)
 		}
 		interval := viper.GetInt("alert.blockInterval")
-		start := end - int64(interval)
+		start := end - int64(interval) + int64(1)
 		valSignMissed, err := m.DbCli.GetValSignMissedFromDb(start, end)
 		if err != nil {
 			logger.Error("Failed to query validator sign missed from database, err:", err)
@@ -311,10 +311,10 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 		m.missedSignChan <- missedSign
 	}
 
-	epoch := viper.GetInt("alert.timeInterval")
-	endHeight := end / int64(epoch) * int64(epoch)
+	timeInterval := viper.GetInt("alert.timeInterval")
+	endHeight := end / int64(timeInterval) * int64(timeInterval)
 	if monitorHeight != endHeight {
-		m.DbCli.BatchSaveValStats(endHeight-int64(epoch), endHeight)
+		m.DbCli.BatchSaveValStats(endHeight-int64(timeInterval) + int64(1), endHeight)
 		monitorHeight = endHeight
 	}
 }

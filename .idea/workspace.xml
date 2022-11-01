@@ -5,15 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dd664b2-a9c2-4d12-86b7-dc8790ff8b88" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/cosmos-monitor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cosmos-monitor.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/injective/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/injective/rpc_client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos/rpc_client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos/rpc_client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/operator2self.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/operator2self.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../program/golang" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -29,6 +43,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -40,9 +55,87 @@
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rpc/cosmos" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Test.TestGetValInfo in cosmosmonitor/rpc/injective">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestA in cosmosmonitor/rpc/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/cosmos" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/cosmos" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestA\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/cosmos" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/cosmos" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetValInfo\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/injective" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/injective" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/injective" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetValInfo\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/injective" />
+        <item itemvalue="Go Test.TestA in cosmosmonitor/rpc/cosmos" />
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/cosmos" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

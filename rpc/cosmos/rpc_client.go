@@ -1,4 +1,4 @@
-package rpc
+package cosmos
 
 import (
 	"context"
@@ -37,7 +37,7 @@ type CosmosCli struct {
 }
 
 // NewRpcCli Create a new RPC service
-func NewRpcCli(endpoint string) (*CosmosCli, error) {
+func NewCosmosRpcCli(endpoint string) (*CosmosCli, error) {
 	dialOpts := []grpc.DialOption{
 		// grpc.WithInsecure(),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -47,7 +47,7 @@ func NewRpcCli(endpoint string) (*CosmosCli, error) {
 	// Create a connection to the gRPC server.
 	grpcConn, err := grpc.Dial(endpoint, dialOpts...)
 	if err != nil {
-		logger.Error("Failed to create gRPC client, err:", err)
+		logger.Error("Failed to create cosmos gRPC client, err:", err)
 		return nil, err
 	}
 
@@ -82,7 +82,7 @@ func (cc *CosmosCli) GetValInfo(operatorAddrs []string) ([]*types.ValInfo, error
 			logger.Error("Failed to query validator information, err:", err)
 			return nil, err
 		}
-		selfAddr := utils.Operator2SelfAdde(operatorAddr)
+		selfAddr := utils.Operator2SelfAddr(operatorAddr)
 		operatorAddrHex := utils.Puk2addrHex(queryValidatorResponse.Validator.ConsensusPubkey.GetValue())
 		dVal := &distribution.QueryDelegatorWithdrawAddressRequest{
 			DelegatorAddress: selfAddr,

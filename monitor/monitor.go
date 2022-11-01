@@ -13,14 +13,14 @@ import (
 	"cosmosmonitor/db"
 	"cosmosmonitor/log"
 	"cosmosmonitor/notification"
-	"cosmosmonitor/rpc"
+	cosmosRpc "cosmosmonitor/rpc/cosmos"
 	"cosmosmonitor/types"
 	"cosmosmonitor/utils"
 )
 
 type Monitor struct {
-	RpcCli          *rpc.CosmosCli
-	DbCli           *db.DbCli
+	CosmosRpcCli    *cosmosRpc.CosmosCli
+	CosmosDbCli     *db.DbCli
 	MailClient      *notification.Client
 	termChan        chan os.Signal
 	valIsJailedChan chan []string
@@ -39,7 +39,7 @@ var (
 func NewMonitor() (*Monitor, error) {
 	// init Cosmos RPC
 	rpcEndpoint := fmt.Sprintf("%s:%s", viper.GetString("cosmos.ip"), viper.GetString("cosmos.gRPCport"))
-	cosmosCli, err := rpc.NewRpcCli(rpcEndpoint)
+	cosmosCli, err := cosmosRpc.NewCosmosRpcCli(rpcEndpoint)
 	if err != nil {
 		logger.Error("connect rpc client error: ", err)
 		return nil, err
@@ -65,8 +65,8 @@ func NewMonitor() (*Monitor, error) {
 	)
 
 	return &Monitor{
-		RpcCli:          cosmosCli,
-		DbCli:           &db.DbCli{Conn: dbCli},
+		CosmosRpcCli:    cosmosCli,
+		CosmosDbCli:     &db.DbCli{Conn: dbCli},
 		MailClient:      mailClient,
 		termChan:        make(chan os.Signal),
 		valIsJailedChan: make(chan []string),
@@ -89,11 +89,11 @@ func (m *Monitor) Start() {
 		operatorAdds := config.GetoperatorAddrs()
 
 		logger.Info("Getting Validators info from chain")
-		valsInfo, err := m.RpcCli.GetValInfo(operatorAdds)
+		valsInfo, err := m.CosmosRpcCli.GetValInfo(operatorAdds)
 		if err != nil {
 			logger.Error("get cared data error: ", err)
 			res := utils.Retry(func() bool {
-				valsInfo, err = m.RpcCli.GetValInfo(operatorAdds)
+				valsInfo, err = m.CosmosRpcCli.GetValInfo(operatorAdds)
 				if err != nil {
 					return false
 				} else {
@@ -107,16 +107,16 @@ func (m *Monitor) Start() {
 		}
 		logger.Info("Successfully get validators!")
 
-		mo, err := m.DbCli.GetMonitorObj()
+		mo, err := m.CosmosDbCli.GetMonitorObj()
 		if err != nil {
 			logger.Error("")
 		}
 		logger.Info("Start getting VOTING PERIOD proposals")
-		proposals, err := m.RpcCli.GetProposal(mo)
+		proposals, err := m.CosmosRpcCli.GetProposal(mo)
 		if err != nil {
 			logger.Error("get proposal error: ", err)
 			res := utils.Retry(func() bool {
-				proposals, err = m.RpcCli.GetProposal(mo)
+				proposals, err = m.CosmosRpcCli.GetProposal(mo)
 				if err != nil {
 					return false
 				} else {
@@ -131,15 +131,15 @@ func (m *Monitor) Start() {
 		logger.Info("Successfully get VOTING PERIOD proposals")
 
 		logger.Info("start getting validators performance")
-		start, err := m.DbCli.GetBlockHeightFromDb()
+		start, err := m.CosmosDbCli.GetBlockHeightFromDb()
 		if err != nil {
 			logger.Error("Failed to query block height from database，err:", err)
 		}
-		proposalAssignments, valSign, valSignMissed, err := m.RpcCli.GetValPerformance(start, mo)
+		proposalAssignments, valSign, valSignMissed, err := m.CosmosRpcCli.GetValPerformance(start, mo)
 		if err != nil {
 			logger.Error("get proposal error: ", err)
 			res := utils.Retry(func() bool {
-				proposalAssignments, valSign, valSignMissed, err = m.RpcCli.GetValPerformance(start, mo)
+				proposalAssignments, valSign, valSignMissed, err = m.CosmosRpcCli.GetValPerformance(start, mo)
 				if err != nil {
 					return false
 				} else {
@@ -173,7 +173,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 	var end int64
 	if caredData.ValInfos != nil && len(caredData.ValInfos) > 0 {
 		logger.Info("Start saving validator information")
-		err := m.DbCli.SaveValInfo(caredData.ValInfos)
+		err := m.CosmosDbCli.SaveValInfo(caredData.ValInfos)
 		if err != nil {
 			logger.Error("save valdator info fail:", err)
 		}
@@ -210,7 +210,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 
 	if caredData.Proposals != nil && len(caredData.Proposals) > 0 {
 		logger.Info("Start saving proposals information")
-		err := m.DbCli.BatchSaveProposals(caredData.Proposals)
+		err := m.CosmosDbCli.BatchSaveProposals(caredData.Proposals)
 		if err != nil {
 			logger.Error("save the proposals information fail:", err)
 		}
@@ -235,7 +235,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 
 	if caredData.ProposalAssignments != nil && len(caredData.ProposalAssignments) > 0 {
 		logger.Info("Start saving proposal assignments information")
-		err := m.DbCli.BatchSaveProposalAssignments(caredData.ProposalAssignments)
+		err := m.CosmosDbCli.BatchSaveProposalAssignments(caredData.ProposalAssignments)
 		if err != nil {
 			logger.Error("save proposal assignments fail:", err)
 		}
@@ -244,7 +244,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 
 	if caredData.ValSigns != nil && len(caredData.ValSigns) > 0 {
 		logger.Info("Start saving validator signs")
-		err := m.DbCli.BatchSaveValSign(caredData.ValSigns)
+		err := m.CosmosDbCli.BatchSaveValSign(caredData.ValSigns)
 		if err != nil {
 			logger.Error("save validator sign fail:", err)
 		}
@@ -253,19 +253,19 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 
 	if caredData.ValSignMisseds != nil && len(caredData.ValSignMisseds) > 0 {
 		logger.Info("Start saving validator sign misseds")
-		err := m.DbCli.BatchSaveValSignMissed(caredData.ValSignMisseds)
+		err := m.CosmosDbCli.BatchSaveValSignMissed(caredData.ValSignMisseds)
 		if err != nil {
 			logger.Error("save validator sign missed fail:", err)
 		}
 		logger.Info("Save the validator sign missed successfully")
 
-		end, err = m.DbCli.GetBlockHeightFromDb()
+		end, err = m.CosmosDbCli.GetBlockHeightFromDb()
 		if err != nil {
 			logger.Error("Failed to query block height from database，err:", err)
 		}
 		interval := viper.GetInt("alert.blockInterval")
 		start := end - int64(interval) + int64(1)
-		valSignMissed, err := m.DbCli.GetValSignMissedFromDb(start, end)
+		valSignMissed, err := m.CosmosDbCli.GetValSignMissedFromDb(start, end)
 		if err != nil {
 			logger.Error("Failed to query validator sign missed from database, err:", err)
 		}
@@ -273,7 +273,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 		for _, signMissed := range valSignMissed {
 			valSignMissedMap[signMissed.OperatorAddr] = append(valSignMissedMap[signMissed.OperatorAddr], signMissed.BlockHeight)
 		}
-		valsMoniker, err := m.DbCli.GetValMoniker()
+		valsMoniker, err := m.CosmosDbCli.GetValMoniker()
 		if err != nil {
 			logger.Error("Failed to query validator moniker from database, err:", err)
 		}
@@ -314,7 +314,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 	timeInterval := viper.GetInt("alert.timeInterval")
 	endHeight := end / int64(timeInterval) * int64(timeInterval)
 	if monitorHeight != endHeight {
-		m.DbCli.BatchSaveValStats(endHeight-int64(timeInterval) + int64(1), endHeight)
+		m.CosmosDbCli.BatchSaveValStats(endHeight-int64(timeInterval)+int64(1), endHeight)
 		monitorHeight = endHeight
 	}
 }

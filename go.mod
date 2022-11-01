@@ -14,7 +14,10 @@ require (
 	google.golang.org/grpc v1.49.0
 )
 
-require gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
+require (
+	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
+)
 
 require (
 	cosmossdk.io/errors v1.0.0-beta.7 // indirect
@@ -61,6 +64,7 @@ require (
 	github.com/gtank/merlin v0.1.1 // indirect
 	github.com/gtank/ristretto255 v0.1.2 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
+	github.com/hashicorp/go-uuid v1.0.2 // indirect
 	github.com/hashicorp/golang-lru v0.5.5-0.20210104140557-80c98217689d // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hdevalence/ed25519consensus v0.0.0-20220222234857-c00d1f31bab3 // indirect

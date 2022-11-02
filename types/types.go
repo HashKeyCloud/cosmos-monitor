@@ -104,6 +104,7 @@ type Height struct {
 }
 
 type CaredData struct {
+	ChainName           string
 	ValInfos            []*ValInfo
 	Proposals           []*Proposal
 	ProposalAssignments []*ProposalAssignment

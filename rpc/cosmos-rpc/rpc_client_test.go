@@ -1,16 +1,14 @@
-package cosmos
+package cosmos_rpc
 
 import (
 	"cosmosmonitor/types"
-	"encoding/hex"
 	"fmt"
-	"github.com/cosmos/cosmos-sdk/types/bech32"
 	"testing"
 	"time"
 )
 
 func TestGovInfo(t *testing.T) {
-	cc, err := NewCosmosRpcCli("xxxx")
+	cc, err := NewCosmosRpcCli()
 	if err != nil {
 		logger.Error("err", err)
 	}
@@ -31,7 +29,7 @@ func TestGovInfo(t *testing.T) {
 }
 
 func TestGetValInfo(t *testing.T) {
-	cc, err := NewCosmosRpcCli("cosmos-grpc.polkachu.com:14990")
+	cc, err := NewCosmosRpcCli()
 	if err != nil {
 		logger.Error("err:", err)
 	}
@@ -44,7 +42,7 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	cc, err := NewCosmosRpcCli("xxxx")
+	cc, err := NewCosmosRpcCli()
 	if err != nil {
 		logger.Error("err:", err)
 	}
@@ -67,40 +65,4 @@ func TestGetValPerformance(t *testing.T) {
 	for _, signmissed := range signsmissed {
 		fmt.Println("sign missed:", signmissed)
 	}
-}
-
-func TestA(t *testing.T) {
-	/*data := []byte("cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en")
-	// Convert test data to base32:
-	conv, err := bech32.ConvertBits(data, 8, 5, true)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	encoded, err := bech32.Encode("cosmosvaloper", conv)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
-	// Show the encoded data.
-	fmt.Println("Encoded Data:", encoded)*/
-
-	//encoded := "cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en"
-	//hrp, decoded, err := bech32.Decode(encoded)
-	//if err != nil {
-	//	fmt.Println("Error:", err)
-	//}
-	//
-	//fmt.Println("hrp", hrp)
-	//fmt.Println("decoded:", hex.EncodeToString(decoded))
-
-	hrp, bz, err := bech32.DecodeAndConvert("cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en")
-	if err != nil {
-		fmt.Println("err:", err)
-	}
-
-	if hrp != "cosmosvaloper" {
-		fmt.Println("err:", err)
-	}
-
-	fmt.Println(hex.EncodeToString(bz))
 }

@@ -1,23 +1,20 @@
-package cosmos
+package rpc
 
 import (
 	"context"
 	"encoding/hex"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"strings"
 
-	auth "cosmossdk.io/api/cosmos/auth/v1beta1"
+	"cosmosmonitor/log"
+	"cosmosmonitor/types"
+	"cosmosmonitor/utils"
 	base "cosmossdk.io/api/cosmos/base/tendermint/v1beta1"
 	distribution "cosmossdk.io/api/cosmos/distribution/v1beta1"
 	gov "cosmossdk.io/api/cosmos/gov/v1beta1"
 	staking "cosmossdk.io/api/cosmos/staking/v1beta1"
 	blockTypes "cosmossdk.io/api/tendermint/types"
-	bankTypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-
-	"cosmosmonitor/log"
-	"cosmosmonitor/types"
-	"cosmosmonitor/utils"
 )
 
 type Client interface {
@@ -26,18 +23,14 @@ type Client interface {
 	GetValPerformance(start int64, monitorObjs []*types.MonitorObj) ([]*types.ProposalAssignment, []*types.ValSign, []*types.ValSignMissed, error)
 }
 
-type CosmosCli struct {
-	GRPCCli         grpc.ClientConn
-	BankCli         bankTypes.QueryClient
+type ChainCli struct {
 	StakingQueryCli staking.QueryClient
 	GovQueryCli     gov.QueryClient
 	BaseQuaryCli    base.ServiceClient
 	DistributionCli distribution.QueryClient
-	AuthCli         auth.QueryClient
 }
 
-// NewRpcCli Create a new RPC service
-func NewCosmosRpcCli(endpoint string) (*CosmosCli, error) {
+func NewChainRpcCli(endpoint string) (*grpc.ClientConn, error) {
 	dialOpts := []grpc.DialOption{
 		// grpc.WithInsecure(),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -50,28 +43,11 @@ func NewCosmosRpcCli(endpoint string) (*CosmosCli, error) {
 		logger.Error("Failed to create cosmos gRPC client, err:", err)
 		return nil, err
 	}
-
-	bankClient := bankTypes.NewQueryClient(grpcConn)
-	stakingQueryCli := staking.NewQueryClient(grpcConn)
-	govQueryCli := gov.NewQueryClient(grpcConn)
-	baseCli := base.NewServiceClient(grpcConn)
-	distributionCli := distribution.NewQueryClient(grpcConn)
-	authCli := auth.NewQueryClient(grpcConn)
-
-	cli := CosmosCli{
-		GRPCCli:         *grpcConn,
-		BankCli:         bankClient,
-		StakingQueryCli: stakingQueryCli,
-		GovQueryCli:     govQueryCli,
-		BaseQuaryCli:    baseCli,
-		DistributionCli: distributionCli,
-		AuthCli:         authCli,
-	}
-	return &cli, err
+	return grpcConn, nil
 }
 
 // GetValInfo Get validator information via RPC
-func (cc *CosmosCli) GetValInfo(operatorAddrs []string) ([]*types.ValInfo, error) {
+func (cc *ChainCli) GetValInfo(operatorAddrs []string) ([]*types.ValInfo, error) {
 	valsInfo := make([]*types.ValInfo, 0)
 	for _, operatorAddr := range operatorAddrs {
 		qVal := &staking.QueryValidatorRequest{
@@ -122,7 +98,7 @@ func (cc *CosmosCli) GetValInfo(operatorAddrs []string) ([]*types.ValInfo, error
 }
 
 // GetProposal Obtain proposals in VOTING PERIOD through RPC, and obtain validator votes.
-func (cc *CosmosCli) GetProposal(monitorObjs []*types.MonitorObj) ([]*types.Proposal, error) {
+func (cc *ChainCli) GetProposal(monitorObjs []*types.MonitorObj) ([]*types.Proposal, error) {
 	queryProposalsRequest := &gov.QueryProposalsRequest{}
 	queryProposalsRespons, err := cc.GovQueryCli.Proposals(context.Background(), queryProposalsRequest)
 	if err != nil {
@@ -165,7 +141,7 @@ func (cc *CosmosCli) GetProposal(monitorObjs []*types.MonitorObj) ([]*types.Prop
 }
 
 // GetValPerformance Query the validator's block production and signature status through RPC
-func (cc *CosmosCli) GetValPerformance(start int64, monitorObjs []*types.MonitorObj) ([]*types.ProposalAssignment, []*types.ValSign, []*types.ValSignMissed, error) {
+func (cc *ChainCli) GetValPerformance(start int64, monitorObjs []*types.MonitorObj) ([]*types.ProposalAssignment, []*types.ValSign, []*types.ValSignMissed, error) {
 	blockByHeightRequest := &base.GetLatestBlockRequest{}
 	blocks := make([]*blockTypes.Block, 0)
 

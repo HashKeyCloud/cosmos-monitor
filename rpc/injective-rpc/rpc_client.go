@@ -15,9 +15,9 @@ type InjectiveCli struct {
 	*rpc.ChainCli
 }
 
-func NewInjectiveRpcCli() (*InjectiveCli, error) {
-	endpoint := fmt.Sprintf("%s:%s", viper.GetString("injective.ip"), viper.GetString("injective.gRPCport"))
-	grpcConn, err := rpc.NewChainRpcCli(endpoint)
+func InitInjectiveRpcCli() (*InjectiveCli, error) {
+	endpoint := fmt.Sprintf("%s:%s", viper.GetString("gRpc.injectiveIp"), viper.GetString("gRpc.injectivePort"))
+	grpcConn, err := rpc.InitChainRpcCli(endpoint)
 	if err != nil {
 		logger.Error("Failed to create injective gRPC client, err:", err)
 		return nil, err

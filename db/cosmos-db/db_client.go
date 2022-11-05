@@ -13,15 +13,15 @@ type CosmosDbCli struct {
 
 func InitCosmosDbCli() (*CosmosDbCli, error) {
 	dbConf := &types.DatabaseConfig{
-		Username: viper.GetString("postgres.user"),
-		Password: viper.GetString("postgres.password"),
-		Name:     viper.GetString("postgres.name"),
-		Host:     viper.GetString("postgres.host"),
-		Port:     viper.GetString("postgres.port"),
+		Username: viper.GetString("postgres.cosmosUser"),
+		Password: viper.GetString("postgres.cosmosPassword"),
+		Name:     viper.GetString("postgres.cosmosName"),
+		Host:     viper.GetString("postgres.cosmosHost"),
+		Port:     viper.GetString("postgres.cosmosPort"),
 	}
 	dbCli, err := db.InitDB(dbConf)
 	if err != nil {
-		logger.Error("connect database server error: ", err)
+		logger.Error("connect cosmos database server error: ", err)
 		return nil, err
 	}
 

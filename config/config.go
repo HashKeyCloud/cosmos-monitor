@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -28,11 +29,12 @@ func InitConfig(cfg string) error {
 	return nil
 }
 
-func GetoperatorAddrs() []string {
-	operatorAddr := viper.GetString("alert.operatorAddr")
+func GetOperatorAddrs(project string) []string {
+	operatorAddrConf := fmt.Sprintf("alert.%sOperatorAddr", project)
+	operatorAddr := viper.GetString(operatorAddrConf)
 	operatorAddrs := strings.Split(operatorAddr, ",")
 	if len(operatorAddrs) == 0 {
-		logger.Error("failed get operatorAddr")
+		logger.Error("failed get cosmos operatorAddr")
 	}
 	return operatorAddrs
 }

@@ -68,6 +68,7 @@ type ValSign struct {
 }
 
 type ValSignMissed struct {
+	ChainName    string
 	Moniker      string `db:"moniker"`
 	OperatorAddr string `db:"operator_addr"`
 	BlockHeight  int    `db:"block_height"`
@@ -81,6 +82,7 @@ type ProposalAssignment struct {
 }
 
 type Proposal struct {
+	ChainName       string
 	ProposalId      int64  `db:"proposal_id"`
 	VotingStartTime string `db:"voting_start_time"`
 	VotingEndTime   string `db:"voting_end_time"`
@@ -113,8 +115,14 @@ type CaredData struct {
 }
 
 type ValIsActive struct {
-	Moniker string `db:"moniker"`
-	Status  int32  `db:"status"`
+	ChainName string
+	Moniker   string `db:"moniker"`
+	Status    int32  `db:"status"`
+}
+
+type ValIsJail struct {
+	ChainName string
+	Moniker   string `db:"moniker"`
 }
 
 type ValMoniker struct {

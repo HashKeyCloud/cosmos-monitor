@@ -15,10 +15,10 @@ type CosmosCli struct {
 	*rpc.ChainCli
 }
 
-// NewRpcCli Create a new RPC service
-func NewCosmosRpcCli() (*CosmosCli, error) {
-	endpoint := fmt.Sprintf("%s:%s", viper.GetString("cosmos.ip"), viper.GetString("cosmos.gRPCport"))
-	grpcConn, err := rpc.NewChainRpcCli(endpoint)
+// InitRpcCli Create a new RPC service
+func InitCosmosRpcCli() (*CosmosCli, error) {
+	endpoint := fmt.Sprintf("%s:%s", viper.GetString("gRpc.cosmosIp"), viper.GetString("gRpc.cosmosPort"))
+	grpcConn, err := rpc.InitChainRpcCli(endpoint)
 	if err != nil {
 		logger.Error("Failed to create cosmos gRPC client, err:", err)
 		return nil, err
@@ -29,15 +29,14 @@ func NewCosmosRpcCli() (*CosmosCli, error) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cli := CosmosCli{
+	return &CosmosCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
 			BaseQuaryCli:    baseCli,
 			DistributionCli: distributionCli,
 		},
-	}
-	return &cli, err
+	}, err
 }
 
 var logger = log.RPCLogger.WithField("module", "rpc")

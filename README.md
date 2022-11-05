@@ -26,38 +26,49 @@ We recommennd the following hardware resources:
 - Configuration example
 ```yaml
 # database config
+# database config
 postgres:
-  user: "database_user"
-  password: "database_password"
-  name: "database_name"
-  host: "database_host_ip"
-  port: "database_host_port"
+  cosmosUser: "cosmos_database_user"
+  cosmosPassword: "cosmos_database_password"
+  cosmosName: "cosmos_database_name"
+  cosmosHost: "cosmos_database_host_ip"
+  cosmosPort: "cosmos_database_host_port"
 
-# cosmos gRPC
-cosmos:
-  ip: "cosmos_grpc_host_ip"
-  gRPCport: "cosmos_grpc_host_grpc_port"
-  httpPort: "cosmos_grpc_host_http_port"
+  injectiveUser: "injective_database_user"
+  injectivePassword: "injective_database_password"
+  injectiveName: "injective_database_name"
+  injectiveHost: "injective_database_host_ip"
+  injectivePort: "injective_database_host_port"
+
+# gRPC
+gRpc:
+  cosmosIp: "cosmos_grpc_host_ip"
+  cosmosPort: "cosmos_grpc_host_grpc_port"
+  injectiveIp: "injective_grpc_host_ip"
+  injectivePort: "injective_grpc_host_grpc_port"
 
 alert:
-  operatorAddr: "cosmos_validator_operator_address" # The address starts with "cosmosvaloper" And multiple validators are divided by ",". 
+  cosmosOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "cosmosvaloper"
+  injectiveOperatorAddr: "injvaloperxxxxx,injvaloperyyyy"    # The address starts with "injvaloper"
   timeInterval: 600  # Monitoring time interval. 600 means the cosmos-monitor runs every 600 seconds
   blockInterval: 100 # Used to calculate the recent signature rate. 100 means to count the signatures rate of the last 100 blocks
   proportion: 0.05 # Signature rate
-  startingBlockHeight: 12495683 # The starting block height of the cosmos-monitor program
-
+  cosmosStartingBlockHeight: 123456 # The cosmos starting block height of the monitor program
+  injectiveStartingBlockHeight: 1234567 # The injective starting block height of the monitor program
 mail:
   host: "mail_host"
   port: "mail_port"
   username: "mail_username"
   password: "mail_password"
   sender: "sender_mail_address"
-  receiver1: "receiver1_mail_address" # Receive all alert emails
-  receiver2: "receiver2_mail_address" # Only receive emergency alert emails, like jailed/inactive, etc.
+  cosmosReceiver1: "cosmos_receiver1_mail_address" # Receive all alert emails of cosmos
+  cosmosReceiver2: "cosmos_receiver2_mail_address" # Only receive emergency alert emails of cosmos, like jailed/inactive, etc.
+  injectiveReceiver1: "injective_receiver1_mail_address" # Receive all alert emails of injective
+  injectiveReceiver2: "injective_receiver2_mail_address" # Only receive emergency alert emails of injective, like jailed/inactive, etc.
 
 log:
   path: "log_save_location"
-  level: "log_level" # Info, Error
+  level: "log_level" # info, error
   eventlogpath: "event_log_save_location"
 ```
 ## 4. Deployment monitoring

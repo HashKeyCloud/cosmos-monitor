@@ -18,7 +18,7 @@ import (
 )
 
 type Client interface {
-	GetValInfo(valAddrs []*types.MonitorObj) ([]*types.ValInfo, error)
+	GetValInfo(operatorAddrs []string) ([]*types.ValInfo, error)
 	GetProposal(monitorObjs []*types.MonitorObj) ([]*types.Proposal, error)
 	GetValPerformance(start int64, monitorObjs []*types.MonitorObj) ([]*types.ProposalAssignment, []*types.ValSign, []*types.ValSignMissed, error)
 }
@@ -30,7 +30,7 @@ type ChainCli struct {
 	DistributionCli distribution.QueryClient
 }
 
-func NewChainRpcCli(endpoint string) (*grpc.ClientConn, error) {
+func InitChainRpcCli(endpoint string) (*grpc.ClientConn, error) {
 	dialOpts := []grpc.DialOption{
 		// grpc.WithInsecure(),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),

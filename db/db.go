@@ -25,10 +25,11 @@ type DBCli interface {
 	BatchSaveUptime(startBlock, endBlock int64, operatorAddrs []string) error
 	BatchSaveMissedSignNum(startBlock, endBlock int64, operatorAddrs []string) error
 	BatchSaveProposalsNum(startBlock, endBlock int64, operatorAddrs []string) error
-	GetBlockHeightFromDb() (int64, error)
+	GetBlockHeightFromDb(project string) (int64, error)
 	GetValSignMissedFromDb(start, end int64) ([]*types.ValSignMissed, error)
 	GetValMoniker() ([]*types.ValMoniker, error)
 	GetMonitorObj() ([]*types.MonitorObj, error)
+	BatchSaveValStats(start, end int64) error
 }
 
 type DbCli struct {
@@ -467,7 +468,7 @@ func (c *DbCli) BatchSaveProposalsNum(startBlock, endBlock int64, operatorAddrs 
 	return nil
 }
 
-func (c *DbCli) GetBlockHeightFromDb() (int64, error) {
+func (c *DbCli) GetBlockHeightFromDb(project string) (int64, error) {
 	var minHeight int64
 	dbHeight := make([]types.MaxBlockHeight, 0)
 	sqld := `select (select max(block_height) from val_sign_p) max_block_height_sign,
@@ -494,7 +495,8 @@ func (c *DbCli) GetBlockHeightFromDb() (int64, error) {
 		}
 	}
 	if minHeight == 0 {
-		minHeight = int64(viper.GetInt("alert.startingBlockHeight"))
+		startingBlockHeight := fmt.Sprintf("alert.%sStartingBlockHeight", project)
+		minHeight = int64(viper.GetInt(startingBlockHeight))
 	}
 	return minHeight, nil
 }

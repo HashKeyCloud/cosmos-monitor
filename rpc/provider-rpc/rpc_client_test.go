@@ -1,4 +1,4 @@
-package cosmos_rpc
+package provider_rpc
 
 import (
 	"cosmosmonitor/rpc"
@@ -13,7 +13,7 @@ import (
 )
 
 func TestGovInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("cosmos-grpc.polkachu.com:14990")
+	grpcConn, err := rpc.InitChainRpcCli("https://grpc.provider-sentry-02.goc.earthball.xyz")
 	if err != nil {
 		logger.Error("Failed to create cosmos gRPC client, err:", err)
 	}
@@ -23,7 +23,7 @@ func TestGovInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &CosmosCli{
+	cc := &ProviderCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -48,7 +48,7 @@ func TestGovInfo(t *testing.T) {
 }
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("cosmos-grpc.polkachu.com:14990")
+	grpcConn, err := rpc.InitChainRpcCli("https://grpc.provider-sentry-01.goc.earthball.xyz")
 	if err != nil {
 		logger.Error("Failed to create cosmos gRPC client, err:", err)
 	}
@@ -58,7 +58,7 @@ func TestGetValInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &CosmosCli{
+	cc := &ProviderCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -68,7 +68,7 @@ func TestGetValInfo(t *testing.T) {
 	}
 
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en")
+	monitorObj = append(monitorObj, "cosmosvaloper10e4rluum506yc63vgrdcn500zyev2c5jw2ndkv")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -76,7 +76,7 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("cosmos-grpc.polkachu.com:14990")
+	grpcConn, err := rpc.InitChainRpcCli("https://grpc.provider-sentry-02.goc.earthball.xyz")
 	if err != nil {
 		logger.Error("Failed to create cosmos gRPC client, err:", err)
 	}
@@ -86,7 +86,7 @@ func TestGetValPerformance(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &CosmosCli{
+	cc := &ProviderCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,

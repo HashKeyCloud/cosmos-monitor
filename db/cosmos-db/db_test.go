@@ -1,6 +1,7 @@
 package cosmos_db
 
 import (
+	"cosmosmonitor/db"
 	"cosmosmonitor/types"
 	"fmt"
 	"github.com/jmoiron/sqlx"
@@ -11,11 +12,11 @@ func TestBaveValInfo(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
 		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db.DbCli{db}
+	dbCli := db.DbCli{dbcli}
 
 	valsInfo := make([]*types.ValInfo, 0)
 	valInfo := &types.ValInfo{
@@ -46,12 +47,12 @@ func TestBaveValInfo(t *testing.T) {
 func TestBatchSaveValSign(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		"xxxxx", 5432, "ubuntu", "xxxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
 		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db2.DbCli{db}
+	dbCli := db.DbCli{dbcli}
 	valSigns := make([]*types.ValSign, 0)
 
 	for i := 0; i < 10; i++ {
@@ -75,16 +76,17 @@ func TestBatchSaveValSign(t *testing.T) {
 func TestBatchValSignMissed(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		"xxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
 		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db.DbCli{db}
+	dbCli := db.DbCli{dbcli}
 	valSigns := make([]*types.ValSignMissed, 0)
 
 	for i := 0; i < 10; i++ {
 		valInfo := &types.ValSignMissed{
+			"cosmos",
 			"moniker",
 			"cosmosvaloperxxxx",
 			i,
@@ -102,12 +104,12 @@ func TestBatchValSignMissed(t *testing.T) {
 func TestBatchProposalAssignments(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		"xxxx", 5432, "ubuntu", "xxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
-		db2.logger.Errorf("Connected failed.err:%v\n", err)
+		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db2.DbCli{db}
+	dbCli := db.DbCli{dbcli}
 	valSigns := make([]*types.ProposalAssignment, 0)
 
 	for i := 0; i < 10; i++ {
@@ -122,23 +124,24 @@ func TestBatchProposalAssignments(t *testing.T) {
 
 	err = dbCli.BatchSaveProposalAssignments(valSigns)
 	if err != nil {
-		db2.logger.Error("err：", err)
+		logger.Error("err：", err)
 	}
 }
 
 func TestBatchProposals(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		"xxxx", 5432, "ubuntu", "xxxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
-		db2.logger.Errorf("Connected failed.err:%v\n", err)
+		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db2.DbCli{db}
+	dbCli := db.DbCli{dbcli}
 	valSigns := make([]*types.Proposal, 0)
 
 	for i := 0; i < 10; i++ {
 		valInfo := &types.Proposal{
+			"cosmos",
 			int64(i),
 			"2022-12-12",
 			"2022-12-24",
@@ -152,19 +155,19 @@ func TestBatchProposals(t *testing.T) {
 
 	err = dbCli.BatchSaveProposals(valSigns)
 	if err != nil {
-		db2.logger.Error("err：", err)
+		logger.Error("err：", err)
 	}
 }
 
 func TestValStats(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		"xxxx", 5432, "ubuntu", "xxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
-		db2.logger.Errorf("Connected failed.err:%v\n", err)
+		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db2.DbCli{db}
+	dbCli := db.DbCli{dbcli}
 	val := []string{"cosmosvaloperxxxxx"}
 	dbCli.BatchSaveMissedSignNum(0, 11, val)
 	dbCli.BatchSaveSignNum(0, 11, val)
@@ -175,31 +178,28 @@ func TestValStats(t *testing.T) {
 func TestGetBlockHeightFromDb(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		"xxxx", 5432, "ubuntu", "xxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
-		db2.logger.Errorf("Connected failed.err:%v\n", err)
+		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db2.DbCli{
-		db,
-	}
-	height, err := dbCli.GetBlockHeightFromDb()
+	dbCli := db.DbCli{dbcli}
+	height, err := dbCli.GetBlockHeightFromDb("cosmos")
 	if err != nil {
-		db2.logger.Error("get block height fail, err:", err)
+		logger.Error("get block height fail, err:", err)
 	}
-	db2.logger.Info("height:", height)
+	logger.Info("height:", height)
 }
 
 func TestBatchSaveValStats(t *testing.T) {
 	pdqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		"xxxx", 5432, "ubuntu", "xxxx", "cosmos_monitor")
-	db, err := sqlx.Connect("postgres", pdqlInfo)
+		"xxxxx", 5432, "ubuntu", "xxxxx", "cosmos_monitor")
+	dbcli, err := sqlx.Connect("postgres", pdqlInfo)
 	if err != nil {
-		db2.logger.Errorf("Connected failed.err:%v\n", err)
+		logger.Errorf("Connected failed.err:%v\n", err)
 	}
-	dbCli := db2.DbCli{
-		db,
-	}
+	dbCli := db.DbCli{dbcli}
+
 	_ = dbCli.BatchSaveValStats(12596732, 12596767)
 }

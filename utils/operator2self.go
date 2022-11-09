@@ -23,6 +23,8 @@ func Operator2SelfAddr(operator string) string {
 	switch hrp {
 	case "cosmosvaloper":
 		selfaddr, err = bech32.Encode("cosmos", operatorByte) //cosmos
+	case "junovaloper":
+		selfaddr, err = bech32.Encode("juno", operatorByte) //juno
 	case "evmosvaloper":
 		selfaddr, err = bech32.Encode("evmos", operatorByte) // evmos
 	case "injvaloper":

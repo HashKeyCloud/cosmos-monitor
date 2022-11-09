@@ -7,13 +7,15 @@ import (
 	"cosmosmonitor/types"
 )
 
-func TestValJailedException(t *testing.T) {
+/*func TestValJailedException(t *testing.T) {
 	val := struct {
+		chainName string
 		blockHeight int64
 		moniker     string
 	}{blockHeight: 123,
 		moniker: "monikerName"}
 	vals := make([]*struct {
+		chainName string
 		blockHeight int64
 		moniker     string
 	}, 0)
@@ -21,13 +23,14 @@ func TestValJailedException(t *testing.T) {
 	ex := exception{
 		vals,
 	}
-	vj := ParseValJailedException([]string{ex.validators[0].moniker})
+	vj := ParseValJailedException([]*types.ValIsJail{ex})
 	fmt.Println(vj.Message())
-}
+}*/
 
 func TestParseValisActiveException(t *testing.T) {
 	valIsActive := make([]*types.ValIsActive, 0)
 	valIActive := &types.ValIsActive{
+		"cosmos",
 		"monikerName",
 		1,
 	}
@@ -39,6 +42,7 @@ func TestParseValisActiveException(t *testing.T) {
 func TestParseSyncException(t *testing.T) {
 	valSignMissed := make([]*types.ValSignMissed, 0)
 	valSignMissed = append(valSignMissed, &types.ValSignMissed{
+		"cosmos",
 		"monikerName",
 		"1",
 		1,

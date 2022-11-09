@@ -4,21 +4,26 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5464266-1c38-402f-8cde-40c3ff96528b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db/injective-db/db_client.go" afterDir="false" />
+    <list default="true" id="7f44c3f1-c5f1-4821-a58b-89701d704a22" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/db/juno-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/provider-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/juno/rpc_clien.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/juno/rpc_client_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CosmosMonitor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CosmosMonitor.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conf.yaml.example" beforeDir="false" afterPath="$PROJECT_DIR$/config/conf.yaml.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/cosmos-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/cosmos-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/cosmos-db/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/cosmos-db/db_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/eventlog.json" beforeDir="false" afterPath="$PROJECT_DIR$/log/eventlog.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/log.json" beforeDir="false" afterPath="$PROJECT_DIR$/log/log.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification/event.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification/event.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/rpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/rpc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/types/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification/event_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification/event_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/operator2self.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/operator2self.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +37,17 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../program/golang" />
+  <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
@@ -42,13 +55,14 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2H4TZg9JaiULm5fjIFUZaZRmw2D" />
+  <component name="ProjectId" id="2HGNvlLZI9pmnEqtLsMoquiMpX6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -59,28 +73,78 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="CosmosMonitor" />
-      <working_directory value="$PROJECT_DIR$" />
-      <go_parameters value="-i" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="CosmosMonitor" />
-      <working_directory value="$PROJECT_DIR$" />
-      <go_parameters value="-i" />
-      <kind value="DIRECTORY" />
+  <component name="RunManager" selected="Go Test.TestGetValInfo in cosmosmonitor/rpc/provider-rpc">
+    <configuration name="TestGetProposal in cosmosmonitor/rpc/juno" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmosmonitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/juno" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/juno" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
+      <pattern value="^\QTestGetProposal\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/injective-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmosmonitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/injective-rpc" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/injective-rpc" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetValInfo\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/juno" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmosmonitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/juno" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/juno" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetValInfo\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/provider-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmosmonitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/provider-rpc" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/provider-rpc" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetValInfo\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetValPerformance in cosmosmonitor/rpc/juno" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmosmonitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/juno" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/juno" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetValPerformance\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/provider-rpc" />
+        <item itemvalue="Go Test.TestGetValPerformance in cosmosmonitor/rpc/juno" />
+        <item itemvalue="Go Test.TestGetProposal in cosmosmonitor/rpc/juno" />
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/injective-rpc" />
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/juno" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">

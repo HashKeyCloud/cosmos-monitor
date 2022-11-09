@@ -33,6 +33,6 @@ func main() {
 	}
 	logger.Info("Starting Monitor")
 	go m.Start()
-	go m.ProcessData()
+	go m.SendEmail()
 	m.WaitInterrupted()
 }

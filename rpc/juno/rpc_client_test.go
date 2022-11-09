@@ -1,4 +1,4 @@
-package injective_rpc
+package juno
 
 import (
 	"cosmosmonitor/rpc"
@@ -12,7 +12,7 @@ import (
 )
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("juno-grpc.polkachu.com:12690")
 	if err != nil {
 		logger.Error("Failed to create injective gRPC client, err:", err)
 	}
@@ -22,7 +22,7 @@ func TestGetValInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &JunoCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -31,7 +31,7 @@ func TestGetValInfo(t *testing.T) {
 		},
 	}
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp")
+	monitorObj = append(monitorObj, "junovaloper1t8ehvswxjfn3ejzkjtntcyrqwvmvuknzmvtaaa")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -39,7 +39,7 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetProposal(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("juno-grpc.polkachu.com:12690")
 	if err != nil {
 		logger.Error("Failed to create injective gRPC client, err:", err)
 	}
@@ -49,7 +49,7 @@ func TestGetProposal(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &JunoCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -60,10 +60,10 @@ func TestGetProposal(t *testing.T) {
 
 	monitorObjs := make([]*types.MonitorObj, 0)
 	monitorObjs = append(monitorObjs, &types.MonitorObj{
-		Moniker:         "Figment",
-		OperatorAddr:    "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp",
-		OperatorAddrHex: "6087607e1e56f6ee7934abaf65834c92d618104c",
-		SelfStakeAddr:   "inj1g4d6dmvnpg7w7yugy6kplndp7jpfmf3k5d9ak9",
+		Moniker:         "Cosmostation",
+		OperatorAddr:    "junovaloper1t8ehvswxjfn3ejzkjtntcyrqwvmvuknzmvtaaa",
+		OperatorAddrHex: "80f24bfda3e6a8c1bac0517e7665ac9145d609f7",
+		SelfStakeAddr:   "juno1t8ehvswxjfn3ejzkjtntcyrqwvmvuknzy3ajxy",
 	})
 	monitors, _ := cc.GetProposal(monitorObjs)
 	for _, monitor := range monitors {
@@ -72,7 +72,7 @@ func TestGetProposal(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("juno-grpc.polkachu.com:12690")
 	if err != nil {
 		logger.Error("Failed to create injective gRPC client, err:", err)
 	}
@@ -82,7 +82,7 @@ func TestGetValPerformance(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &JunoCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -93,12 +93,12 @@ func TestGetValPerformance(t *testing.T) {
 
 	monitorObjs := make([]*types.MonitorObj, 0)
 	monitorObjs = append(monitorObjs, &types.MonitorObj{
-		Moniker:         "Figment",
-		OperatorAddr:    "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp",
-		OperatorAddrHex: "6087607e1e56f6ee7934abaf65834c92d618104c",
-		SelfStakeAddr:   "inj1g4d6dmvnpg7w7yugy6kplndp7jpfmf3k5d9ak9",
+		Moniker:         "Cosmostation",
+		OperatorAddr:    "junovaloper1t8ehvswxjfn3ejzkjtntcyrqwvmvuknzmvtaaa",
+		OperatorAddrHex: "80f24bfda3e6a8c1bac0517e7665ac9145d609f7",
+		SelfStakeAddr:   "juno1t8ehvswxjfn3ejzkjtntcyrqwvmvuknzy3ajxy",
 	})
-	proposalAssignment, valSign, valSignMissed, _ := cc.GetValPerformance(18186100, monitorObjs)
+	proposalAssignment, valSign, valSignMissed, _ := cc.GetValPerformance(5602524, monitorObjs)
 	for _, monitor := range proposalAssignment {
 		fmt.Println("proposalAssignment:", monitor)
 	}

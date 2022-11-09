@@ -2,9 +2,14 @@ package monitor
 
 import (
 	"cosmosmonitor/db"
-	injectiveDb "cosmosmonitor/db/injective-db"
-	"cosmosmonitor/rpc"
+	providerDb "cosmosmonitor/db/provider-db"
 	injectiveRpc "cosmosmonitor/rpc/injective-rpc"
+	provider "cosmosmonitor/rpc/provider-rpc"
+
+	injectiveDb "cosmosmonitor/db/injective-db"
+	junoDb "cosmosmonitor/db/juno-db"
+	"cosmosmonitor/rpc"
+	"cosmosmonitor/rpc/juno"
 	"cosmosmonitor/utils"
 	"fmt"
 	"os"
@@ -55,10 +60,24 @@ func NewMonitor() (*Monitor, error) {
 		return nil, err
 	}
 
+	junoCli, err := juno.InitJunoRpcCli()
+	if err != nil {
+		logger.Error("connect cosmos rpc client error: ", err)
+		return nil, err
+	}
+
+	providerCli, err := provider.InitProviderRpcCli()
+	if err != nil {
+		logger.Error("connect cosmos rpc client error: ", err)
+		return nil, err
+	}
+
 	rpcClis := make(map[string]rpc.Client)
 	rpcClis["cosmos"] = cosmosCli
 	rpcClis["injective"] = injectiveCli
-	// 初始化其他链的 RPC
+	rpcClis["juno"] = junoCli
+	rpcClis["provider"] = providerCli
+
 	// init DB client
 	cosmosDb, err := cosmosDb.InitCosmosDbCli()
 	if err != nil {
@@ -72,9 +91,23 @@ func NewMonitor() (*Monitor, error) {
 		return nil, err
 	}
 
+	junoDb, err := junoDb.InitJunoDbCli()
+	if err != nil {
+		logger.Error("connect injective db client error:", err)
+		return nil, err
+	}
+
+	providerDb, err := providerDb.InitProviderDbCli()
+	if err != nil {
+		logger.Error("connect injective db client error:", err)
+		return nil, err
+	}
+
 	dbClis := make(map[string]db.DBCli)
 	dbClis["cosmos"] = cosmosDb
 	dbClis["injective"] = injectiveDb
+	dbClis["juno"] = junoDb
+	dbClis["providerDb"] = providerDb
 
 	// init email client
 	mailClient := notification.NewClient(
@@ -373,11 +406,19 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 	}
 }
 
-func (m *Monitor) ProcessData() {
-	mailSender := viper.GetString("mail.sender")
-	receiver1 := viper.GetString("mail.receiver1")
-	receiver2 := viper.GetString("mail.receiver2")
-	mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
+func (m *Monitor) SendEmail() {
+	for project := range m.RpcClis {
+		mailSender := viper.GetString("mail.sender")
+		receiver1Conf := fmt.Sprintf("mail.%sReceiver1", project)
+		receiver2Conf := fmt.Sprintf("mail.%sReceiver2", project)
+		receiver1 := viper.GetString(receiver1Conf)
+		receiver2 := viper.GetString(receiver2Conf)
+		mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
+		go m.sendEmail(mailSender, receiver1, mailReceiver)
+	}
+}
+
+func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver string) {
 	for {
 		select {
 		case valJailed := <-m.valIsJailedChan:

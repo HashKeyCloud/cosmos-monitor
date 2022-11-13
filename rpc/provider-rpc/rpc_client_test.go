@@ -48,7 +48,7 @@ func TestGovInfo(t *testing.T) {
 }
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("103.14.35.193:9090")
+	grpcConn, err := rpc.InitChainRpcCli("xxxx")
 	if err != nil {
 		logger.Error("Failed to create cosmos gRPC client, err:", err)
 	}

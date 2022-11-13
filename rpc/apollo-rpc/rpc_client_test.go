@@ -13,7 +13,7 @@ import (
 )
 
 func TestGovInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("103.210.21.55:9090")
+	grpcConn, err := rpc.InitChainRpcCli("xxxx")
 	if err != nil {
 		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}
@@ -49,7 +49,7 @@ func TestGovInfo(t *testing.T) {
 
 // 验证人信息需要重新
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("103.210.21.55:9090")
+	grpcConn, err := rpc.InitChainRpcCli("xxxx")
 	if err != nil {
 		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}
@@ -77,7 +77,7 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("103.210.21.55:9090")
+	grpcConn, err := rpc.InitChainRpcCli("xxxx")
 	if err != nil {
 		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}

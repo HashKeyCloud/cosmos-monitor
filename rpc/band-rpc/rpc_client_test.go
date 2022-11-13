@@ -1,4 +1,4 @@
-package provider_rpc
+package band_rpc
 
 import (
 	"cosmosmonitor/rpc"
@@ -13,9 +13,9 @@ import (
 )
 
 func TestGovInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("https://grpc.provider-sentry-02.goc.earthball.xyz")
+	grpcConn, err := rpc.InitChainRpcCli("xxx")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create band gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -23,7 +23,7 @@ func TestGovInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &ProviderCli{
+	cc := &BandCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -48,9 +48,9 @@ func TestGovInfo(t *testing.T) {
 }
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("103.14.35.193:9090")
+	grpcConn, err := rpc.InitChainRpcCli("xxxxx")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create band gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -58,7 +58,7 @@ func TestGetValInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &ProviderCli{
+	cc := &BandCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -68,7 +68,7 @@ func TestGetValInfo(t *testing.T) {
 	}
 
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "cosmosvaloper10e4rluum506yc63vgrdcn500zyev2c5jw2ndkv")
+	monitorObj = append(monitorObj, "xxxx")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -76,9 +76,9 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("https://grpc.provider-sentry-02.goc.earthball.xyz")
+	grpcConn, err := rpc.InitChainRpcCli("xxxxx")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create band gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -86,7 +86,7 @@ func TestGetValPerformance(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &ProviderCli{
+	cc := &BandCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,

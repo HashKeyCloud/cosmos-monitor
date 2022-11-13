@@ -21,14 +21,18 @@ func Operator2SelfAddr(operator string) string {
 
 	var selfaddr string
 	switch hrp {
+	case "bandvaloper":
+		selfaddr, err = bech32.Encode("band", operatorByte) //band
 	case "cosmosvaloper":
 		selfaddr, err = bech32.Encode("cosmos", operatorByte) //cosmos
-	case "junovaloper":
-		selfaddr, err = bech32.Encode("juno", operatorByte) //juno
 	case "evmosvaloper":
 		selfaddr, err = bech32.Encode("evmos", operatorByte) // evmos
 	case "injvaloper":
 		selfaddr, err = bech32.Encode("inj", operatorByte) // injective
+	case "junovaloper":
+		selfaddr, err = bech32.Encode("juno", operatorByte) // juno
+	case "neutronvaloper":
+		selfaddr, err = bech32.Encode("neutron", operatorByte) // neutron
 	case "nvaloper":
 		selfaddr, err = bech32.Encode("n1", operatorByte) // nyx
 	case "persistencevaloper":
@@ -40,7 +44,9 @@ func Operator2SelfAddr(operator string) string {
 	case "sommvaloper":
 		selfaddr, err = bech32.Encode("somm", operatorByte) // sommelier
 	case "torivaloper":
-		selfaddr, err = bech32.Encode("tori", operatorByte) // Teritori
+		selfaddr, err = bech32.Encode("tori", operatorByte) // teritori
+	case "xplavaloper":
+		selfaddr, err = bech32.Encode("xpla", operatorByte) // xpla
 	}
 
 	if err != nil {

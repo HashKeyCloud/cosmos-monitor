@@ -1,4 +1,4 @@
-package provider_rpc
+package apollo_rpc
 
 import (
 	"cosmosmonitor/rpc"
@@ -13,9 +13,9 @@ import (
 )
 
 func TestGovInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("https://grpc.provider-sentry-02.goc.earthball.xyz")
+	grpcConn, err := rpc.InitChainRpcCli("103.210.21.55:9090")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -23,7 +23,7 @@ func TestGovInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &ProviderCli{
+	cc := &ApolloCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -47,10 +47,11 @@ func TestGovInfo(t *testing.T) {
 
 }
 
+// 验证人信息需要重新
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("103.14.35.193:9090")
+	grpcConn, err := rpc.InitChainRpcCli("103.210.21.55:9090")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -58,7 +59,7 @@ func TestGetValInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &ProviderCli{
+	cc := &ApolloCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -76,9 +77,9 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("https://grpc.provider-sentry-02.goc.earthball.xyz")
+	grpcConn, err := rpc.InitChainRpcCli("103.210.21.55:9090")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -86,7 +87,7 @@ func TestGetValPerformance(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &ProviderCli{
+	cc := &ApolloCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -97,13 +98,13 @@ func TestGetValPerformance(t *testing.T) {
 
 	monitorObj := make([]*types.MonitorObj, 0)
 	m1 := &types.MonitorObj{
-		"Coinbase Custody",
-		"cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en",
-		"d68eec0d2e8248f1ec64cdb585edb61eca432bd8",
-		"cosmos1c4k24jzduc365kywrsvf5ujz4ya6mwymy8vq4q",
+		"HashQuark",
+		"cosmosvaloper10e4rluum506yc63vgrdcn500zyev2c5jw2ndkv",
+		"7B0DE97C082AE7911928004FE8B145AA1FF56038",
+		"cosmos10e4rluum506yc63vgrdcn500zyev2c5jt78c6l",
 	}
 	monitorObj = append(monitorObj, m1)
-	proposalAssignments, signs, signsmissed, _ := cc.GetValPerformance(12775580, monitorObj)
+	proposalAssignments, signs, signsmissed, _ := cc.GetValPerformance(16142, monitorObj)
 	for _, proposalAssignment := range proposalAssignments {
 		fmt.Println("proposalAssignment:", proposalAssignment)
 	}

@@ -4,25 +4,82 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7f44c3f1-c5f1-4821-a58b-89701d704a22" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db/juno-db/db_client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/provider-db/db_client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/juno/rpc_clien.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/juno/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CosmosMonitor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CosmosMonitor.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="3b9f390c-01b2-489b-8575-cfb4fd978f03" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/db/apollo-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/band-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/band-db/db_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/evmos-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/evmos-db/db_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/neutron-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/nyx-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/persistence-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/rizon-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/secret-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/sommelier-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/sputnik-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/teritori-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/xpla-db/db_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/band-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/band-rpc/rpc_client_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/evmos-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/neutron-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/nyx-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/persistence-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/rizon-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/secret-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/sommelier-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/sputnik-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/teritori-rpc/rpc_client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/xpla-rpc/rpc_client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CosmosMonitor.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d68a4c5-8032-420b-a9e9-6c8e4e3ad694.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d68a4c5-8032-420b-a9e9-6c8e4e3ad694/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d68a4c5-8032-420b-a9e9-6c8e4e3ad694/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d68a4c5-8032-420b-a9e9-6c8e4e3ad694/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0d68a4c5-8032-420b-a9e9-6c8e4e3ad694/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1c89eef3-5c1b-4dd0-a6a1-d58144ef6290.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1c89eef3-5c1b-4dd0-a6a1-d58144ef6290/storage_v2/_src_/database/injective.pzkqDA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1c89eef3-5c1b-4dd0-a6a1-d58144ef6290/storage_v2/_src_/database/injective.pzkqDA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1c89eef3-5c1b-4dd0-a6a1-d58144ef6290/storage_v2/_src_/database/injective.pzkqDA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1c89eef3-5c1b-4dd0-a6a1-d58144ef6290/storage_v2/_src_/database/injective.pzkqDA/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4476cfbe-04d5-4e59-8c07-415c8f7ff1c0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4476cfbe-04d5-4e59-8c07-415c8f7ff1c0/storage_v2/_src_/database/juno.TPQxAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4476cfbe-04d5-4e59-8c07-415c8f7ff1c0/storage_v2/_src_/database/juno.TPQxAA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4476cfbe-04d5-4e59-8c07-415c8f7ff1c0/storage_v2/_src_/database/juno.TPQxAA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4476cfbe-04d5-4e59-8c07-415c8f7ff1c0/storage_v2/_src_/database/juno.TPQxAA/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60961e4c-7b0a-4621-9af4-8fb7091a805f.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60961e4c-7b0a-4621-9af4-8fb7091a805f/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60961e4c-7b0a-4621-9af4-8fb7091a805f/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60961e4c-7b0a-4621-9af4-8fb7091a805f/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60961e4c-7b0a-4621-9af4-8fb7091a805f/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/cosmos_monitor.RX6Y-g.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/injective.pzkqDA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/injective.pzkqDA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/injective.pzkqDA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/juno.TPQxAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/juno.TPQxAA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b65d9e4-9b1a-4f81-831c-ed9d3d5cd617/storage_v2/_src_/database/juno.TPQxAA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ed3a6915-53a9-4854-b04d-1e05b87504ef.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ed3a6915-53a9-4854-b04d-1e05b87504ef/storage_v2/_src_/database/cosmos_monitor.RX6Y-g.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ed3a6915-53a9-4854-b04d-1e05b87504ef/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ed3a6915-53a9-4854-b04d-1e05b87504ef/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ed3a6915-53a9-4854-b04d-1e05b87504ef/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/cosmos-db/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/cosmos-db/db_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/eventlog.json" beforeDir="false" afterPath="$PROJECT_DIR$/log/eventlog.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/log.json" beforeDir="false" afterPath="$PROJECT_DIR$/log/log.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conf.yaml.example" beforeDir="false" afterPath="$PROJECT_DIR$/config/conf.yaml.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/juno-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/juno-db/db_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification/event_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification/event_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/juno/rpc_clien.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/juno-rpc/rpc_clien.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/juno/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/juno-rpc/rpc_client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/operator2self.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/operator2self.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,17 +94,9 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../program/golang" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
@@ -55,14 +104,12 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2HGNvlLZI9pmnEqtLsMoquiMpX6" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2HLWwg1r0wgltVFLDilueNR7pZU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -73,47 +120,23 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
-  <component name="RunManager" selected="Go Test.TestGetValInfo in cosmosmonitor/rpc/provider-rpc">
-    <configuration name="TestGetProposal in cosmosmonitor/rpc/juno" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="cosmosmonitor" />
-      <working_directory value="$PROJECT_DIR$/rpc/juno" />
+  <component name="RunManager" selected="Go Test.TestGovInfo in cosmosmonitor/rpc/apollo-rpc">
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/apollo-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/apollo-rpc" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="cosmosmonitor/rpc/juno" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestGetProposal\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestGetValInfo in cosmosmonitor/rpc/injective-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="cosmosmonitor" />
-      <working_directory value="$PROJECT_DIR$/rpc/injective-rpc" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="cosmosmonitor/rpc/injective-rpc" />
+      <package value="cosmosmonitor/rpc/apollo-rpc" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestGetValInfo\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetValInfo in cosmosmonitor/rpc/juno" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="cosmosmonitor" />
-      <working_directory value="$PROJECT_DIR$/rpc/juno" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="cosmosmonitor/rpc/juno" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestGetValInfo\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestGetValInfo in cosmosmonitor/rpc/provider-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="cosmosmonitor" />
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/provider-rpc (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
       <working_directory value="$PROJECT_DIR$/rpc/provider-rpc" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -124,25 +147,49 @@
       <pattern value="^\QTestGetValInfo\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetValPerformance in cosmosmonitor/rpc/juno" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="cosmosmonitor" />
-      <working_directory value="$PROJECT_DIR$/rpc/juno" />
+    <configuration name="TestGetValPerformance in cosmosmonitor/rpc/apollo-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/apollo-rpc" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="cosmosmonitor/rpc/juno" />
+      <package value="cosmosmonitor/rpc/apollo-rpc" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestGetValPerformance\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestGetValPerformance in cosmosmonitor/rpc/provider-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/provider-rpc" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/provider-rpc" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetValPerformance\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGovInfo in cosmosmonitor/rpc/apollo-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="cosmos-monitor" />
+      <working_directory value="$PROJECT_DIR$/rpc/apollo-rpc" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="cosmosmonitor/rpc/apollo-rpc" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGovInfo\E$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/provider-rpc" />
-        <item itemvalue="Go Test.TestGetValPerformance in cosmosmonitor/rpc/juno" />
-        <item itemvalue="Go Test.TestGetProposal in cosmosmonitor/rpc/juno" />
-        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/injective-rpc" />
-        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/juno" />
+        <item itemvalue="Go Test.TestGovInfo in cosmosmonitor/rpc/apollo-rpc" />
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/provider-rpc (1)" />
+        <item itemvalue="Go Test.TestGetValPerformance in cosmosmonitor/rpc/apollo-rpc" />
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/apollo-rpc" />
+        <item itemvalue="Go Test.TestGetValPerformance in cosmosmonitor/rpc/provider-rpc" />
       </list>
     </recent_temporary>
   </component>

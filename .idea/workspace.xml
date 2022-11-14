@@ -5,25 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f44c3f1-c5f1-4821-a58b-89701d704a22" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db/juno-db/db_client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/provider-db/db_client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/juno/rpc_clien.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/juno/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CosmosMonitor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CosmosMonitor.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/cosmos-db/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/cosmos-db/db_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/eventlog.json" beforeDir="false" afterPath="$PROJECT_DIR$/log/eventlog.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/log.json" beforeDir="false" afterPath="$PROJECT_DIR$/log/log.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification/event_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification/event_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/operator2self.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/operator2self.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

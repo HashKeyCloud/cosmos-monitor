@@ -12,6 +12,12 @@ import (
 
 	"cosmosmonitor/config"
 	"cosmosmonitor/db"
+	"cosmosmonitor/log"
+	"cosmosmonitor/notification"
+	"cosmosmonitor/rpc"
+	"cosmosmonitor/types"
+	"cosmosmonitor/utils"
+	
 	apolloDb "cosmosmonitor/db/apollo-db"
 	bandDb "cosmosmonitor/db/band-db"
 	cosmosDb "cosmosmonitor/db/cosmos-db"
@@ -28,9 +34,6 @@ import (
 	sputnikDb "cosmosmonitor/db/sputnik-db"
 	teritoriDb "cosmosmonitor/db/teritori-db"
 	xplaDb "cosmosmonitor/db/xpla-db"
-	"cosmosmonitor/log"
-	"cosmosmonitor/notification"
-	"cosmosmonitor/rpc"
 	apolloRpc "cosmosmonitor/rpc/apollo-rpc"
 	bandRpc "cosmosmonitor/rpc/band-rpc"
 	cosmosRpc "cosmosmonitor/rpc/cosmos-rpc"
@@ -47,8 +50,6 @@ import (
 	sputnikRpc "cosmosmonitor/rpc/sputnik-rpc"
 	teritoriRpc "cosmosmonitor/rpc/teritori-rpc"
 	xplaRpc "cosmosmonitor/rpc/xpla-rpc"
-	"cosmosmonitor/types"
-	"cosmosmonitor/utils"
 )
 
 type Monitor struct {
@@ -293,15 +294,79 @@ func NewMonitor() (*Monitor, error) {
 
 func (m *Monitor) Start() {
 	epochTicker := time.NewTicker(time.Duration(viper.GetInt("alert.timeInterval")) * time.Second)
+	consumerChains := make(map[string]string, 0)
+	consumerChains["apollo"] = "provider"
+	consumerChains["sputnik"] = "provider"
 	for range epochTicker.C {
 		for project := range m.RpcClis {
-			go m.start(project)
+			if project == "apollo" || project == "sputnik" {
+				go m.consumer(project, consumerChains)
+			} else {
+				go m.provider(project)
+			}
+
 		}
 
 	}
 }
 
-func (m *Monitor) start(project string) {
+func (m *Monitor) consumer(consumerChain string, providerChain map[string]string) {
+	mailSender := viper.GetString("mail.sender")
+	receiver1Conf := fmt.Sprintf("mail.%sReceiver1", consumerChain)
+	receiver2Conf := fmt.Sprintf("mail.%sReceiver2", consumerChain)
+	receiver1 := viper.GetString(receiver1Conf)
+	receiver2 := viper.GetString(receiver2Conf)
+	mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
+
+	mos, err := m.DbClis[providerChain[consumerChain]].GetMonitorObj()
+	if err != nil {
+		logger.Error("Failed to obtain production chain monitoring object, err:", err)
+	}
+
+	mo := make([]*types.MonitorObj, 0)
+	for _, valInfo := range mos {
+		mo = append(mo, &types.MonitorObj{
+			Moniker:         valInfo.Moniker,
+			OperatorAddr:    valInfo.OperatorAddr,
+			OperatorAddrHex: valInfo.OperatorAddrHex,
+			SelfStakeAddr:   valInfo.SelfStakeAddr,
+		})
+	}
+
+	logger.Info("start getting validators performance")
+	start, err := m.DbClis[consumerChain].GetBlockHeightFromDb(consumerChain)
+	if err != nil {
+		logger.Error("Failed to query block height from database，err:", err)
+	}
+	proposalAssignments, valSign, valSignMissed, err := m.RpcClis[consumerChain].GetValPerformance(start, mo)
+	if err != nil {
+		logger.Error("get proposal error: ", err)
+		res := utils.Retry(func() bool {
+			proposalAssignments, valSign, valSignMissed, err = m.RpcClis[consumerChain].GetValPerformance(start, mo)
+			if err != nil {
+				return false
+			} else {
+				return true
+			}
+		}, []int{1, 3})
+		if !res {
+			emailBody := fmt.Sprintf("get cared data from %s RPC node error, please check.", consumerChain)
+			m.MailClient.SendMail(mailSender, mailReceiver, "RPC Exception", emailBody)
+			return
+		}
+	}
+	logger.Info("Successfully get validators performance")
+
+	m.processData(&types.CaredData{
+		ChainName:           consumerChain,
+		ProposalAssignments: proposalAssignments,
+		ValSigns:            valSign,
+		ValSignMisseds:      valSignMissed,
+	})
+
+}
+
+func (m *Monitor) provider(project string) {
 	mailSender := viper.GetString("mail.sender")
 	receiver1Conf := fmt.Sprintf("mail.%sReceiver1", project)
 	receiver2Conf := fmt.Sprintf("mail.%sReceiver2", project)

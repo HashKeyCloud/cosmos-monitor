@@ -1,15 +1,16 @@
 package provider_rpc
 
 import (
+	"fmt"
+	"testing"
+	"time"
+
 	"cosmosmonitor/rpc"
 	"cosmosmonitor/types"
 	base "cosmossdk.io/api/cosmos/base/tendermint/v1beta1"
 	distribution "cosmossdk.io/api/cosmos/distribution/v1beta1"
 	gov "cosmossdk.io/api/cosmos/gov/v1beta1"
 	staking "cosmossdk.io/api/cosmos/staking/v1beta1"
-	"fmt"
-	"testing"
-	"time"
 )
 
 func TestGovInfo(t *testing.T) {

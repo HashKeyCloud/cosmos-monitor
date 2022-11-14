@@ -1,8 +1,7 @@
-package injective_rpc
+package sommelier_rpc
 
 import (
 	"fmt"
-
 	"testing"
 
 	"cosmosmonitor/rpc"
@@ -14,9 +13,9 @@ import (
 )
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("sommelier-grpc.polkachu.com:14190")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create sommelier gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -24,7 +23,7 @@ func TestGetValInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &SommelierCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -33,7 +32,7 @@ func TestGetValInfo(t *testing.T) {
 		},
 	}
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp")
+	monitorObj = append(monitorObj, "sommvaloper1a583xjv6ylrdfzm3udk6jnj4xy28k2wge0eazz")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -41,9 +40,9 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetProposal(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("sommelier-grpc.polkachu.com:14190")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create sommelier gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -51,7 +50,7 @@ func TestGetProposal(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &SommelierCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -62,10 +61,10 @@ func TestGetProposal(t *testing.T) {
 
 	monitorObjs := make([]*types.MonitorObj, 0)
 	monitorObjs = append(monitorObjs, &types.MonitorObj{
-		Moniker:         "Figment",
-		OperatorAddr:    "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp",
-		OperatorAddrHex: "6087607e1e56f6ee7934abaf65834c92d618104c",
-		SelfStakeAddr:   "inj1g4d6dmvnpg7w7yugy6kplndp7jpfmf3k5d9ak9",
+		Moniker:         "Polychain",
+		OperatorAddr:    "sommvaloper1a583xjv6ylrdfzm3udk6jnj4xy28k2wge0eazz",
+		OperatorAddrHex: "f49ff6e3b6a00602edb46e1a1f8fbe79f4880ce7",
+		SelfStakeAddr:   "somm1a583xjv6ylrdfzm3udk6jnj4xy28k2wgv3hq9d",
 	})
 	monitors, _ := cc.GetProposal(monitorObjs)
 	for _, monitor := range monitors {
@@ -74,9 +73,9 @@ func TestGetProposal(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("sommelier-grpc.polkachu.com:14190")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create sommelier gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -84,7 +83,7 @@ func TestGetValPerformance(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &SommelierCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -95,12 +94,12 @@ func TestGetValPerformance(t *testing.T) {
 
 	monitorObjs := make([]*types.MonitorObj, 0)
 	monitorObjs = append(monitorObjs, &types.MonitorObj{
-		Moniker:         "Figment",
-		OperatorAddr:    "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp",
-		OperatorAddrHex: "6087607e1e56f6ee7934abaf65834c92d618104c",
-		SelfStakeAddr:   "inj1g4d6dmvnpg7w7yugy6kplndp7jpfmf3k5d9ak9",
+		Moniker:         "Polychain",
+		OperatorAddr:    "sommvaloper1a583xjv6ylrdfzm3udk6jnj4xy28k2wge0eazz",
+		OperatorAddrHex: "f49ff6e3b6a00602edb46e1a1f8fbe79f4880ce7",
+		SelfStakeAddr:   "somm1a583xjv6ylrdfzm3udk6jnj4xy28k2wgv3hq9d",
 	})
-	proposalAssignment, valSign, valSignMissed, _ := cc.GetValPerformance(19163489, monitorObjs)
+	proposalAssignment, valSign, valSignMissed, _ := cc.GetValPerformance(6275552, monitorObjs)
 	for _, monitor := range proposalAssignment {
 		fmt.Println("proposalAssignment:", monitor)
 	}

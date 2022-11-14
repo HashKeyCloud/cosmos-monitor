@@ -1,8 +1,7 @@
-package injective_rpc
+package persistence_rpc
 
 import (
 	"fmt"
-
 	"testing"
 
 	"cosmosmonitor/rpc"
@@ -14,9 +13,9 @@ import (
 )
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("persistence-grpc.polkachu.com:15490")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create persistence gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -24,7 +23,7 @@ func TestGetValInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &PersistenceCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -33,7 +32,7 @@ func TestGetValInfo(t *testing.T) {
 		},
 	}
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp")
+	monitorObj = append(monitorObj, "persistencevaloper1tzn8rk09ez2gm55sffpyzt7ccn5yzshpql8rug")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -41,9 +40,9 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetProposal(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("persistence-grpc.polkachu.com:15490")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create persistence gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -51,7 +50,7 @@ func TestGetProposal(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &PersistenceCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -63,9 +62,9 @@ func TestGetProposal(t *testing.T) {
 	monitorObjs := make([]*types.MonitorObj, 0)
 	monitorObjs = append(monitorObjs, &types.MonitorObj{
 		Moniker:         "Figment",
-		OperatorAddr:    "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp",
-		OperatorAddrHex: "6087607e1e56f6ee7934abaf65834c92d618104c",
-		SelfStakeAddr:   "inj1g4d6dmvnpg7w7yugy6kplndp7jpfmf3k5d9ak9",
+		OperatorAddr:    "nvaloper1e22wh85arrkpe6derct4l5r4gp3awvase24pf6",
+		OperatorAddrHex: "e2e65903bab5344e5cffddc2cd638a6bab2e2e79",
+		SelfStakeAddr:   "n1e22wh85arrkpe6derct4l5r4gp3awvas0rajn8",
 	})
 	monitors, _ := cc.GetProposal(monitorObjs)
 	for _, monitor := range monitors {
@@ -74,9 +73,9 @@ func TestGetProposal(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("injective-grpc.polkachu.com:14390")
+	grpcConn, err := rpc.InitChainRpcCli("persistence-grpc.polkachu.com:15490")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create persistence gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -84,7 +83,7 @@ func TestGetValPerformance(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &InjectiveCli{
+	cc := &PersistenceCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -95,12 +94,12 @@ func TestGetValPerformance(t *testing.T) {
 
 	monitorObjs := make([]*types.MonitorObj, 0)
 	monitorObjs = append(monitorObjs, &types.MonitorObj{
-		Moniker:         "Figment",
-		OperatorAddr:    "injvaloper1g4d6dmvnpg7w7yugy6kplndp7jpfmf3krtschp",
-		OperatorAddrHex: "6087607e1e56f6ee7934abaf65834c92d618104c",
-		SelfStakeAddr:   "inj1g4d6dmvnpg7w7yugy6kplndp7jpfmf3k5d9ak9",
+		Moniker:         "Cosmostation",
+		OperatorAddr:    "junovaloper1t8ehvswxjfn3ejzkjtntcyrqwvmvuknzmvtaaa",
+		OperatorAddrHex: "80f24bfda3e6a8c1bac0517e7665ac9145d609f7",
+		SelfStakeAddr:   "juno1t8ehvswxjfn3ejzkjtntcyrqwvmvuknzy3ajxy",
 	})
-	proposalAssignment, valSign, valSignMissed, _ := cc.GetValPerformance(19163489, monitorObjs)
+	proposalAssignment, valSign, valSignMissed, _ := cc.GetValPerformance(4299893, monitorObjs)
 	for _, monitor := range proposalAssignment {
 		fmt.Println("proposalAssignment:", monitor)
 	}

@@ -3,9 +3,11 @@ package rpc
 import (
 	"context"
 	"encoding/hex"
+	"fmt"
+	"strings"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"strings"
 
 	"cosmosmonitor/log"
 	"cosmosmonitor/types"
@@ -223,6 +225,35 @@ func (cc *ChainCli) GetValPerformance(start int64, monitorObjs []*types.MonitorO
 	}
 
 	return proposalAssignments, valSign, valSignMissed, nil
+}
+
+func (cc *ChainCli) GetValRanking(monitorObjs []*types.MonitorObj, project string) ([]*types.ValRanking, error) {
+	mo := make(map[string]string)
+	for _, monitorObj := range monitorObjs {
+		consAddr := utils.Operator2Cons(monitorObj.OperatorAddrHex, project)
+		fmt.Println("consAddr:", consAddr)
+		mo[consAddr] = monitorObj.Moniker
+	}
+	queryValRankingRequest := &base.GetLatestValidatorSetRequest{}
+	valsRanking, err := cc.BaseQuaryCli.GetLatestValidatorSet(context.Background(), queryValRankingRequest)
+	if err != nil {
+		logger.Error("Failed to query LatestValidatorSet, err:", err)
+		return nil, err
+	}
+
+	valRanking := make([]*types.ValRanking, 0)
+	for ranking, val := range valsRanking.Validators {
+		if valMoniker, ok := mo[val.GetAddress()]; ok {
+			valRanking = append(valRanking, &types.ValRanking{
+				ChainName:    project,
+				BlockHeight:  valsRanking.BlockHeight,
+				Moniker:      valMoniker,
+				OperatorAddr: val.GetAddress(),
+				Ranking:      ranking + 1,
+			})
+		}
+	}
+	return valRanking, err
 }
 
 var logger = log.RPCLogger.WithField("module", "rpc")

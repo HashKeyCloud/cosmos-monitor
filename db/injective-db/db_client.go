@@ -4,6 +4,7 @@ import (
 	"cosmosmonitor/db"
 	"cosmosmonitor/log"
 	"cosmosmonitor/types"
+
 	"github.com/spf13/viper"
 )
 
@@ -24,7 +25,7 @@ func InitInjectiveDbCli() (*InjectiveDbCli, error) {
 		logger.Error("connect injective database server error: ", err)
 		return nil, err
 	}
-	
+
 	return &InjectiveDbCli{
 		DbCli: dbCli,
 	}, nil

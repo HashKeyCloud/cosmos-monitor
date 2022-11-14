@@ -1,15 +1,16 @@
 package band_rpc
 
 import (
+	"fmt"
+	"testing"
+	"time"
+
 	"cosmosmonitor/rpc"
 	"cosmosmonitor/types"
 	base "cosmossdk.io/api/cosmos/base/tendermint/v1beta1"
 	distribution "cosmossdk.io/api/cosmos/distribution/v1beta1"
 	gov "cosmossdk.io/api/cosmos/gov/v1beta1"
 	staking "cosmossdk.io/api/cosmos/staking/v1beta1"
-	"fmt"
-	"testing"
-	"time"
 )
 
 func TestGovInfo(t *testing.T) {
@@ -48,7 +49,7 @@ func TestGovInfo(t *testing.T) {
 }
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("xxxxx")
+	grpcConn, err := rpc.InitChainRpcCli("https://laozi1.bandchain.org")
 	if err != nil {
 		logger.Error("Failed to create band gRPC client, err:", err)
 	}
@@ -68,7 +69,7 @@ func TestGetValInfo(t *testing.T) {
 	}
 
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "xxxx")
+	monitorObj = append(monitorObj, "bandvaloper1wja9nds8klxcjurvxerdsun4t52zfjvqpj6y54")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)

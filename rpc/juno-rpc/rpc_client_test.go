@@ -1,20 +1,21 @@
 package juno_rpc
 
 import (
+	"fmt"
+	"testing"
+
 	"cosmosmonitor/rpc"
 	"cosmosmonitor/types"
 	base "cosmossdk.io/api/cosmos/base/tendermint/v1beta1"
 	distribution "cosmossdk.io/api/cosmos/distribution/v1beta1"
 	gov "cosmossdk.io/api/cosmos/gov/v1beta1"
 	staking "cosmossdk.io/api/cosmos/staking/v1beta1"
-	"fmt"
-	"testing"
 )
 
 func TestGetValInfo(t *testing.T) {
 	grpcConn, err := rpc.InitChainRpcCli("juno-rpc-grpc.polkachu.com:12690")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create juno gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -41,7 +42,7 @@ func TestGetValInfo(t *testing.T) {
 func TestGetProposal(t *testing.T) {
 	grpcConn, err := rpc.InitChainRpcCli("juno-rpc-grpc.polkachu.com:12690")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create juno gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -74,7 +75,7 @@ func TestGetProposal(t *testing.T) {
 func TestGetValPerformance(t *testing.T) {
 	grpcConn, err := rpc.InitChainRpcCli("juno-rpc-grpc.polkachu.com:12690")
 	if err != nil {
-		logger.Error("Failed to create injective gRPC client, err:", err)
+		logger.Error("Failed to create juno gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)

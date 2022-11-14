@@ -134,3 +134,11 @@ type MaxBlockHeight struct {
 	MaxBlockHeightSign   sql.NullInt64 `db:"max_block_height_sign"`
 	MaxBlockHeightMissed sql.NullInt64 `db:"max_block_height_missed"`
 }
+
+type ValRanking struct {
+	ChainName    string
+	BlockHeight  int64
+	Moniker      string
+	OperatorAddr string
+	Ranking      int
+}

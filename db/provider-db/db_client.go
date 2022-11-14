@@ -4,6 +4,7 @@ import (
 	"cosmosmonitor/db"
 	"cosmosmonitor/log"
 	"cosmosmonitor/types"
+
 	"github.com/spf13/viper"
 )
 

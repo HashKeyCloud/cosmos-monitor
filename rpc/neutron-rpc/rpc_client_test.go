@@ -1,4 +1,4 @@
-package cosmos_rpc
+package neutron_rpc
 
 import (
 	"fmt"
@@ -14,9 +14,9 @@ import (
 )
 
 func TestGovInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("cosmos-grpc.polkachu.com:14990")
+	grpcConn, err := rpc.InitChainRpcCli("xxxx")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create neutron gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -24,7 +24,7 @@ func TestGovInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &CosmosCli{
+	cc := &NeutronCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -36,10 +36,10 @@ func TestGovInfo(t *testing.T) {
 	fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
 	monitorObj := make([]*types.MonitorObj, 0)
 	monitorObj = append(monitorObj, &types.MonitorObj{
-		"Coinbase Custody",
-		"cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en",
-		"d68eec0d2e8248f1ec64cdb585edb61eca432bd8",
-		"cosmos1c4k24jzduc365kywrsvf5ujz4ya6mwymy8vq4q",
+		"Neutron Validator",
+		"neutronvaloper1w5a2fmp3e6fjxes8rc36fneflvmq3asez7g6kl",
+		"aa5c70f5a3f259f4186f8a8e704cd992f6635b3a",
+		"neutron1w5a2fmp3e6fjxes8rc36fneflvmq3asecr3rsm",
 	})
 	proposals, _ := cc.GetProposal(monitorObj)
 	for _, p := range proposals {
@@ -49,9 +49,9 @@ func TestGovInfo(t *testing.T) {
 }
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("cosmos-grpc.polkachu.com:14990")
+	grpcConn, err := rpc.InitChainRpcCli("xxx")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create neutron gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -59,7 +59,7 @@ func TestGetValInfo(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &CosmosCli{
+	cc := &NeutronCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -69,7 +69,7 @@ func TestGetValInfo(t *testing.T) {
 	}
 
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en")
+	monitorObj = append(monitorObj, "neutronvaloper1w5a2fmp3e6fjxes8rc36fneflvmq3asez7g6kl")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -77,9 +77,9 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("cosmos-grpc.polkachu.com:14990")
+	grpcConn, err := rpc.InitChainRpcCli("xxx")
 	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
+		logger.Error("Failed to create neutron gRPC client, err:", err)
 	}
 
 	stakingQueryCli := staking.NewQueryClient(grpcConn)
@@ -87,7 +87,7 @@ func TestGetValPerformance(t *testing.T) {
 	baseCli := base.NewServiceClient(grpcConn)
 	distributionCli := distribution.NewQueryClient(grpcConn)
 
-	cc := &CosmosCli{
+	cc := &NeutronCli{
 		ChainCli: &rpc.ChainCli{
 			StakingQueryCli: stakingQueryCli,
 			GovQueryCli:     govQueryCli,
@@ -98,13 +98,13 @@ func TestGetValPerformance(t *testing.T) {
 
 	monitorObj := make([]*types.MonitorObj, 0)
 	m1 := &types.MonitorObj{
-		"Coinbase Custody",
-		"cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en",
-		"d68eec0d2e8248f1ec64cdb585edb61eca432bd8",
-		"cosmos1c4k24jzduc365kywrsvf5ujz4ya6mwymy8vq4q",
+		"Neutron Validator",
+		"neutronvaloper1w5a2fmp3e6fjxes8rc36fneflvmq3asez7g6kl",
+		"aa5c70f5a3f259f4186f8a8e704cd992f6635b3a",
+		"neutron1w5a2fmp3e6fjxes8rc36fneflvmq3asecr3rsm",
 	}
 	monitorObj = append(monitorObj, m1)
-	proposalAssignments, signs, signsmissed, _ := cc.GetValPerformance(12775580, monitorObj)
+	proposalAssignments, signs, signsmissed, _ := cc.GetValPerformance(102644, monitorObj)
 	for _, proposalAssignment := range proposalAssignments {
 		fmt.Println("proposalAssignment:", proposalAssignment)
 	}
@@ -114,42 +114,5 @@ func TestGetValPerformance(t *testing.T) {
 
 	for _, signmissed := range signsmissed {
 		fmt.Println("sign missed:", signmissed)
-	}
-}
-
-func TestGetValRanking(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("cosmos-grpc.polkachu.com:14990")
-	if err != nil {
-		logger.Error("Failed to create cosmos gRPC client, err:", err)
-	}
-
-	stakingQueryCli := staking.NewQueryClient(grpcConn)
-	govQueryCli := gov.NewQueryClient(grpcConn)
-	baseCli := base.NewServiceClient(grpcConn)
-	distributionCli := distribution.NewQueryClient(grpcConn)
-
-	cc := &CosmosCli{
-		ChainCli: &rpc.ChainCli{
-			StakingQueryCli: stakingQueryCli,
-			GovQueryCli:     govQueryCli,
-			BaseQuaryCli:    baseCli,
-			DistributionCli: distributionCli,
-		},
-	}
-
-	monitorObj := make([]*types.MonitorObj, 0)
-	m1 := &types.MonitorObj{
-		"Coinbase Custody",
-		"cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en",
-		"d68eec0d2e8248f1ec64cdb585edb61eca432bd8",
-		"cosmos1c4k24jzduc365kywrsvf5ujz4ya6mwymy8vq4q",
-	}
-	monitorObj = append(monitorObj, m1)
-	valRanking, err := cc.GetValRanking(monitorObj, "cosmos")
-	if err != nil {
-		logger.Error("Failed to query LatestValidatorSet, err:", err)
-	}
-	for _, v := range valRanking {
-		logger.Info("validator ranking:", v)
 	}
 }

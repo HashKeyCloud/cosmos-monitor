@@ -1,15 +1,16 @@
 package apollo_rpc
 
 import (
+	"fmt"
+	"testing"
+	"time"
+
 	"cosmosmonitor/rpc"
 	"cosmosmonitor/types"
 	base "cosmossdk.io/api/cosmos/base/tendermint/v1beta1"
 	distribution "cosmossdk.io/api/cosmos/distribution/v1beta1"
 	gov "cosmossdk.io/api/cosmos/gov/v1beta1"
 	staking "cosmossdk.io/api/cosmos/staking/v1beta1"
-	"fmt"
-	"testing"
-	"time"
 )
 
 func TestGovInfo(t *testing.T) {
@@ -77,7 +78,7 @@ func TestGetValInfo(t *testing.T) {
 }
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("xxxx")
+	grpcConn, err := rpc.InitChainRpcCli("103.210.21.55:9090")
 	if err != nil {
 		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}
@@ -104,7 +105,7 @@ func TestGetValPerformance(t *testing.T) {
 		"cosmos10e4rluum506yc63vgrdcn500zyev2c5jt78c6l",
 	}
 	monitorObj = append(monitorObj, m1)
-	proposalAssignments, signs, signsmissed, _ := cc.GetValPerformance(16142, monitorObj)
+	proposalAssignments, signs, signsmissed, _ := cc.GetValPerformance(46006, monitorObj)
 	for _, proposalAssignment := range proposalAssignments {
 		fmt.Println("proposalAssignment:", proposalAssignment)
 	}

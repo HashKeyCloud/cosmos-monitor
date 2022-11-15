@@ -1,6 +1,9 @@
 package types
 
-import "database/sql"
+import (
+	base "cosmossdk.io/api/cosmos/base/tendermint/v1beta1"
+	"database/sql"
+)
 
 type DatabaseConfig struct {
 	Username string
@@ -112,6 +115,7 @@ type CaredData struct {
 	ProposalAssignments []*ProposalAssignment
 	ValSigns            []*ValSign
 	ValSignMisseds      []*ValSignMissed
+	ValRankings         []*ValRanking
 }
 
 type ValIsActive struct {
@@ -136,9 +140,15 @@ type MaxBlockHeight struct {
 }
 
 type ValRanking struct {
-	ChainName    string
-	BlockHeight  int64
-	Moniker      string
-	OperatorAddr string
-	Ranking      int
+	ChainName       string
+	Moniker         string `db:"moniker"`
+	OperatorAddr    string `db:"operator_addr"`
+	BlockHeight     int64  `db:"block_height"`
+	RealVotingPower int64  `db:"real_voting_power"`
+	Ranking         int    `db:"ranking"`
+}
+
+type ValSet struct {
+	Validators *base.Validator
+	Ranking    int
 }

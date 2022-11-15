@@ -69,7 +69,7 @@ func TestGetValInfo(t *testing.T) {
 	}
 
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "cosmosvaloper1c4k24jzduc365kywrsvf5ujz4ya6mwympnc4en")
+	monitorObj = append(monitorObj, "cosmosvaloper12w6tynmjzq4l8zdla3v4x0jt8lt4rcz5gk7zg2")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -144,6 +144,12 @@ func TestGetValRanking(t *testing.T) {
 		"d68eec0d2e8248f1ec64cdb585edb61eca432bd8",
 		"cosmos1c4k24jzduc365kywrsvf5ujz4ya6mwymy8vq4q",
 	}
+	/*m1 := &types.MonitorObj{
+		"Huobi-1",
+		"cosmosvaloper12w6tynmjzq4l8zdla3v4x0jt8lt4rcz5gk7zg2",
+		"4af69d6a5436c30e3584c1628433de55e758bcca",
+		"cosmos12w6tynmjzq4l8zdla3v4x0jt8lt4rcz5dz2hye",
+	}*/
 	monitorObj = append(monitorObj, m1)
 	valRanking, err := cc.GetValRanking(monitorObj, "cosmos")
 	if err != nil {

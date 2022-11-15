@@ -27,9 +27,10 @@ type ProposalException struct {
 }
 
 type (
-	ValJailedException   exception
-	ValisActiveException exception
-	SyncException        exception
+	ValJailedException    exception
+	ValisActiveException  exception
+	ValisRankingException exception
+	SyncException         exception
 )
 
 func (e *ValJailedException) Name() string {
@@ -104,6 +105,23 @@ func (e *ProposalException) Message() string {
 
 func (e *ProposalException) IsEmpty() bool {
 	return 0 == len(e.proposals)
+}
+
+func (e *ValisRankingException) Name() string {
+	return "Validator Ranking Exception\n"
+}
+func (e *ValisRankingException) Message() string {
+	var msg string
+	if !e.IsEmpty() {
+		msg = e.Name()
+		for _, val := range e.validators {
+			msg += fmt.Sprintf("The %s' %s validator ranking has exceeded the ranking threshold, please add a delegate in time\n", val.chainName, val.moniker)
+		}
+	}
+	return msg
+}
+func (e *ValisRankingException) IsEmpty() bool {
+	return 0 == len(e.validators)
 }
 
 func ParseValJailedException(valJaileds []*types.ValIsJail) *ValJailedException {
@@ -199,4 +217,28 @@ func ParseSyncException(missedSign []*types.ValSignMissed) *SyncException {
 
 	}
 	return syncException
+}
+
+func ParseValisRankingException(valsRanking []*types.ValRanking) *ValisRankingException {
+	if len(valsRanking) == 0 {
+		logger.Error("validator ranking is empty, please check")
+		return nil
+	}
+
+	valisRankingException := &ValisRankingException{
+		validators: make([]*struct {
+			chainName   string
+			blockHeight int64
+			moniker     string
+		}, 0),
+	}
+
+	for _, valRanking := range valsRanking {
+		valisRankingException.validators = append(valisRankingException.validators, &struct {
+			chainName   string
+			blockHeight int64
+			moniker     string
+		}{chainName: valRanking.ChainName, blockHeight: valRanking.BlockHeight, moniker: valRanking.Moniker})
+	}
+	return valisRankingException
 }

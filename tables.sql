@@ -163,3 +163,15 @@ create table proposal
     status            int  not null default 0, /*0 = not voted， 1=yes, 2=no, 3=NoWithVeto, 4 = Abstain*/
     primary key (proposal_id, operator_addr)
 );
+
+
+drop table if exists val_ranking;
+create table val_ranking
+(
+    moniker           text   not null,
+    operator_addr     text   not null,
+    block_height      bigint not null default 0,
+    real_voting_power bigint not null,
+    ranking           int    not null default 0,
+    primary key (operator_addr, block_height)
+);

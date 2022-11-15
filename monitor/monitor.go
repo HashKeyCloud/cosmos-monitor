@@ -17,7 +17,7 @@ import (
 	"cosmosmonitor/rpc"
 	"cosmosmonitor/types"
 	"cosmosmonitor/utils"
-	
+
 	apolloDb "cosmosmonitor/db/apollo-db"
 	bandDb "cosmosmonitor/db/band-db"
 	cosmosDb "cosmosmonitor/db/cosmos-db"
@@ -61,6 +61,7 @@ type Monitor struct {
 	valIsActiveChan chan []*types.ValIsActive
 	missedSignChan  chan []*types.ValSignMissed
 	proposalsChan   chan []*types.Proposal
+	valRankingChan  chan []*types.ValRanking
 }
 
 var (
@@ -304,7 +305,6 @@ func (m *Monitor) Start() {
 			} else {
 				go m.provider(project)
 			}
-
 		}
 
 	}
@@ -318,50 +318,43 @@ func (m *Monitor) consumer(consumerChain string, providerChain map[string]string
 	receiver2 := viper.GetString(receiver2Conf)
 	mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
 
-	mos, err := m.DbClis[providerChain[consumerChain]].GetMonitorObj()
+	mosDb, err := m.DbClis[providerChain[consumerChain]].GetMonitorObj()
 	if err != nil {
 		logger.Error("Failed to obtain production chain monitoring object, err:", err)
 	}
 
-	mo := make([]*types.MonitorObj, 0)
-	for _, valInfo := range mos {
-		mo = append(mo, &types.MonitorObj{
-			Moniker:         valInfo.Moniker,
-			OperatorAddr:    valInfo.OperatorAddr,
-			OperatorAddrHex: valInfo.OperatorAddrHex,
-			SelfStakeAddr:   valInfo.SelfStakeAddr,
-		})
+	// list validator indices from config file
+	logger.Info("Getting validators from config file.")
+	operatorAddrs := config.GetOperatorAddrs(consumerChain)
+	logger.Info("Getting Validators info from chain")
+
+	mos := make(map[string]*types.MonitorObj)
+	for _, moDb := range mosDb {
+		mos[moDb.OperatorAddr] = moDb
 	}
 
-	logger.Info("start getting validators performance")
-	start, err := m.DbClis[consumerChain].GetBlockHeightFromDb(consumerChain)
-	if err != nil {
-		logger.Error("Failed to query block height from database，err:", err)
-	}
-	proposalAssignments, valSign, valSignMissed, err := m.RpcClis[consumerChain].GetValPerformance(start, mo)
-	if err != nil {
-		logger.Error("get proposal error: ", err)
-		res := utils.Retry(func() bool {
-			proposalAssignments, valSign, valSignMissed, err = m.RpcClis[consumerChain].GetValPerformance(start, mo)
-			if err != nil {
-				return false
-			} else {
-				return true
-			}
-		}, []int{1, 3})
-		if !res {
-			emailBody := fmt.Sprintf("get cared data from %s RPC node error, please check.", consumerChain)
-			m.MailClient.SendMail(mailSender, mailReceiver, "RPC Exception", emailBody)
-			return
+	mo := make([]*types.MonitorObj, 0)
+	for _, operatorAddr := range operatorAddrs {
+		if _, ok := mos[operatorAddr]; ok {
+			mo = append(mo, &types.MonitorObj{
+				Moniker:         mos[operatorAddr].Moniker,
+				OperatorAddr:    mos[operatorAddr].OperatorAddr,
+				OperatorAddrHex: mos[operatorAddr].OperatorAddrHex,
+				SelfStakeAddr:   mos[operatorAddr].SelfStakeAddr,
+			})
+		} else {
+			emailBody := fmt.Sprintf("If you want to monitor the validator %s of the consumer chain %s, you must monitor the consensus chain %s.",
+				operatorAddr, consumerChain, providerChain)
+			m.MailClient.SendMail(mailSender, mailReceiver, "Chain Exception", emailBody)
 		}
 	}
-	logger.Info("Successfully get validators performance")
-
+	careData := m.getValPerformanceRanking(consumerChain, mailSender, mailReceiver, mo)
 	m.processData(&types.CaredData{
 		ChainName:           consumerChain,
-		ProposalAssignments: proposalAssignments,
-		ValSigns:            valSign,
-		ValSignMisseds:      valSignMissed,
+		ProposalAssignments: careData.ProposalAssignments,
+		ValSigns:            careData.ValSigns,
+		ValSignMisseds:      careData.ValSignMisseds,
+		ValRankings:         careData.ValRankings,
 	})
 
 }
@@ -428,6 +421,20 @@ func (m *Monitor) provider(project string) {
 	}
 	logger.Info("Successfully get VOTING PERIOD proposals")
 
+	careData := m.getValPerformanceRanking(project, mailSender, mailReceiver, mo)
+
+	m.processData(&types.CaredData{
+		ChainName:           project,
+		ValInfos:            valsInfo,
+		Proposals:           proposals,
+		ProposalAssignments: careData.ProposalAssignments,
+		ValSigns:            careData.ValSigns,
+		ValSignMisseds:      careData.ValSignMisseds,
+		ValRankings:         careData.ValRankings,
+	})
+}
+
+func (m *Monitor) getValPerformanceRanking(project, mailSender, mailReceiver string, mo []*types.MonitorObj) *types.CaredData {
 	logger.Info("start getting validators performance")
 	start, err := m.DbClis[project].GetBlockHeightFromDb(project)
 	if err != nil {
@@ -447,19 +454,35 @@ func (m *Monitor) provider(project string) {
 		if !res {
 			emailBody := fmt.Sprintf("get cared data from %s RPC node error, please check.", project)
 			m.MailClient.SendMail(mailSender, mailReceiver, "RPC Exception", emailBody)
-			return
 		}
 	}
 	logger.Info("Successfully get validators performance")
 
-	m.processData(&types.CaredData{
-		ChainName:           project,
-		ValInfos:            valsInfo,
-		Proposals:           proposals,
+	logger.Info("start getting validators votingPower and ranking")
+	valRanking, err := m.RpcClis[project].GetValRanking(mo, project)
+	if err != nil {
+		logger.Error("get proposal error: ", err)
+		res := utils.Retry(func() bool {
+			valRanking, err = m.RpcClis[project].GetValRanking(mo, project)
+			if err != nil {
+				return false
+			} else {
+				return true
+			}
+		}, []int{1, 3})
+		if !res {
+			emailBody := fmt.Sprintf("get cared data from %s RPC node error, please check.", project)
+			m.MailClient.SendMail(mailSender, mailReceiver, "RPC Exception", emailBody)
+		}
+	}
+	logger.Info("Successfully get validators votingPower and ranking")
+
+	return &types.CaredData{
 		ProposalAssignments: proposalAssignments,
 		ValSigns:            valSign,
 		ValSignMisseds:      valSignMissed,
-	})
+		ValRankings:         valRanking,
+	}
 }
 
 func (m *Monitor) WaitInterrupted() {
@@ -624,6 +647,26 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 		}
 		m.missedSignChan <- missedSign
 	}
+	if caredData.ValRankings != nil && len(caredData.ValRankings) > 0 {
+		logger.Info("Start saving validator votingPower and ranking")
+		err := m.DbClis[caredData.ChainName].BatchSaveRanking(caredData.ValRankings)
+		if err != nil {
+			logger.Error("save the validator votingPower and ranking fail:", err)
+		}
+		logger.Info("Save the validator votingPower and ranking successfully")
+
+		valRankings := make([]*types.ValRanking, 0)
+
+		projectRankingThreshold := fmt.Sprintf("alert.%RankingThreshold", caredData.ChainName)
+		rankingThreshold := viper.GetInt(projectRankingThreshold)
+		for _, valRanking := range caredData.ValRankings {
+			if valRanking.Ranking >= rankingThreshold {
+				valRankings = append(valRankings, valRanking)
+			}
+		}
+
+		m.valRankingChan <- valRankings
+	}
 
 	timeInterval := viper.GetInt("alert.timeInterval")
 	endHeight := end / int64(timeInterval) * int64(timeInterval)
@@ -697,6 +740,20 @@ func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver string) {
 				eventLogger.Error("send proposal email error: ", err)
 			}
 			eventLogger.Info("send proposal email successful")
+		case <-time.After(time.Second):
+		}
+
+		select {
+		case valRanking := <-m.valRankingChan:
+			if len(valRanking) == 0 {
+				break
+			}
+			va := notification.ParseValisRankingException(valRanking)
+			err := m.MailClient.SendMail(mailSender, mailReceiver, va.Name(), va.Message())
+			if err != nil {
+				eventLogger.Error("send  validator ranking email error: ", err)
+			}
+			eventLogger.Info("send validator ranking email successful")
 		case <-time.After(time.Second):
 		}
 	}

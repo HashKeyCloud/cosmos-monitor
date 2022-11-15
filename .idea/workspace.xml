@@ -5,58 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b9f390c-01b2-489b-8575-cfb4fd978f03" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/rpc/evmos-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/neutron-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/nyx-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/persistence-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/rizon-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/secret-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/sommelier-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/sputnik-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/teritori-rpc/rpc_client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rpc/xpla-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/cosmos-monitor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cosmos-monitor.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/cosmos-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/cosmos-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/evmos-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/evmos-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/injective-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/injective-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/juno-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/juno-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/neutron-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/neutron-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/nyx-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/nyx-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/persistence-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/persistence-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/provider-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/provider-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/rizon-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/rizon-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/secret-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/secret-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/sommelier-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/sommelier-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/sputnik-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/sputnik-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/teritori-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/teritori-db/db_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/xpla-db/db_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/xpla-db/db_client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/conf.yaml.example" beforeDir="false" afterPath="$PROJECT_DIR$/config/conf.yaml.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/db.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/band-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/band-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/band-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/band-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification/event.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification/event.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/evmos-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/evmos-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/injective-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/juno-rpc/rpc_clien.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/juno-rpc/rpc_clien.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/juno-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/juno-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/neutron-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/neutron-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/nyx-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/nyx-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/persistence-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/persistence-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/provider-rpc/rpc_client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/rizon-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/rizon-rpc/rpc_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc/rpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/rpc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/secret-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/secret-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/sommelier-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/sommelier-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/sputnik-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/sputnik-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/teritori-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/teritori-rpc/rpc_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/xpla-rpc/rpc_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/xpla-rpc/rpc_client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tables.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/types/types.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/operator2self.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/operator2self.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,12 +79,12 @@
       <pattern value="^\QTestGetProposal\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetValInfo in cosmosmonitor/rpc/sommelier-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestGetValInfo in cosmosmonitor/rpc/cosmos-rpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="cosmos-monitor" />
-      <working_directory value="$PROJECT_DIR$/rpc/sommelier-rpc" />
+      <working_directory value="$PROJECT_DIR$/rpc/cosmos-rpc" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="cosmosmonitor/rpc/sommelier-rpc" />
+      <package value="cosmosmonitor/rpc/cosmos-rpc" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -182,10 +140,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go Test.TestGetValRanking in cosmosmonitor/rpc/cosmos-rpc" />
+        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/cosmos-rpc" />
         <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/teritori-rpc" />
         <item itemvalue="Go Test.TestGetValPerformance in cosmosmonitor/rpc/sommelier-rpc" />
         <item itemvalue="Go Test.TestGetProposal in cosmosmonitor/rpc/sommelier-rpc" />
-        <item itemvalue="Go Test.TestGetValInfo in cosmosmonitor/rpc/sommelier-rpc" />
       </list>
     </recent_temporary>
   </component>

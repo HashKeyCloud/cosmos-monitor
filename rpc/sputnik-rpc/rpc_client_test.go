@@ -13,7 +13,7 @@ import (
 )
 
 func TestGetValPerformance(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("152.32.172.181:9090")
+	grpcConn, err := rpc.InitChainRpcCli("xxx")
 	if err != nil {
 		logger.Error("Failed to create apollo gRPC client, err:", err)
 	}

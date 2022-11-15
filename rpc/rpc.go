@@ -3,7 +3,6 @@ package rpc
 import (
 	"context"
 	"encoding/hex"
-	"fmt"
 	"strings"
 
 	"google.golang.org/grpc"
@@ -23,6 +22,7 @@ type Client interface {
 	GetValInfo(operatorAddrs []string) ([]*types.ValInfo, error)
 	GetProposal(monitorObjs []*types.MonitorObj) ([]*types.Proposal, error)
 	GetValPerformance(start int64, monitorObjs []*types.MonitorObj) ([]*types.ProposalAssignment, []*types.ValSign, []*types.ValSignMissed, error)
+	GetValRanking(monitorObjs []*types.MonitorObj, project string) ([]*types.ValRanking, error)
 }
 
 type ChainCli struct {
@@ -228,11 +228,12 @@ func (cc *ChainCli) GetValPerformance(start int64, monitorObjs []*types.MonitorO
 }
 
 func (cc *ChainCli) GetValRanking(monitorObjs []*types.MonitorObj, project string) ([]*types.ValRanking, error) {
-	mo := make(map[string]string)
+	cons2Moniker := make(map[string]string, 0)
+	cons2Operator := make(map[string]string, 0)
 	for _, monitorObj := range monitorObjs {
 		consAddr := utils.Operator2Cons(monitorObj.OperatorAddrHex, project)
-		fmt.Println("consAddr:", consAddr)
-		mo[consAddr] = monitorObj.Moniker
+		cons2Moniker[consAddr] = monitorObj.Moniker
+		cons2Operator[consAddr] = monitorObj.OperatorAddr
 	}
 	queryValRankingRequest := &base.GetLatestValidatorSetRequest{}
 	valsRanking, err := cc.BaseQuaryCli.GetLatestValidatorSet(context.Background(), queryValRankingRequest)
@@ -240,16 +241,38 @@ func (cc *ChainCli) GetValRanking(monitorObjs []*types.MonitorObj, project strin
 		logger.Error("Failed to query LatestValidatorSet, err:", err)
 		return nil, err
 	}
+	valSet := make(map[string]*types.ValSet)
+	for ranking, val := range valsRanking.GetValidators() {
+		valSet[val.GetAddress()] = &types.ValSet{
+			Validators: &base.Validator{
+				Address:          val.GetAddress(),
+				PubKey:           val.GetPubKey(),
+				VotingPower:      val.GetVotingPower(),
+				ProposerPriority: val.GetProposerPriority(),
+			},
+			Ranking: ranking + 1,
+		}
+	}
 
 	valRanking := make([]*types.ValRanking, 0)
-	for ranking, val := range valsRanking.Validators {
-		if valMoniker, ok := mo[val.GetAddress()]; ok {
+	for consAddr, moniker := range cons2Moniker {
+		if val, ok := valSet[consAddr]; ok {
 			valRanking = append(valRanking, &types.ValRanking{
-				ChainName:    project,
-				BlockHeight:  valsRanking.BlockHeight,
-				Moniker:      valMoniker,
-				OperatorAddr: val.GetAddress(),
-				Ranking:      ranking + 1,
+				ChainName:       project,
+				BlockHeight:     valsRanking.BlockHeight,
+				Moniker:         moniker,
+				OperatorAddr:    cons2Operator[consAddr],
+				RealVotingPower: val.Validators.GetVotingPower(),
+				Ranking:         val.Ranking,
+			})
+		} else {
+			valRanking = append(valRanking, &types.ValRanking{
+				ChainName:       project,
+				Moniker:         moniker,
+				OperatorAddr:    cons2Operator[consAddr],
+				BlockHeight:     valsRanking.BlockHeight,
+				RealVotingPower: 0,
+				Ranking:         1000,
 			})
 		}
 	}

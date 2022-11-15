@@ -2,19 +2,19 @@
 postgres:
   apolloUser: "apollo_database_user"
   apolloPassword: "apollo_database_password"
-  apolloHost: "apollo_database_name"
+  apolloName: "apollo_database_name"
   apolloHost: "apollo_database_host_ip"
   apolloPort: "apollo_database_host_port"
 
   bandUser: "band_database_user"
   bandPassword: "band_database_password"
-  bandHost: "band_database_name"
+  bandName: "band_database_name"
   bandHost: "band_database_host_ip"
   bandPort: "band_database_host_port"
 
   cosmosUser: "cosmos_database_user"
   cosmosPassword: "cosmos_database_password"
-  cosmosHost: "cosmos_database_name"
+  cosmosName: "cosmos_database_name"
   cosmosHost: "cosmos_database_host_ip"
   cosmosPort: "cosmos_database_host_port"
 
@@ -38,7 +38,7 @@ postgres:
 
   neutronUser: "neutron_database_user"
   neutronPassword: "neutron_database_password"
-  neutronHost: "neutron_database_name"
+  neutronName: "neutron_database_name"
   neutronHost: "neutron_database_host_ip"
   neutronPort: "neutron_database_host_port"
 
@@ -56,13 +56,13 @@ postgres:
 
   providerUser: "provider_database_user"
   providerPassword: "provider_database_password"
-  providerHost: "provider_database_name"
+  providerName: "provider_database_name"
   providerHost: "provider_database_host_ip"
   providerPort: "provider_database_host_port"
 
   rizonUser: "rizon_database_user"
   rizonPassword: "rizon_database_password"
-  rizonHost: "rizon_database_name"
+  rizonName: "rizon_database_name"
   rizonHost: "rizon_database_host_ip"
   rizonPort: "rizon_database_host_port"
 
@@ -86,13 +86,13 @@ postgres:
 
   teritoriUser: "teritori_database_user"
   teritoriPassword: "teritori_database_password"
-  teritoriHost: "teritori_database_name"
+  teritoriName: "teritori_database_name"
   teritoriHost: "teritori_database_host_ip"
   teritoriPort: "teritori_database_host_port"
 
   xplaUser: "xpla_database_user"
   xplaPassword: "xpla_database_password"
-  xplaHost: "xpla_database_name"
+  xplaName: "xpla_database_name"
   xplaHost: "xpla_database_host_ip"
   xplaPort: "xpla_database_host_port"
 
@@ -168,22 +168,39 @@ alert:
   blockInterval: 100 # Used to calculate the recent signature rate. 100 means to count the signatures rate of the last 100 blocks
   proportion: 0.05 # Signature rate
 
-  apolloStartingBlockHeight: 12495683 # The band starting block height of the monitor program
+  apolloStartingBlockHeight: 12495683 # The apollo starting block height of the monitor program
   bandStartingBlockHeight: 12495683 # The band starting block height of the monitor program
   cosmosStartingBlockHeight: 12495683 # The cosmos starting block height of the monitor program
-  evmosStartingBlockHeight: 12495683 # The band starting block height of the monitor program
+  evmosStartingBlockHeight: 12495683 # The evmos starting block height of the monitor program
   injectiveStartingBlockHeight: 12495683 # The injective starting block height of the monitor program
   junoStartingBlockHeight: 12495683 # The juno starting block height of the monitor program
-  neutronStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  nyxStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  persistenceStartingBlockHeight: 12495683 # The band starting block height of the monitor program
+  neutronStartingBlockHeight: 12495683 # The neutron starting block height of the monitor program
+  nyxStartingBlockHeight: 12495683 # The nyx starting block height of the monitor program
+  persistenceStartingBlockHeight: 12495683 # The persistence starting block height of the monitor program
   providerStartingBlockHeight: 12495683 # The provider starting block height of the monitor program
-  rizonStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  secretStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  sommelierStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  sputnikStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  teritoriStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  xplaStartingBlockHeight: 12495683 # The band starting block height of the monitor program
+  rizonStartingBlockHeight: 12495683 # The rizon starting block height of the monitor program
+  secretStartingBlockHeight: 12495683 # The secret starting block height of the monitor program
+  sommelierStartingBlockHeight: 12495683 # The sommelier starting block height of the monitor program
+  sputnikStartingBlockHeight: 12495683 # The sputnik starting block height of the monitor program
+  teritoriStartingBlockHeight: 12495683 # The teritori starting block height of the monitor program
+  xplaStartingBlockHeight: 12495683 # The xpla starting block height of the monitor program
+
+  apolloRankingThreshold: 100    # The apollo validator ranking threshold
+  bandRankingThreshold: 100  # The band validator ranking threshold
+  cosmosRankingThreshold: 100    # The cosmos validator ranking threshold
+  evmosRankingThreshold: 100 # The evmos validator ranking threshold
+  injectiveRankingThreshold: 100 # The injective validator ranking threshold
+  junoRankingThreshold: 100  # The juno validator ranking threshold
+  nyxRankingThreshold: 100   # The nyx validator ranking threshold
+  neutronRankingThreshold: 100   # The neutron validator ranking threshold
+  persistenceRankingThreshold: 100    # The persistence validator ranking threshold
+  providerRankingThreshold: 100  # The provider validator ranking threshold
+  rizonRankingThreshold: 100 # The rizon validator ranking threshold
+  secretRankingThreshold: 100    # The secret validator ranking threshold
+  sommelierRankingThreshold: 100 # The sommelier validator ranking threshold
+  sputnikRankingThreshold: 00   # The sputnik validator ranking threshold
+  teritoriRankingThreshold: 100  # The teritori validator ranking threshold
+  xplaRankingThreshold: 100  # The xpla validator ranking threshold
 
 mail:
   host: "mail_host"
@@ -221,8 +238,8 @@ mail:
   sputnikReceiver2: "sputnik_receiver2_mail_address" # Only receive emergency alert emails of sputnik, like jailed/inactive, etc.
   teritoriReceiver1: "teritori_receiver1_mail_address" # Receive all alert emails of teritori
   teritoriReceiver2: "teritori_receiver2_mail_address" # Only receive emergency alert emails of teritori, like jailed/inactive, etc.
-  xplaReceiver1: "rizon_receiver1_mail_address" # Receive all alert emails of rizon
-  xplaReceiver2: "rizon_receiver2_mail_address" # Only receive emergency alert emails of rizon, like jailed/inactive, etc.
+  xplaReceiver1: "rizon_receiver1_mail_address" # Receive all alert emails of xpla
+  xplaReceiver2: "rizon_receiver2_mail_address" # Only receive emergency alert emails of xpla, like jailed/inactive, etc.
 
 log:
   path: "log_save_location"

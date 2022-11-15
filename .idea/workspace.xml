@@ -11,8 +11,10 @@
       <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/db.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notification/event.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification/event.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/apollo-rpc/rpc_client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/cosmos-rpc/rpc_client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rpc/rpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/rpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/sputnik-rpc/rpc_client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/sputnik-rpc/rpc_client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tables.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/types/types.go" afterDir="false" />
     </list>

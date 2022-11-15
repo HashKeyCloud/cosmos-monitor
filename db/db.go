@@ -599,7 +599,7 @@ func (dc *DbCli) BatchSaveRanking(valRankings []*types.ValRanking) error {
 		}
 
 		sql := fmt.Sprintf(`
-			INSERT INTO val_info (
+			INSERT INTO val_ranking (
 				moniker,
 				operator_addr,
 				block_height,

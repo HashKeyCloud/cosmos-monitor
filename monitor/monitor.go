@@ -34,6 +34,7 @@ import (
 	sputnikDb "cosmosmonitor/db/sputnik-db"
 	teritoriDb "cosmosmonitor/db/teritori-db"
 	xplaDb "cosmosmonitor/db/xpla-db"
+
 	apolloRpc "cosmosmonitor/rpc/apollo-rpc"
 	bandRpc "cosmosmonitor/rpc/band-rpc"
 	cosmosRpc "cosmosmonitor/rpc/cosmos-rpc"
@@ -69,9 +70,9 @@ var (
 	preValinActive = make(map[string]struct{}, 0)
 	preProposalId  = make(map[string]struct{}, 0)
 	monitorHeight  = make(map[string]int64, 0)
+	startHeight    = make(map[string]int64, 0)
 )
 
-// 需要初始化不同的链RPC、数据库，邮件发送邮件可以一个
 func NewMonitor() (*Monitor, error) {
 	rpcClis := make(map[string]rpc.Client, 0)
 	dbClis := make(map[string]db.DBCli, 0)
@@ -290,6 +291,7 @@ func NewMonitor() (*Monitor, error) {
 		missedSignChan:  make(chan []*types.ValSignMissed),
 		proposalsChan:   make(chan []*types.Proposal),
 		valIsActiveChan: make(chan []*types.ValIsActive),
+		valRankingChan:  make(chan []*types.ValRanking),
 	}, nil
 }
 
@@ -298,6 +300,10 @@ func (m *Monitor) Start() {
 	consumerChains := make(map[string]string, 0)
 	consumerChains["apollo"] = "provider"
 	consumerChains["sputnik"] = "provider"
+	for project := range m.RpcClis {
+		startMonitorHeight := m.RpcClis[project].GetBlockHeight()
+		startHeight[project] = startMonitorHeight
+	}
 	for range epochTicker.C {
 		for project := range m.RpcClis {
 			if project == "apollo" || project == "sputnik" {
@@ -319,6 +325,10 @@ func (m *Monitor) consumer(consumerChain string, providerChain map[string]string
 	mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
 
 	mosDb, err := m.DbClis[providerChain[consumerChain]].GetMonitorObj()
+	if len(mosDb) == 0 {
+		time.Sleep(10 * time.Second)
+		mosDb, err = m.DbClis[providerChain[consumerChain]].GetMonitorObj()
+	}
 	if err != nil {
 		logger.Error("Failed to obtain production chain monitoring object, err:", err)
 	}
@@ -344,7 +354,7 @@ func (m *Monitor) consumer(consumerChain string, providerChain map[string]string
 			})
 		} else {
 			emailBody := fmt.Sprintf("If you want to monitor the validator %s of the consumer chain %s, you must monitor the consensus chain %s.",
-				operatorAddr, consumerChain, providerChain)
+				operatorAddr, consumerChain, providerChain[consumerChain])
 			m.MailClient.SendMail(mailSender, mailReceiver, "Chain Exception", emailBody)
 		}
 	}
@@ -366,7 +376,6 @@ func (m *Monitor) provider(project string) {
 	receiver1 := viper.GetString(receiver1Conf)
 	receiver2 := viper.GetString(receiver2Conf)
 	mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
-
 	// list validator indices from config file
 	logger.Info("Getting validators from config file.")
 	operatorAddrs := config.GetOperatorAddrs(project)
@@ -436,9 +445,12 @@ func (m *Monitor) provider(project string) {
 
 func (m *Monitor) getValPerformanceRanking(project, mailSender, mailReceiver string, mo []*types.MonitorObj) *types.CaredData {
 	logger.Info("start getting validators performance")
-	start, err := m.DbClis[project].GetBlockHeightFromDb(project)
+	start, err := m.DbClis[project].GetBlockHeightFromDb()
 	if err != nil {
 		logger.Error("Failed to query block height from database，err:", err)
+	}
+	if start == 0 || startHeight[project]-start > 1000 {
+		start = startHeight[project]
 	}
 	proposalAssignments, valSign, valSignMissed, err := m.RpcClis[project].GetValPerformance(start, mo)
 	if err != nil {
@@ -594,9 +606,12 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 		}
 		logger.Info("Save the validator sign missed successfully")
 
-		end, err = m.DbClis[caredData.ChainName].GetBlockHeightFromDb(caredData.ChainName)
+		end, err = m.DbClis[caredData.ChainName].GetBlockHeightFromDb()
 		if err != nil {
 			logger.Error("Failed to query block height from database，err:", err)
+		}
+		if end == 0 {
+			end = startHeight[caredData.ChainName]
 		}
 		interval := viper.GetInt("alert.blockInterval")
 		start := end - int64(interval) + int64(1)
@@ -657,14 +672,13 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 
 		valRankings := make([]*types.ValRanking, 0)
 
-		projectRankingThreshold := fmt.Sprintf("alert.%RankingThreshold", caredData.ChainName)
+		projectRankingThreshold := fmt.Sprintf("alert.%sRankingThreshold", caredData.ChainName)
 		rankingThreshold := viper.GetInt(projectRankingThreshold)
 		for _, valRanking := range caredData.ValRankings {
 			if valRanking.Ranking >= rankingThreshold {
 				valRankings = append(valRankings, valRanking)
 			}
 		}
-
 		m.valRankingChan <- valRankings
 	}
 

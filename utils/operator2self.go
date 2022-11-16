@@ -70,6 +70,8 @@ func Operator2Cons(operatorHex, project string) string {
 	}
 	var consAddr string
 	switch project {
+	case "apollo":
+		consAddr, err = bech32.Encode("cosmosvalcons", conv) // apollo
 	case "band":
 		consAddr, err = bech32.Encode("bandvalcons", conv) // band
 	case "cosmos":
@@ -86,12 +88,16 @@ func Operator2Cons(operatorHex, project string) string {
 		consAddr, err = bech32.Encode("nvalcons", conv) // nyx
 	case "persistence":
 		consAddr, err = bech32.Encode("persistencevalcons", conv) // persistence
+	case "provider":
+		consAddr, err = bech32.Encode("cosmosvalcons", conv) // provider
 	case "rizon":
 		consAddr, err = bech32.Encode("rizonvalcons", conv) // rizon
 	case "secret":
 		consAddr, err = bech32.Encode("secretvalcons", conv) // secret
 	case "sommelier":
 		consAddr, err = bech32.Encode("sommvalcons", conv) // sommelier
+	case "sputnik":
+		consAddr, err = bech32.Encode("cosmosvalcons", conv) // sputnik
 	case "teritori":
 		consAddr, err = bech32.Encode("torivalcons", conv) // teritori
 	case "xpla":
@@ -101,6 +107,5 @@ func Operator2Cons(operatorHex, project string) string {
 	if err != nil {
 		logger.Error("Conversion to consAddr failed, err:", err)
 	}
-
 	return consAddr
 }

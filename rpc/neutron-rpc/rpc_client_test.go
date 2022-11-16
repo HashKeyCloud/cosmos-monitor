@@ -49,7 +49,7 @@ func TestGovInfo(t *testing.T) {
 }
 
 func TestGetValInfo(t *testing.T) {
-	grpcConn, err := rpc.InitChainRpcCli("xxx")
+	grpcConn, err := rpc.InitChainRpcCli("xx")
 	if err != nil {
 		logger.Error("Failed to create neutron gRPC client, err:", err)
 	}
@@ -69,7 +69,7 @@ func TestGetValInfo(t *testing.T) {
 	}
 
 	monitorObj := make([]string, 0)
-	monitorObj = append(monitorObj, "neutronvaloper1w5a2fmp3e6fjxes8rc36fneflvmq3asez7g6kl")
+	monitorObj = append(monitorObj, "neutronvaloper1d88mk88kvged9z58xw5h89wke65lu8vmd02rga")
 	monitors, _ := cc.GetValInfo(monitorObj)
 	for _, monitor := range monitors {
 		fmt.Println("monitor:", monitor)
@@ -114,5 +114,48 @@ func TestGetValPerformance(t *testing.T) {
 
 	for _, signmissed := range signsmissed {
 		fmt.Println("sign missed:", signmissed)
+	}
+}
+
+func TestGetValRanking(t *testing.T) {
+	grpcConn, err := rpc.InitChainRpcCli("xxxx")
+	if err != nil {
+		logger.Error("Failed to create neutron gRPC client, err:", err)
+	}
+
+	stakingQueryCli := staking.NewQueryClient(grpcConn)
+	govQueryCli := gov.NewQueryClient(grpcConn)
+	baseCli := base.NewServiceClient(grpcConn)
+	distributionCli := distribution.NewQueryClient(grpcConn)
+
+	cc := &NeutronCli{
+		ChainCli: &rpc.ChainCli{
+			StakingQueryCli: stakingQueryCli,
+			GovQueryCli:     govQueryCli,
+			BaseQuaryCli:    baseCli,
+			DistributionCli: distributionCli,
+		},
+	}
+
+	monitorObj := make([]*types.MonitorObj, 0)
+	m1 := &types.MonitorObj{
+		"HashQuark",
+		"neutronvaloper1d88mk88kvged9z58xw5h89wke65lu8vmd02rga",
+		"b6dd95a54dec1130e86a57798d87d04fbbc9f4d9",
+		"neutron1d88mk88kvged9z58xw5h89wke65lu8vmhjn6we",
+	}
+	/*m1 := &types.MonitorObj{
+		"Huobi-1",
+		"cosmosvaloper12w6tynmjzq4l8zdla3v4x0jt8lt4rcz5gk7zg2",
+		"4af69d6a5436c30e3584c1628433de55e758bcca",
+		"cosmos12w6tynmjzq4l8zdla3v4x0jt8lt4rcz5dz2hye",
+	}*/
+	monitorObj = append(monitorObj, m1)
+	valRanking, err := cc.GetValRanking(monitorObj, "neutron")
+	if err != nil {
+		logger.Error("Failed to query LatestValidatorSet, err:", err)
+	}
+	for _, v := range valRanking {
+		logger.Info("validator ranking:", v)
 	}
 }

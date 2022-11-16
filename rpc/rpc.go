@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	baseQuery "cosmossdk.io/api/cosmos/base/query/v1beta1"
 	"encoding/hex"
 	"strings"
 
@@ -23,6 +24,7 @@ type Client interface {
 	GetProposal(monitorObjs []*types.MonitorObj) ([]*types.Proposal, error)
 	GetValPerformance(start int64, monitorObjs []*types.MonitorObj) ([]*types.ProposalAssignment, []*types.ValSign, []*types.ValSignMissed, error)
 	GetValRanking(monitorObjs []*types.MonitorObj, project string) ([]*types.ValRanking, error)
+	GetBlockHeight() int64
 }
 
 type ChainCli struct {
@@ -235,14 +237,34 @@ func (cc *ChainCli) GetValRanking(monitorObjs []*types.MonitorObj, project strin
 		cons2Moniker[consAddr] = monitorObj.Moniker
 		cons2Operator[consAddr] = monitorObj.OperatorAddr
 	}
-	queryValRankingRequest := &base.GetLatestValidatorSetRequest{}
-	valsRanking, err := cc.BaseQuaryCli.GetLatestValidatorSet(context.Background(), queryValRankingRequest)
-	if err != nil {
-		logger.Error("Failed to query LatestValidatorSet, err:", err)
-		return nil, err
+
+	valsRanking := make([]*base.Validator, 0)
+	var blockHeight int64
+	offSet := uint64(0)
+	for {
+		queryValRankingRequest := &base.GetLatestValidatorSetRequest{
+			Pagination: &baseQuery.PageRequest{
+				Offset:     offSet,
+				Limit:      100,
+				CountTotal: true,
+			},
+		}
+		valSetResponse, err := cc.BaseQuaryCli.GetLatestValidatorSet(context.Background(), queryValRankingRequest)
+		if err != nil {
+			logger.Error("Failed to query LatestValidatorSet, err:", err)
+			return nil, err
+		}
+
+		blockHeight = valSetResponse.GetBlockHeight()
+		valsRanking = append(valsRanking, valSetResponse.Validators...)
+		if offSet+100 >= valSetResponse.Pagination.GetTotal() {
+			break
+		}
+		offSet += 100
 	}
+
 	valSet := make(map[string]*types.ValSet)
-	for ranking, val := range valsRanking.GetValidators() {
+	for ranking, val := range valsRanking {
 		valSet[val.GetAddress()] = &types.ValSet{
 			Validators: &base.Validator{
 				Address:          val.GetAddress(),
@@ -259,9 +281,9 @@ func (cc *ChainCli) GetValRanking(monitorObjs []*types.MonitorObj, project strin
 		if val, ok := valSet[consAddr]; ok {
 			valRanking = append(valRanking, &types.ValRanking{
 				ChainName:       project,
-				BlockHeight:     valsRanking.BlockHeight,
 				Moniker:         moniker,
 				OperatorAddr:    cons2Operator[consAddr],
+				BlockHeight:     blockHeight,
 				RealVotingPower: val.Validators.GetVotingPower(),
 				Ranking:         val.Ranking,
 			})
@@ -270,13 +292,22 @@ func (cc *ChainCli) GetValRanking(monitorObjs []*types.MonitorObj, project strin
 				ChainName:       project,
 				Moniker:         moniker,
 				OperatorAddr:    cons2Operator[consAddr],
-				BlockHeight:     valsRanking.BlockHeight,
+				BlockHeight:     blockHeight,
 				RealVotingPower: 0,
 				Ranking:         1000,
 			})
 		}
 	}
-	return valRanking, err
+	return valRanking, nil
+}
+
+func (cc *ChainCli) GetBlockHeight() int64 {
+	queryValRankingRequest := &base.GetLatestValidatorSetRequest{}
+	valSetResponse, err := cc.BaseQuaryCli.GetLatestValidatorSet(context.Background(), queryValRankingRequest)
+	if err != nil {
+		logger.Error("Query block height failed, err:", err)
+	}
+	return valSetResponse.BlockHeight
 }
 
 var logger = log.RPCLogger.WithField("module", "rpc")

@@ -200,23 +200,6 @@ alert:
   blockInterval: 100 # Used to calculate the recent signature rate. 100 means to count the signatures rate of the last 100 blocks
   proportion: 0.05 # Signature rate
 
-  apolloStartingBlockHeight: 12495683 # The apollo starting block height of the monitor program
-  bandStartingBlockHeight: 12495683 # The band starting block height of the monitor program
-  cosmosStartingBlockHeight: 12495683 # The cosmos starting block height of the monitor program
-  evmosStartingBlockHeight: 12495683 # The evmos starting block height of the monitor program
-  injectiveStartingBlockHeight: 12495683 # The injective starting block height of the monitor program
-  junoStartingBlockHeight: 12495683 # The juno starting block height of the monitor program
-  neutronStartingBlockHeight: 12495683 # The neutron starting block height of the monitor program
-  nyxStartingBlockHeight: 12495683 # The nyx starting block height of the monitor program
-  persistenceStartingBlockHeight: 12495683 # The persistence starting block height of the monitor program
-  providerStartingBlockHeight: 12495683 # The provider starting block height of the monitor program
-  rizonStartingBlockHeight: 12495683 # The rizon starting block height of the monitor program
-  secretStartingBlockHeight: 12495683 # The secret starting block height of the monitor program
-  sommelierStartingBlockHeight: 12495683 # The sommelier starting block height of the monitor program
-  sputnikStartingBlockHeight: 12495683 # The sputnik starting block height of the monitor program
-  teritoriStartingBlockHeight: 12495683 # The teritori starting block height of the monitor program
-  xplaStartingBlockHeight: 12495683 # The xpla starting block height of the monitor program
-
   apolloRankingThreshold: 100    # The apollo validator ranking threshold
   bandRankingThreshold: 100  # The band validator ranking threshold
   cosmosRankingThreshold: 100    # The cosmos validator ranking threshold
@@ -224,7 +207,7 @@ alert:
   injectiveRankingThreshold: 100 # The injective validator ranking threshold
   junoRankingThreshold: 100  # The juno validator ranking threshold
   nyxRankingThreshold: 100   # The nyx validator ranking threshold
-  neutronRankingThreshold:1 00   # The neutron validator ranking threshold
+  neutronRankingThreshold: 100   # The neutron validator ranking threshold
   persistenceRankingThreshold: 100    # The persistence validator ranking threshold
   providerRankingThreshold: 100  # The provider validator ranking threshold
   rizonRankingThreshold: 100 # The rizon validator ranking threshold
@@ -307,7 +290,7 @@ Description=Cosmos Monitor Daemon
 After=network.target
 [Service]
 User=ubuntu
-ExecStart=/home/ubuntu/cosmosmonitor/cosmos-monitor -c /data/config/conf.yaml
+ExecStart=/home/ubuntu/go/bin/cosmos-monitor -c /data/config/.conf.yaml
 KillSignal=SIGINT
 Restart=on-failure
 RestartSec=5s

@@ -185,6 +185,24 @@ alert:
   teritoriRankingThreshold: 100  # The teritori validator ranking threshold
   xplaRankingThreshold: 100  # The xpla validator ranking threshold
 
+  #  Whether the project is monitored, if set true it will be monitored
+  apolloIsMonitored: true
+  bandIsMonitored: true
+  cosmosIsMonitored: true
+  evmosIsMonitored: true
+  injectiveIsMonitored: true
+  junoIsMonitored: true
+  nyxIsMonitored: true
+  neutronIsMonitored: true
+  persistenceIsMonitored: true
+  providerIsMonitored: true
+  rizonIsMonitored: true
+  secretIsMonitored: true
+  sommelierIsMonitored: true
+  sputnikIsMonitored: true
+  teritoriIsMonitored: true
+  xplaIsMonitored: true
+
 mail:
   host: "mail_host"
   port: "mail_port"

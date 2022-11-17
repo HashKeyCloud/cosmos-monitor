@@ -1,6 +1,8 @@
 package monitor
 
 import (
+	cosmosDb "cosmosmonitor/db/cosmos-db"
+	junoDb "cosmosmonitor/db/juno-db"
 	"fmt"
 	"os"
 	"sort"
@@ -20,10 +22,8 @@ import (
 
 	apolloDb "cosmosmonitor/db/apollo-db"
 	bandDb "cosmosmonitor/db/band-db"
-	cosmosDb "cosmosmonitor/db/cosmos-db"
 	evmosDb "cosmosmonitor/db/evmos-db"
 	injectiveDb "cosmosmonitor/db/injective-db"
-	junoDb "cosmosmonitor/db/juno-db"
 	neutronDb "cosmosmonitor/db/neutron-db"
 	nyxDb "cosmosmonitor/db/nyx-db"
 	persistenceDb "cosmosmonitor/db/persistence-db"
@@ -76,203 +76,245 @@ var (
 func NewMonitor() (*Monitor, error) {
 	rpcClis := make(map[string]rpc.Client, 0)
 	dbClis := make(map[string]db.DBCli, 0)
-	apolloRpcCli, err := apolloRpc.InitApolloRpcCli()
-	if err != nil {
-		logger.Error("connect apollo rpc client error: ", err)
-		return nil, err
-	}
-	bandRpcCli, err := bandRpc.InitBandRpcCli()
-	if err != nil {
-		logger.Error("connect band rpc client error: ", err)
-		return nil, err
-	}
-	cosmosRpcCli, err := cosmosRpc.InitCosmosRpcCli()
-	if err != nil {
-		logger.Error("connect cosmos rpc client error: ", err)
-		return nil, err
-	}
-	evmosRpcCli, err := evmosRpc.InitEvmosRpcCli()
-	if err != nil {
-		logger.Error("connect evmos rpc client error: ", err)
-		return nil, err
+	if viper.GetBool("alert.apolloIsMonitored") {
+		apolloRpcCli, err := apolloRpc.InitApolloRpcCli()
+		if err != nil {
+			logger.Error("connect apollo rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["apollo"] = apolloRpcCli
+		apolloDbCli, err := apolloDb.InitApolloDbCli()
+		if err != nil {
+			logger.Error("connect apollo db client error:", err)
+			return nil, err
+		}
+		dbClis["apollo"] = apolloDbCli
 	}
 
-	injectiveRpcCli, err := injectiveRpc.InitInjectiveRpcCli()
-	if err != nil {
-		logger.Error("connect injective rpc client error: ", err)
-		return nil, err
-	}
-	junoRpcCli, err := junoRpc.InitJunoRpcCli()
-	if err != nil {
-		logger.Error("connect juno rpc client error: ", err)
-		return nil, err
-	}
-	neutronRpcCli, err := neutronRpc.InitNeutronRpcCli()
-	if err != nil {
-		logger.Error("connect neutron rpc client error: ", err)
-		return nil, err
-	}
-	nyxRpcCli, err := nyxRpc.InitNyxRpcCli()
-	if err != nil {
-		logger.Error("connect nyx rpc client error: ", err)
-		return nil, err
-	}
-	persistenceRpcCli, err := persistenceRpc.InitPersistenceRpcCli()
-	if err != nil {
-		logger.Error("connect persistence client error: ", err)
-		return nil, err
-	}
-	providerRpcCli, err := providerRpc.InitProviderRpcCli()
-	if err != nil {
-		logger.Error("connect provider rpc client error: ", err)
-		return nil, err
-	}
-	rizonRpcCli, err := rizonRpc.InitCosmosRpcCli()
-	if err != nil {
-		logger.Error("connect rizon rpc client error: ", err)
-		return nil, err
+	if viper.GetBool("alert.bandIsMonitored") {
+		bandRpcCli, err := bandRpc.InitBandRpcCli()
+		if err != nil {
+			logger.Error("connect band rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["band"] = bandRpcCli
+		bandDbCli, err := bandDb.InitBandDbCli()
+		if err != nil {
+			logger.Error("connect band db client error:", err)
+			return nil, err
+		}
+		dbClis["band"] = bandDbCli
 	}
 
-	secretRpcCli, err := secretRpc.InitCosmosRpcCli()
-	if err != nil {
-		logger.Error("connect secret rpc client error: ", err)
-		return nil, err
-	}
-	sommelierRpcCli, err := sommelierRpc.InitSommelierRpcCli()
-	if err != nil {
-		logger.Error("connect sommelier rpc client error: ", err)
-		return nil, err
-	}
-	sputnikRpcCli, err := sputnikRpc.InitSputnikRpcCli()
-	if err != nil {
-		logger.Error("connect sputnik rpc client error: ", err)
-		return nil, err
-	}
-	teritoriRpcCli, err := teritoriRpc.InitTeritoriRpcCli()
-	if err != nil {
-		logger.Error("connect teritori rpc client error: ", err)
-		return nil, err
-	}
-	xplaRpcCli, err := xplaRpc.InitXplaRpcCli()
-	if err != nil {
-		logger.Error("connect xpla rpc client error: ", err)
-		return nil, err
+	if viper.GetBool("alert.cosmosIsMonitored") {
+		cosmosRpcCli, err := cosmosRpc.InitCosmosRpcCli()
+		if err != nil {
+			logger.Error("connect cosmos rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["cosmos"] = cosmosRpcCli
+		cosmosDbCli, err := cosmosDb.InitCosmosDbCli()
+		if err != nil {
+			logger.Error("connect cosmos db client error:", err)
+			return nil, err
+		}
+		dbClis["cosmos"] = cosmosDbCli
 	}
 
-	rpcClis["apollo"] = apolloRpcCli
-	rpcClis["cosmos"] = cosmosRpcCli
-	rpcClis["band"] = bandRpcCli
-	rpcClis["evmos"] = evmosRpcCli
-	rpcClis["injective"] = injectiveRpcCli
-	rpcClis["juno"] = junoRpcCli
-	rpcClis["neutron"] = neutronRpcCli
-	rpcClis["nyx"] = nyxRpcCli
-	rpcClis["persistence"] = persistenceRpcCli
-	rpcClis["provider"] = providerRpcCli
-	rpcClis["rizon"] = rizonRpcCli
-	rpcClis["secret"] = secretRpcCli
-	rpcClis["sommelier"] = sommelierRpcCli
-	rpcClis["sputnik"] = sputnikRpcCli
-	rpcClis["teritori"] = teritoriRpcCli
-	rpcClis["xpla"] = xplaRpcCli
-	// init DB client
-	apolloDbCli, err := apolloDb.InitApolloDbCli()
-	if err != nil {
-		logger.Error("connect apollo db client error:", err)
-		return nil, err
-	}
-	bandDbCli, err := bandDb.InitBandDbCli()
-	if err != nil {
-		logger.Error("connect band db client error:", err)
-		return nil, err
-	}
-	cosmosDbCli, err := cosmosDb.InitCosmosDbCli()
-	if err != nil {
-		logger.Error("connect cosmos db client error:", err)
-		return nil, err
-	}
-	evmosDbCli, err := evmosDb.InitEvmosDbCli()
-	if err != nil {
-		logger.Error("connect evmos db client error:", err)
-		return nil, err
-	}
-	injectiveDbCli, err := injectiveDb.InitInjectiveDbCli()
-	if err != nil {
-		logger.Error("connect injective db client error:", err)
-		return nil, err
-	}
-	junoDbCli, err := junoDb.InitJunoDbCli()
-	if err != nil {
-		logger.Error("connect juno db client error:", err)
-		return nil, err
-	}
-	neutronDbCli, err := neutronDb.InitNeutronDbCli()
-	if err != nil {
-		logger.Error("connect neutron db client error:", err)
-		return nil, err
-	}
-	nyxDbCli, err := nyxDb.InitNyxDbCli()
-	if err != nil {
-		logger.Error("connect nyx db client error:", err)
-		return nil, err
-	}
-	persistenceDbCli, err := persistenceDb.InitPersistenceDbCli()
-	if err != nil {
-		logger.Error("connect persistence db client error:", err)
-		return nil, err
-	}
-	providerDbCli, err := providerDb.InitProviderDbCli()
-	if err != nil {
-		logger.Error("connect provider db client error:", err)
-		return nil, err
-	}
-	rizonDbCli, err := rizonDb.InitRizonDbCli()
-	if err != nil {
-		logger.Error("connect rizon db client error:", err)
-		return nil, err
-	}
-	secretDbCli, err := secretDb.InitSecretDbCli()
-	if err != nil {
-		logger.Error("connect secret db client error:", err)
-		return nil, err
-	}
-	sommelierDbCli, err := sommelierDb.InitSommelierDbCli()
-	if err != nil {
-		logger.Error("connect sommelier db client error:", err)
-		return nil, err
-	}
-	sputnikDbCli, err := sputnikDb.InitSputnikDbCli()
-	if err != nil {
-		logger.Error("connect sputnik db client error:", err)
-		return nil, err
-	}
-	teritoriDbCli, err := teritoriDb.InitTeritoriDbCli()
-	if err != nil {
-		logger.Error("connect teritori db client error:", err)
-		return nil, err
-	}
-	xplaDbCli, err := xplaDb.InitXplaDbCli()
-	if err != nil {
-		logger.Error("connect xpla db client error:", err)
-		return nil, err
+	if viper.GetBool("alert.evmosIsMonitored") {
+		evmosRpcCli, err := evmosRpc.InitEvmosRpcCli()
+		if err != nil {
+			logger.Error("connect evmos rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["evmos"] = evmosRpcCli
+		evmosDbCli, err := evmosDb.InitEvmosDbCli()
+		if err != nil {
+			logger.Error("connect evmos db client error:", err)
+			return nil, err
+		}
+		dbClis["evmos"] = evmosDbCli
 	}
 
-	dbClis["apollo"] = apolloDbCli
-	dbClis["band"] = bandDbCli
-	dbClis["cosmos"] = cosmosDbCli
-	dbClis["evmos"] = evmosDbCli
-	dbClis["injective"] = injectiveDbCli
-	dbClis["juno"] = junoDbCli
-	dbClis["neutron"] = neutronDbCli
-	dbClis["nyx"] = nyxDbCli
-	dbClis["persistence"] = persistenceDbCli
-	dbClis["provider"] = providerDbCli
-	dbClis["rizon"] = rizonDbCli
-	dbClis["secret"] = secretDbCli
-	dbClis["sommelier"] = sommelierDbCli
-	dbClis["sputnik"] = sputnikDbCli
-	dbClis["teritori"] = teritoriDbCli
-	dbClis["xpla"] = xplaDbCli
+	if viper.GetBool("alert.injectiveIsMonitored") {
+		injectiveRpcCli, err := injectiveRpc.InitInjectiveRpcCli()
+		if err != nil {
+			logger.Error("connect injective rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["injective"] = injectiveRpcCli
+		injectiveDbCli, err := injectiveDb.InitInjectiveDbCli()
+		if err != nil {
+			logger.Error("connect injective db client error:", err)
+			return nil, err
+		}
+		dbClis["injective"] = injectiveDbCli
+	}
+
+	if viper.GetBool("alert.junoIsMonitored") {
+		junoRpcCli, err := junoRpc.InitJunoRpcCli()
+		if err != nil {
+			logger.Error("connect juno rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["juno"] = junoRpcCli
+		junoDbCli, err := junoDb.InitJunoDbCli()
+		if err != nil {
+			logger.Error("connect juno db client error:", err)
+			return nil, err
+		}
+		dbClis["juno"] = junoDbCli
+	}
+
+	if viper.GetBool("alert.neutronIsMonitored") {
+		neutronRpcCli, err := neutronRpc.InitNeutronRpcCli()
+		if err != nil {
+			logger.Error("connect neutron rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["neutron"] = neutronRpcCli
+		neutronDbCli, err := neutronDb.InitNeutronDbCli()
+		if err != nil {
+			logger.Error("connect neutron db client error:", err)
+			return nil, err
+		}
+		dbClis["neutron"] = neutronDbCli
+	}
+
+	if viper.GetBool("alert.nyxIsMonitored") {
+		nyxRpcCli, err := nyxRpc.InitNyxRpcCli()
+		if err != nil {
+			logger.Error("connect nyx rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["nyx"] = nyxRpcCli
+		nyxDbCli, err := nyxDb.InitNyxDbCli()
+		if err != nil {
+			logger.Error("connect nyx db client error:", err)
+			return nil, err
+		}
+		dbClis["nyx"] = nyxDbCli
+	}
+
+	if viper.GetBool("alert.persistenceIsMonitored") {
+		persistenceRpcCli, err := persistenceRpc.InitPersistenceRpcCli()
+		if err != nil {
+			logger.Error("connect persistence client error: ", err)
+			return nil, err
+		}
+		rpcClis["persistence"] = persistenceRpcCli
+		persistenceDbCli, err := persistenceDb.InitPersistenceDbCli()
+		if err != nil {
+			logger.Error("connect persistence db client error:", err)
+			return nil, err
+		}
+		dbClis["persistence"] = persistenceDbCli
+	}
+
+	if viper.GetBool("alert.providerIsMonitored") {
+		providerRpcCli, err := providerRpc.InitProviderRpcCli()
+		if err != nil {
+			logger.Error("connect provider rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["provider"] = providerRpcCli
+		providerDbCli, err := providerDb.InitProviderDbCli()
+		if err != nil {
+			logger.Error("connect provider db client error:", err)
+			return nil, err
+		}
+		dbClis["provider"] = providerDbCli
+	}
+
+	if viper.GetBool("alert.rizonIsMonitored") {
+		rizonRpcCli, err := rizonRpc.InitCosmosRpcCli()
+		if err != nil {
+			logger.Error("connect rizon rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["rizon"] = rizonRpcCli
+		rizonDbCli, err := rizonDb.InitRizonDbCli()
+		if err != nil {
+			logger.Error("connect rizon db client error:", err)
+			return nil, err
+		}
+		dbClis["rizon"] = rizonDbCli
+	}
+
+	if viper.GetBool("alert.secretIsMonitored") {
+		secretRpcCli, err := secretRpc.InitCosmosRpcCli()
+		if err != nil {
+			logger.Error("connect secret rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["secret"] = secretRpcCli
+		secretDbCli, err := secretDb.InitSecretDbCli()
+		if err != nil {
+			logger.Error("connect secret db client error:", err)
+			return nil, err
+		}
+		dbClis["secret"] = secretDbCli
+	}
+
+	if viper.GetBool("alert.sommelierIsMonitored") {
+		sommelierRpcCli, err := sommelierRpc.InitSommelierRpcCli()
+		if err != nil {
+			logger.Error("connect sommelier rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["sommelier"] = sommelierRpcCli
+		sommelierDbCli, err := sommelierDb.InitSommelierDbCli()
+		if err != nil {
+			logger.Error("connect sommelier db client error:", err)
+			return nil, err
+		}
+		dbClis["sommelier"] = sommelierDbCli
+	}
+
+	if viper.GetBool("alert.sputnikIsMonitored") {
+		sputnikRpcCli, err := sputnikRpc.InitSputnikRpcCli()
+		if err != nil {
+			logger.Error("connect sputnik rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["sputnik"] = sputnikRpcCli
+		sputnikDbCli, err := sputnikDb.InitSputnikDbCli()
+		if err != nil {
+			logger.Error("connect sputnik db client error:", err)
+			return nil, err
+		}
+		dbClis["sputnik"] = sputnikDbCli
+	}
+
+	if viper.GetBool("alert.teritoriIsMonitored") {
+		teritoriRpcCli, err := teritoriRpc.InitTeritoriRpcCli()
+		if err != nil {
+			logger.Error("connect teritori rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["teritori"] = teritoriRpcCli
+		teritoriDbCli, err := teritoriDb.InitTeritoriDbCli()
+		if err != nil {
+			logger.Error("connect teritori db client error:", err)
+			return nil, err
+		}
+		dbClis["teritori"] = teritoriDbCli
+	}
+
+	if viper.GetBool("alert.xplaIsMonitored") {
+		xplaRpcCli, err := xplaRpc.InitXplaRpcCli()
+		if err != nil {
+			logger.Error("connect xpla rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["xpla"] = xplaRpcCli
+		xplaDbCli, err := xplaDb.InitXplaDbCli()
+		if err != nil {
+			logger.Error("connect xpla db client error:", err)
+			return nil, err
+		}
+		dbClis["xpla"] = xplaDbCli
+	}
 
 	// init email client
 	mailClient := notification.NewClient(
@@ -312,7 +354,6 @@ func (m *Monitor) Start() {
 				go m.provider(project)
 			}
 		}
-
 	}
 }
 
@@ -333,16 +374,11 @@ func (m *Monitor) consumer(consumerChain string, providerChain map[string]string
 		logger.Error("Failed to obtain production chain monitoring object, err:", err)
 	}
 
-	// list validator indices from config file
-	logger.Info("Getting validators from config file.")
-	operatorAddrs := config.GetOperatorAddrs(consumerChain)
-	logger.Info("Getting Validators info from chain")
-
 	mos := make(map[string]*types.MonitorObj)
 	for _, moDb := range mosDb {
 		mos[moDb.OperatorAddr] = moDb
 	}
-
+	operatorAddrs := config.GetOperatorAddrs(consumerChain)
 	mo := make([]*types.MonitorObj, 0)
 	for _, operatorAddr := range operatorAddrs {
 		if _, ok := mos[operatorAddr]; ok {
@@ -366,7 +402,6 @@ func (m *Monitor) consumer(consumerChain string, providerChain map[string]string
 		ValSignMisseds:      careData.ValSignMisseds,
 		ValRankings:         careData.ValRankings,
 	})
-
 }
 
 func (m *Monitor) provider(project string) {
@@ -377,9 +412,7 @@ func (m *Monitor) provider(project string) {
 	receiver2 := viper.GetString(receiver2Conf)
 	mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
 	// list validator indices from config file
-	logger.Info("Getting validators from config file.")
 	operatorAddrs := config.GetOperatorAddrs(project)
-	logger.Info("Getting Validators info from chain")
 
 	valsInfo, err := m.RpcClis[project].GetValInfo(operatorAddrs)
 	if err != nil {
@@ -397,7 +430,6 @@ func (m *Monitor) provider(project string) {
 			return
 		}
 	}
-
 	logger.Info("Successfully get validators!")
 
 	mo := make([]*types.MonitorObj, 0)

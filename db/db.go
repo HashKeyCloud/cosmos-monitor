@@ -493,10 +493,6 @@ func (dc *DbCli) GetBlockHeightFromDb() (int64, error) {
 			}
 		}
 	}
-	/*	if minHeight == 0 {
-		startingBlockHeight := fmt.Sprintf("alert.%sStartingBlockHeight", project)
-		minHeight = int64(viper.GetInt(startingBlockHeight))
-	}*/
 	return minHeight, nil
 }
 

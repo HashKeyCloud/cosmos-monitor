@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -66,9 +65,9 @@ type Monitor struct {
 }
 
 var (
-	preValJailed   = make(map[string]struct{}, 0)
-	preValinActive = make(map[string]struct{}, 0)
-	preProposalId  = make(map[string]struct{}, 0)
+	preValJailed   = make(map[string]map[string]struct{}, 0)
+	preValinActive = make(map[string]map[string]struct{}, 0)
+	preProposalId  = make(map[string]map[int64]struct{}, 0)
 	monitorHeight  = make(map[string]int64, 0)
 	startHeight    = make(map[string]int64, 0)
 )
@@ -100,6 +99,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["apollo"] = make(chan []*types.Proposal)
 		valIsActiveChan["apollo"] = make(chan []*types.ValIsActive)
 		valRankingChan["apollo"] = make(chan []*types.ValRanking)
+		preValJailed["apollo"] = make(map[string]struct{}, 0)
+		preValinActive["apollo"] = make(map[string]struct{}, 0)
+		preProposalId["apollo"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.bandIsMonitored") {
@@ -120,6 +122,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["band"] = make(chan []*types.Proposal)
 		valIsActiveChan["band"] = make(chan []*types.ValIsActive)
 		valRankingChan["band"] = make(chan []*types.ValRanking)
+		preValJailed["band"] = make(map[string]struct{}, 0)
+		preValinActive["band"] = make(map[string]struct{}, 0)
+		preProposalId["band"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.cosmosIsMonitored") {
@@ -140,6 +145,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["cosmos"] = make(chan []*types.Proposal)
 		valIsActiveChan["cosmos"] = make(chan []*types.ValIsActive)
 		valRankingChan["cosmos"] = make(chan []*types.ValRanking)
+		preValJailed["cosmos"] = make(map[string]struct{}, 0)
+		preValinActive["cosmos"] = make(map[string]struct{}, 0)
+		preProposalId["cosmos"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.evmosIsMonitored") {
@@ -160,6 +168,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["evmos"] = make(chan []*types.Proposal)
 		valIsActiveChan["evmos"] = make(chan []*types.ValIsActive)
 		valRankingChan["evmos"] = make(chan []*types.ValRanking)
+		preValJailed["evmos"] = make(map[string]struct{}, 0)
+		preValinActive["evmos"] = make(map[string]struct{}, 0)
+		preProposalId["evmos"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.injectiveIsMonitored") {
@@ -180,6 +191,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["injective"] = make(chan []*types.Proposal)
 		valIsActiveChan["injective"] = make(chan []*types.ValIsActive)
 		valRankingChan["injective"] = make(chan []*types.ValRanking)
+		preValJailed["injective"] = make(map[string]struct{}, 0)
+		preValinActive["injective"] = make(map[string]struct{}, 0)
+		preProposalId["injective"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.junoIsMonitored") {
@@ -200,6 +214,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["juno"] = make(chan []*types.Proposal)
 		valIsActiveChan["juno"] = make(chan []*types.ValIsActive)
 		valRankingChan["juno"] = make(chan []*types.ValRanking)
+		preValJailed["juno"] = make(map[string]struct{}, 0)
+		preValinActive["juno"] = make(map[string]struct{}, 0)
+		preProposalId["juno"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.neutronIsMonitored") {
@@ -220,6 +237,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["neutron"] = make(chan []*types.Proposal)
 		valIsActiveChan["neutron"] = make(chan []*types.ValIsActive)
 		valRankingChan["neutron"] = make(chan []*types.ValRanking)
+		preValJailed["neutron"] = make(map[string]struct{}, 0)
+		preValinActive["neutron"] = make(map[string]struct{}, 0)
+		preProposalId["neutron"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.nyxIsMonitored") {
@@ -240,6 +260,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["nyx"] = make(chan []*types.Proposal)
 		valIsActiveChan["nyx"] = make(chan []*types.ValIsActive)
 		valRankingChan["nyx"] = make(chan []*types.ValRanking)
+		preValJailed["nyx"] = make(map[string]struct{}, 0)
+		preValinActive["nyx"] = make(map[string]struct{}, 0)
+		preProposalId["nyx"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.persistenceIsMonitored") {
@@ -260,6 +283,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["persistence"] = make(chan []*types.Proposal)
 		valIsActiveChan["persistence"] = make(chan []*types.ValIsActive)
 		valRankingChan["persistence"] = make(chan []*types.ValRanking)
+		preValJailed["persistence"] = make(map[string]struct{}, 0)
+		preValinActive["persistence"] = make(map[string]struct{}, 0)
+		preProposalId["persistence"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.providerIsMonitored") {
@@ -280,6 +306,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["provider"] = make(chan []*types.Proposal)
 		valIsActiveChan["provider"] = make(chan []*types.ValIsActive)
 		valRankingChan["provider"] = make(chan []*types.ValRanking)
+		preValJailed["provider"] = make(map[string]struct{}, 0)
+		preValinActive["provider"] = make(map[string]struct{}, 0)
+		preProposalId["provider"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.rizonIsMonitored") {
@@ -300,6 +329,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["rizon"] = make(chan []*types.Proposal)
 		valIsActiveChan["rizon"] = make(chan []*types.ValIsActive)
 		valRankingChan["rizon"] = make(chan []*types.ValRanking)
+		preValJailed["rizon"] = make(map[string]struct{}, 0)
+		preValinActive["rizon"] = make(map[string]struct{}, 0)
+		preProposalId["rizon"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.secretIsMonitored") {
@@ -320,6 +352,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["secret"] = make(chan []*types.Proposal)
 		valIsActiveChan["secret"] = make(chan []*types.ValIsActive)
 		valRankingChan["secret"] = make(chan []*types.ValRanking)
+		preValJailed["secret"] = make(map[string]struct{}, 0)
+		preValinActive["secret"] = make(map[string]struct{}, 0)
+		preProposalId["secret"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.sommelierIsMonitored") {
@@ -340,6 +375,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["sommelier"] = make(chan []*types.Proposal)
 		valIsActiveChan["sommelier"] = make(chan []*types.ValIsActive)
 		valRankingChan["sommelier"] = make(chan []*types.ValRanking)
+		preValJailed["sommelier"] = make(map[string]struct{}, 0)
+		preValinActive["sommelier"] = make(map[string]struct{}, 0)
+		preProposalId["sommelier"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.sputnikIsMonitored") {
@@ -360,6 +398,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["sputnik"] = make(chan []*types.Proposal)
 		valIsActiveChan["sputnik"] = make(chan []*types.ValIsActive)
 		valRankingChan["sputnik"] = make(chan []*types.ValRanking)
+		preValJailed["sputnik"] = make(map[string]struct{}, 0)
+		preValinActive["sputnik"] = make(map[string]struct{}, 0)
+		preProposalId["sputnik"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.teritoriIsMonitored") {
@@ -380,6 +421,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["teritori"] = make(chan []*types.Proposal)
 		valIsActiveChan["teritori"] = make(chan []*types.ValIsActive)
 		valRankingChan["teritori"] = make(chan []*types.ValRanking)
+		preValJailed["teritori"] = make(map[string]struct{}, 0)
+		preValinActive["teritori"] = make(map[string]struct{}, 0)
+		preProposalId["teritori"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.xplaIsMonitored") {
@@ -400,6 +444,9 @@ func NewMonitor() (*Monitor, error) {
 		proposalsChan["xpla"] = make(chan []*types.Proposal)
 		valIsActiveChan["xpla"] = make(chan []*types.ValIsActive)
 		valRankingChan["xpla"] = make(chan []*types.ValRanking)
+		preValJailed["xpla"] = make(map[string]struct{}, 0)
+		preValinActive["xpla"] = make(map[string]struct{}, 0)
+		preProposalId["xpla"] = make(map[int64]struct{}, 0)
 	}
 
 	// init email client
@@ -429,8 +476,7 @@ func (m *Monitor) Start() {
 	consumerChains["apollo"] = "provider"
 	consumerChains["sputnik"] = "provider"
 	for project := range m.RpcClis {
-		startMonitorHeight := m.RpcClis[project].GetBlockHeight()
-		startHeight[project] = startMonitorHeight
+		startHeight[project] = m.RpcClis[project].GetBlockHeight()
 	}
 	for range epochTicker.C {
 		for project := range m.RpcClis {
@@ -632,17 +678,19 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 
 		valIsJailed := make([]*types.ValIsJail, 0)
 		valIsActive := make([]*types.ValIsActive, 0)
-		newpreValJailed := make(map[string]struct{}, 0)
-		newpreValinActive := make(map[string]struct{}, 0)
+		newpreValJailed := make(map[string]map[string]struct{}, 0)
+		newpreValJailed[caredData.ChainName] = make(map[string]struct{}, 0)
+		newpreValinActive := make(map[string]map[string]struct{}, 0)
+		newpreValinActive[caredData.ChainName] = make(map[string]struct{}, 0)
 
 		for _, valInfo := range caredData.ValInfos {
-			if _, ok := preValJailed[caredData.ChainName+valInfo.Moniker]; !ok && valInfo.Jailed {
+			if _, ok := preValJailed[caredData.ChainName][valInfo.Moniker]; !ok && valInfo.Jailed {
 				valIsJailed = append(valIsJailed, &types.ValIsJail{
 					ChainName: caredData.ChainName,
 					Moniker:   valInfo.Moniker,
 				})
 			}
-			if _, ok := preValinActive[caredData.ChainName+valInfo.Moniker]; !ok && valInfo.Status != 3 {
+			if _, ok := preValinActive[caredData.ChainName][valInfo.Moniker]; !ok && valInfo.Status != 3 {
 				valIsActive = append(valIsActive, &types.ValIsActive{
 					ChainName: caredData.ChainName,
 					Moniker:   valInfo.Moniker,
@@ -650,14 +698,14 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 				})
 			}
 			if valInfo.Jailed {
-				newpreValJailed[caredData.ChainName+valInfo.Moniker] = struct{}{}
+				newpreValJailed[caredData.ChainName][valInfo.Moniker] = struct{}{}
 			}
 			if valInfo.Status != 3 {
-				newpreValinActive[caredData.ChainName+valInfo.Moniker] = struct{}{}
+				newpreValinActive[caredData.ChainName][valInfo.Moniker] = struct{}{}
 			}
 		}
-		preValJailed = newpreValJailed
-		preValinActive = newpreValinActive
+		preValJailed[caredData.ChainName] = newpreValJailed[caredData.ChainName]
+		preValinActive[caredData.ChainName] = newpreValinActive[caredData.ChainName]
 
 		m.valIsJailedChan[caredData.ChainName] <- valIsJailed
 		m.valIsActiveChan[caredData.ChainName] <- valIsActive
@@ -672,15 +720,14 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 		logger.Info("Save the proposals information successfully")
 
 		proposals := make([]*types.Proposal, 0)
-		newPreProposalId := make(map[string]struct{}, 0)
-
+		newPreProposalId := make(map[string]map[int64]struct{}, 0)
+		newPreProposalId[caredData.ChainName] = make(map[int64]struct{}, 0)
 		for _, proposal := range caredData.Proposals {
-			proposalFlag := caredData.ChainName + strconv.Itoa(int(proposal.ProposalId))
-			if _, ok := newPreProposalId[proposalFlag]; !ok {
-				newPreProposalId[proposalFlag] = struct{}{}
+			if _, ok := newPreProposalId[caredData.ChainName][proposal.ProposalId]; !ok {
+				newPreProposalId[caredData.ChainName][proposal.ProposalId] = struct{}{}
 			}
 
-			if _, ok := preProposalId[proposalFlag]; !ok {
+			if _, ok := preProposalId[caredData.ChainName][proposal.ProposalId]; !ok {
 				proposals = append(proposals, &types.Proposal{
 					ChainName:       caredData.ChainName,
 					ProposalId:      proposal.ProposalId,
@@ -691,10 +738,10 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 					OperatorAddr:    proposal.OperatorAddr,
 					Status:          proposal.Status,
 				})
-				preProposalId[proposalFlag] = struct{}{}
+				preProposalId[caredData.ChainName][proposal.ProposalId] = struct{}{}
 			}
 		}
-		preProposalId = newPreProposalId
+		preProposalId[caredData.ChainName] = newPreProposalId[caredData.ChainName]
 		m.proposalsChan[caredData.ChainName] <- proposals
 	}
 

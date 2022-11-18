@@ -58,11 +58,11 @@ type Monitor struct {
 	DbClis          map[string]db.DBCli
 	MailClient      *notification.Client
 	termChan        chan os.Signal
-	valIsJailedChan chan []*types.ValIsJail
-	valIsActiveChan chan []*types.ValIsActive
-	missedSignChan  chan []*types.ValSignMissed
-	proposalsChan   chan []*types.Proposal
-	valRankingChan  chan []*types.ValRanking
+	valIsJailedChan map[string]chan []*types.ValIsJail
+	valIsActiveChan map[string]chan []*types.ValIsActive
+	missedSignChan  map[string]chan []*types.ValSignMissed
+	proposalsChan   map[string]chan []*types.Proposal
+	valRankingChan  map[string]chan []*types.ValRanking
 }
 
 var (
@@ -76,6 +76,12 @@ var (
 func NewMonitor() (*Monitor, error) {
 	rpcClis := make(map[string]rpc.Client, 0)
 	dbClis := make(map[string]db.DBCli, 0)
+
+	valIsJailedChan := make(map[string]chan []*types.ValIsJail)
+	missedSignChan := make(map[string]chan []*types.ValSignMissed)
+	proposalsChan := make(map[string]chan []*types.Proposal)
+	valIsActiveChan := make(map[string]chan []*types.ValIsActive)
+	valRankingChan := make(map[string]chan []*types.ValRanking)
 	if viper.GetBool("alert.apolloIsMonitored") {
 		apolloRpcCli, err := apolloRpc.InitApolloRpcCli()
 		if err != nil {
@@ -89,6 +95,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["apollo"] = apolloDbCli
+		valIsJailedChan["apollo"] = make(chan []*types.ValIsJail)
+		missedSignChan["apollo"] = make(chan []*types.ValSignMissed)
+		proposalsChan["apollo"] = make(chan []*types.Proposal)
+		valIsActiveChan["apollo"] = make(chan []*types.ValIsActive)
+		valRankingChan["apollo"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.bandIsMonitored") {
@@ -104,6 +115,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["band"] = bandDbCli
+		valIsJailedChan["band"] = make(chan []*types.ValIsJail)
+		missedSignChan["band"] = make(chan []*types.ValSignMissed)
+		proposalsChan["band"] = make(chan []*types.Proposal)
+		valIsActiveChan["band"] = make(chan []*types.ValIsActive)
+		valRankingChan["band"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.cosmosIsMonitored") {
@@ -119,6 +135,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["cosmos"] = cosmosDbCli
+		valIsJailedChan["cosmos"] = make(chan []*types.ValIsJail)
+		missedSignChan["cosmos"] = make(chan []*types.ValSignMissed)
+		proposalsChan["cosmos"] = make(chan []*types.Proposal)
+		valIsActiveChan["cosmos"] = make(chan []*types.ValIsActive)
+		valRankingChan["cosmos"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.evmosIsMonitored") {
@@ -134,6 +155,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["evmos"] = evmosDbCli
+		valIsJailedChan["evmos"] = make(chan []*types.ValIsJail)
+		missedSignChan["evmos"] = make(chan []*types.ValSignMissed)
+		proposalsChan["evmos"] = make(chan []*types.Proposal)
+		valIsActiveChan["evmos"] = make(chan []*types.ValIsActive)
+		valRankingChan["evmos"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.injectiveIsMonitored") {
@@ -149,6 +175,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["injective"] = injectiveDbCli
+		valIsJailedChan["injective"] = make(chan []*types.ValIsJail)
+		missedSignChan["injective"] = make(chan []*types.ValSignMissed)
+		proposalsChan["injective"] = make(chan []*types.Proposal)
+		valIsActiveChan["injective"] = make(chan []*types.ValIsActive)
+		valRankingChan["injective"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.junoIsMonitored") {
@@ -164,6 +195,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["juno"] = junoDbCli
+		valIsJailedChan["juno"] = make(chan []*types.ValIsJail)
+		missedSignChan["juno"] = make(chan []*types.ValSignMissed)
+		proposalsChan["juno"] = make(chan []*types.Proposal)
+		valIsActiveChan["juno"] = make(chan []*types.ValIsActive)
+		valRankingChan["juno"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.neutronIsMonitored") {
@@ -179,6 +215,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["neutron"] = neutronDbCli
+		valIsJailedChan["neutron"] = make(chan []*types.ValIsJail)
+		missedSignChan["neutron"] = make(chan []*types.ValSignMissed)
+		proposalsChan["neutron"] = make(chan []*types.Proposal)
+		valIsActiveChan["neutron"] = make(chan []*types.ValIsActive)
+		valRankingChan["neutron"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.nyxIsMonitored") {
@@ -194,6 +235,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["nyx"] = nyxDbCli
+		valIsJailedChan["nyx"] = make(chan []*types.ValIsJail)
+		missedSignChan["nyx"] = make(chan []*types.ValSignMissed)
+		proposalsChan["nyx"] = make(chan []*types.Proposal)
+		valIsActiveChan["nyx"] = make(chan []*types.ValIsActive)
+		valRankingChan["nyx"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.persistenceIsMonitored") {
@@ -209,6 +255,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["persistence"] = persistenceDbCli
+		valIsJailedChan["persistence"] = make(chan []*types.ValIsJail)
+		missedSignChan["persistence"] = make(chan []*types.ValSignMissed)
+		proposalsChan["persistence"] = make(chan []*types.Proposal)
+		valIsActiveChan["persistence"] = make(chan []*types.ValIsActive)
+		valRankingChan["persistence"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.providerIsMonitored") {
@@ -224,6 +275,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["provider"] = providerDbCli
+		valIsJailedChan["provider"] = make(chan []*types.ValIsJail)
+		missedSignChan["provider"] = make(chan []*types.ValSignMissed)
+		proposalsChan["provider"] = make(chan []*types.Proposal)
+		valIsActiveChan["provider"] = make(chan []*types.ValIsActive)
+		valRankingChan["provider"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.rizonIsMonitored") {
@@ -239,6 +295,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["rizon"] = rizonDbCli
+		valIsJailedChan["rizon"] = make(chan []*types.ValIsJail)
+		missedSignChan["rizon"] = make(chan []*types.ValSignMissed)
+		proposalsChan["rizon"] = make(chan []*types.Proposal)
+		valIsActiveChan["rizon"] = make(chan []*types.ValIsActive)
+		valRankingChan["rizon"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.secretIsMonitored") {
@@ -254,6 +315,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["secret"] = secretDbCli
+		valIsJailedChan["secret"] = make(chan []*types.ValIsJail)
+		missedSignChan["secret"] = make(chan []*types.ValSignMissed)
+		proposalsChan["secret"] = make(chan []*types.Proposal)
+		valIsActiveChan["secret"] = make(chan []*types.ValIsActive)
+		valRankingChan["secret"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.sommelierIsMonitored") {
@@ -269,6 +335,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["sommelier"] = sommelierDbCli
+		valIsJailedChan["sommelier"] = make(chan []*types.ValIsJail)
+		missedSignChan["sommelier"] = make(chan []*types.ValSignMissed)
+		proposalsChan["sommelier"] = make(chan []*types.Proposal)
+		valIsActiveChan["sommelier"] = make(chan []*types.ValIsActive)
+		valRankingChan["sommelier"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.sputnikIsMonitored") {
@@ -284,6 +355,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["sputnik"] = sputnikDbCli
+		valIsJailedChan["sputnik"] = make(chan []*types.ValIsJail)
+		missedSignChan["sputnik"] = make(chan []*types.ValSignMissed)
+		proposalsChan["sputnik"] = make(chan []*types.Proposal)
+		valIsActiveChan["sputnik"] = make(chan []*types.ValIsActive)
+		valRankingChan["sputnik"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.teritoriIsMonitored") {
@@ -299,6 +375,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["teritori"] = teritoriDbCli
+		valIsJailedChan["teritori"] = make(chan []*types.ValIsJail)
+		missedSignChan["teritori"] = make(chan []*types.ValSignMissed)
+		proposalsChan["teritori"] = make(chan []*types.Proposal)
+		valIsActiveChan["teritori"] = make(chan []*types.ValIsActive)
+		valRankingChan["teritori"] = make(chan []*types.ValRanking)
 	}
 
 	if viper.GetBool("alert.xplaIsMonitored") {
@@ -314,6 +395,11 @@ func NewMonitor() (*Monitor, error) {
 			return nil, err
 		}
 		dbClis["xpla"] = xplaDbCli
+		valIsJailedChan["xpla"] = make(chan []*types.ValIsJail)
+		missedSignChan["xpla"] = make(chan []*types.ValSignMissed)
+		proposalsChan["xpla"] = make(chan []*types.Proposal)
+		valIsActiveChan["xpla"] = make(chan []*types.ValIsActive)
+		valRankingChan["xpla"] = make(chan []*types.ValRanking)
 	}
 
 	// init email client
@@ -329,11 +415,11 @@ func NewMonitor() (*Monitor, error) {
 		DbClis:          dbClis,
 		MailClient:      mailClient,
 		termChan:        make(chan os.Signal),
-		valIsJailedChan: make(chan []*types.ValIsJail),
-		missedSignChan:  make(chan []*types.ValSignMissed),
-		proposalsChan:   make(chan []*types.Proposal),
-		valIsActiveChan: make(chan []*types.ValIsActive),
-		valRankingChan:  make(chan []*types.ValRanking),
+		valIsJailedChan: valIsJailedChan,
+		missedSignChan:  missedSignChan,
+		proposalsChan:   proposalsChan,
+		valIsActiveChan: valIsActiveChan,
+		valRankingChan:  valRankingChan,
 	}, nil
 }
 
@@ -573,8 +659,8 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 		preValJailed = newpreValJailed
 		preValinActive = newpreValinActive
 
-		m.valIsJailedChan <- valIsJailed
-		m.valIsActiveChan <- valIsActive
+		m.valIsJailedChan[caredData.ChainName] <- valIsJailed
+		m.valIsActiveChan[caredData.ChainName] <- valIsActive
 	}
 
 	if caredData.Proposals != nil && len(caredData.Proposals) > 0 {
@@ -609,7 +695,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 			}
 		}
 		preProposalId = newPreProposalId
-		m.proposalsChan <- proposals
+		m.proposalsChan[caredData.ChainName] <- proposals
 	}
 
 	if caredData.ProposalAssignments != nil && len(caredData.ProposalAssignments) > 0 {
@@ -692,7 +778,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 			}
 
 		}
-		m.missedSignChan <- missedSign
+		m.missedSignChan[caredData.ChainName] <- missedSign
 	}
 	if caredData.ValRankings != nil && len(caredData.ValRankings) > 0 {
 		logger.Info("Start saving validator votingPower and ranking")
@@ -711,7 +797,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 				valRankings = append(valRankings, valRanking)
 			}
 		}
-		m.valRankingChan <- valRankings
+		m.valRankingChan[caredData.ChainName] <- valRankings
 	}
 
 	timeInterval := viper.GetInt("alert.timeInterval")
@@ -723,6 +809,7 @@ func (m *Monitor) processData(caredData *types.CaredData) {
 }
 
 func (m *Monitor) SendEmail() {
+	time.Sleep(time.Second * 10)
 	for project := range m.RpcClis {
 		mailSender := viper.GetString("mail.sender")
 		receiver1Conf := fmt.Sprintf("mail.%sReceiver1", project)
@@ -730,14 +817,14 @@ func (m *Monitor) SendEmail() {
 		receiver1 := viper.GetString(receiver1Conf)
 		receiver2 := viper.GetString(receiver2Conf)
 		mailReceiver := strings.Join([]string{receiver1, receiver2}, ",")
-		go m.sendEmail(mailSender, receiver1, mailReceiver)
+		go m.sendEmail(mailSender, receiver1, mailReceiver, project)
 	}
 }
 
-func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver string) {
+func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver, project string) {
 	for {
 		select {
-		case valJailed := <-m.valIsJailedChan:
+		case valJailed := <-m.valIsJailedChan[project]:
 			if len(valJailed) == 0 {
 				break
 			}
@@ -750,7 +837,7 @@ func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver string) {
 		case <-time.After(time.Second):
 		}
 		select {
-		case valisAtive := <-m.valIsActiveChan:
+		case valisAtive := <-m.valIsActiveChan[project]:
 			if len(valisAtive) == 0 {
 				break
 			}
@@ -763,7 +850,7 @@ func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver string) {
 		case <-time.After(time.Second):
 		}
 		select {
-		case missedSign := <-m.missedSignChan:
+		case missedSign := <-m.missedSignChan[project]:
 			if len(missedSign) == 0 {
 				break
 			}
@@ -776,7 +863,7 @@ func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver string) {
 		case <-time.After(time.Second):
 		}
 		select {
-		case proposals := <-m.proposalsChan:
+		case proposals := <-m.proposalsChan[project]:
 			if len(proposals) == 0 {
 				break
 			}
@@ -790,7 +877,7 @@ func (m *Monitor) sendEmail(mailSender, receiver1, mailReceiver string) {
 		}
 
 		select {
-		case valRanking := <-m.valRankingChan:
+		case valRanking := <-m.valRankingChan[project]:
 			if len(valRanking) == 0 {
 				break
 			}

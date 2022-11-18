@@ -5,48 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e37f101-c9cc-4e22-be0d-6a042048c1f7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/cosmos-monitor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cosmos-monitor.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/apollo_monitor.6pnGQw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/apollo_monitor.6pnGQw/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/apollo_monitor.6pnGQw/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/cosmos_monitor.RX6Y-g.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/cosmos_monitor.RX6Y-g/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/neutron_monitor.ltiA_A.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/neutron_monitor.ltiA_A/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/neutron_monitor.ltiA_A/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/provider_monitor.DOn7IQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/provider_monitor.DOn7IQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/provider_monitor.DOn7IQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/sputnik_monitor.79Y4qA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/sputnik_monitor.79Y4qA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d722534-5afe-4ab5-a18f-6cca1f77ec02/storage_v2/_src_/database/sputnik_monitor.79Y4qA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44476e16-4dca-463c-94e8-cb5778d21310.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44476e16-4dca-463c-94e8-cb5778d21310/storage_v2/_src_/database/neutron_monitor.ltiA_A.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44476e16-4dca-463c-94e8-cb5778d21310/storage_v2/_src_/database/neutron_monitor.ltiA_A/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44476e16-4dca-463c-94e8-cb5778d21310/storage_v2/_src_/database/neutron_monitor.ltiA_A/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44476e16-4dca-463c-94e8-cb5778d21310/storage_v2/_src_/database/neutron_monitor.ltiA_A/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9584674c-7e9c-4f64-ba03-28cc31c504f2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9584674c-7e9c-4f64-ba03-28cc31c504f2/storage_v2/_src_/database/apollo_monitor.6pnGQw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9584674c-7e9c-4f64-ba03-28cc31c504f2/storage_v2/_src_/database/apollo_monitor.6pnGQw/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9584674c-7e9c-4f64-ba03-28cc31c504f2/storage_v2/_src_/database/apollo_monitor.6pnGQw/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9584674c-7e9c-4f64-ba03-28cc31c504f2/storage_v2/_src_/database/apollo_monitor.6pnGQw/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a65255fc-ae95-4c08-9257-2e470302c384.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a65255fc-ae95-4c08-9257-2e470302c384/storage_v2/_src_/database/sputnik_monitor.79Y4qA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a65255fc-ae95-4c08-9257-2e470302c384/storage_v2/_src_/database/sputnik_monitor.79Y4qA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a65255fc-ae95-4c08-9257-2e470302c384/storage_v2/_src_/database/sputnik_monitor.79Y4qA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a65255fc-ae95-4c08-9257-2e470302c384/storage_v2/_src_/database/sputnik_monitor.79Y4qA/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ffda6627-0702-49e9-b9c8-2a9f7aad33ab.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ffda6627-0702-49e9-b9c8-2a9f7aad33ab/storage_v2/_src_/database/provider_monitor.DOn7IQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ffda6627-0702-49e9-b9c8-2a9f7aad33ab/storage_v2/_src_/database/provider_monitor.DOn7IQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ffda6627-0702-49e9-b9c8-2a9f7aad33ab/storage_v2/_src_/database/provider_monitor.DOn7IQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ffda6627-0702-49e9-b9c8-2a9f7aad33ab/storage_v2/_src_/database/provider_monitor.DOn7IQ/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/conf.yaml.example" beforeDir="false" afterPath="$PROJECT_DIR$/config/conf.yaml.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/monitor.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +19,17 @@
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/rpc/rpc.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/monitor/monitor.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/db/evmos-db/db_client.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/main.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/log/log.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/config/config.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/db/db.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/rpc/evmos-rpc/rpc_client.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/config/conf.yaml.example" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />

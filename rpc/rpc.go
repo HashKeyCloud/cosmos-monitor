@@ -199,6 +199,10 @@ func (cc *ChainCli) GetValPerformance(start int64, monitorObjs []*types.MonitorO
 
 		for _, sign := range block.LastCommit.Signatures {
 			if _, ok := addrMap[strings.ToLower(hex.EncodeToString(sign.ValidatorAddress))]; ok {
+				doubleSign := false
+				if _, doubleSignOk := signs[strings.ToLower(hex.EncodeToString(sign.ValidatorAddress))][block.GetHeader().Height]; doubleSignOk {
+					doubleSign = true
+				}
 				signs[strings.ToLower(hex.EncodeToString(sign.ValidatorAddress))][block.GetHeader().Height] = struct{}{}
 
 				valSign = append(valSign, &types.ValSign{
@@ -206,7 +210,7 @@ func (cc *ChainCli) GetValPerformance(start int64, monitorObjs []*types.MonitorO
 					Moniker:      monikerMap[strings.ToLower(hex.EncodeToString(sign.ValidatorAddress))],
 					OperatorAddr: addrMap[strings.ToLower(hex.EncodeToString(sign.ValidatorAddress))],
 					Status:       1,
-					DoubleSign:   false,
+					DoubleSign:   doubleSign,
 					ChildTable:   block.GetHeader().GetHeight() % 10,
 				})
 			}

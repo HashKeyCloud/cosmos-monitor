@@ -18,6 +18,7 @@ import (
 	"cosmosmonitor/utils"
 
 	acrechainDb "cosmosmonitor/db/acrechain-db"
+	akashDb "cosmosmonitor/db/akash-db"
 	apolloDb "cosmosmonitor/db/apollo-db"
 	bandDb "cosmosmonitor/db/band-db"
 	cosmosDb "cosmosmonitor/db/cosmos-db"
@@ -41,6 +42,7 @@ import (
 	heroRpc "cosmosmonitor/rpc/hero-rpc"
 
 	acrechainRpc "cosmosmonitor/rpc/acrechain-rpc"
+	akashRpc "cosmosmonitor/rpc/akash-rpc"
 	apolloRpc "cosmosmonitor/rpc/apollo-rpc"
 	bandRpc "cosmosmonitor/rpc/band-rpc"
 	cosmosRpc "cosmosmonitor/rpc/cosmos-rpc"
@@ -110,6 +112,29 @@ func NewMonitor() (*Monitor, error) {
 		preValJailed["acrechain"] = make(map[string]struct{}, 0)
 		preValinActive["acrechain"] = make(map[string]struct{}, 0)
 		preProposalId["acrechain"] = make(map[int64]struct{}, 0)
+	}
+
+	if viper.GetBool("alert.akashIsMonitored") {
+		akashRpcCli, err := akashRpc.InitAkashRpcCli()
+		if err != nil {
+			logger.Error("connect akash rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["akash"] = akashRpcCli
+		akashDbCli, err := akashDb.InitAkashDbCli()
+		if err != nil {
+			logger.Error("connect akash db client error:", err)
+			return nil, err
+		}
+		dbClis["akash"] = akashDbCli
+		valIsJailedChan["akash"] = make(chan []*types.ValIsJail)
+		missedSignChan["akash"] = make(chan []*types.ValSignMissed)
+		proposalsChan["akash"] = make(chan []*types.Proposal)
+		valIsActiveChan["akash"] = make(chan []*types.ValIsActive)
+		valRankingChan["akash"] = make(chan []*types.ValRanking)
+		preValJailed["akash"] = make(map[string]struct{}, 0)
+		preValinActive["akash"] = make(map[string]struct{}, 0)
+		preProposalId["akash"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.apolloIsMonitored") {

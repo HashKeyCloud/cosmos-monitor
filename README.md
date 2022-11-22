@@ -1,6 +1,6 @@
 # cosmos-monitor
 
-This program is used to monitor specific validators on a blockchain deployed using the Cosmos SDK. Currently supports 20 blockchains including Cosmos Hub
+This program is used to monitor specific validators on a blockchain deployed using the Cosmos SDK. Currently supports 21 blockchains including Cosmos Hub
 For blockchains that provide consensus services, the program will send alarm emails in the following cases:
 - If the validator is jailed, `receiver1` and `receiver2` will be notified by email;
 - If the validator is inactive, `receiver1` and `receiver2` will be notified by email;
@@ -37,6 +37,12 @@ postgres:
   acrechainName: "acrechain database name"
   acrechainHost: "acrechain database host ip"
   acrechainPort: "acrechain database host port"
+
+  akashUser: "akash database user"
+  akashPassword: "akash database password"
+  akashName: "akash database name"
+  akashHost: "akash database host ip"
+  akashPort: "akash database host port"
 
   apolloUser: "apollo database user"
   apolloPassword: "apollo database password"
@@ -157,6 +163,9 @@ gRpc:
   acrechainIp: "acrechain grpc host ip"
   acrechainPort: "acrechain grpc host grpc port"
 
+  akashIp: "akash grpc host ip"
+  akashPort: "akash grpc host grpc port"
+
   apolloIp: "apollo grpc host ip"
   apolloPort: "apollo grpc host grpc port"
 
@@ -216,6 +225,7 @@ gRpc:
 
 alert:
   acrechainOperatorAddr: "acrevaloperxxxxx,acrevaloperyyyy"    # The address starts with "acrevaloper"
+  akashOperatorAddr: "akashvaloperxxxxx,akashvaloperyyyy"    # The address starts with "akashvaloper"
   apolloOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "cosmosvaloper"
   bandOperatorAddr: "bandvaloperxxxx,bandvaloperyyyy" # The address starts with "bandvaloper"
   cosmosOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "cosmosvaloper"
@@ -240,7 +250,8 @@ alert:
   blockInterval: 100 # Used to calculate the recent signature rate. 100 means to count the signatures rate of the last 100 blocks
   proportion: 0.05 # Signature rate
 
-  acrechainRankingThreshold: 100    # The acrechain validator ranking threshold
+  acrechainRankingThreshold: 100    # The  acrechain validator ranking threshold
+  akashRankingThreshold: 100    # The akash validator ranking threshold
   apolloRankingThreshold: 100    # The apollo validator ranking threshold
   bandRankingThreshold: 100  # The band validator ranking threshold
   cosmosRankingThreshold: 100    # The cosmos validator ranking threshold
@@ -263,6 +274,7 @@ alert:
 
   #  Whether the project is monitored, if set true it will be monitored
   acrechainIsMonitored: true
+  akashIsMonitored: true
   apolloIsMonitored: true
   bandIsMonitored: true
   cosmosIsMonitored: true
@@ -291,6 +303,8 @@ mail:
   sender: "sender mail address"
   acrechainReceiver1: "acrechain receiver1 mail address" # Receive all alert emails of acrechain
   acrechainReceiver2: "acrechain receiver2 mail address" # Receive all alert emails of acrechain
+  akashReceiver1: "akash receiver1 mail address" # Receive all alert emails of akash
+  akashReceiver2: "akash receiver2 mail address" # Receive all alert emails of akash
   apolloReceiver1: "apollo receiver1 mail address" # Receive all alert emails of apollo
   apolloReceiver2: "apollo receiver2 mail address" # Receive all alert emails of apollo
   bandReceiver1: "band receiver1 mail address" # Receive all alert emails of band

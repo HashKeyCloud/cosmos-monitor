@@ -1,8 +1,6 @@
 package monitor
 
 import (
-	cosmosDb "cosmosmonitor/db/cosmos-db"
-	junoDb "cosmosmonitor/db/juno-db"
 	"fmt"
 	"os"
 	"sort"
@@ -19,10 +17,16 @@ import (
 	"cosmosmonitor/types"
 	"cosmosmonitor/utils"
 
+	acrechainDb "cosmosmonitor/db/acrechain-db"
 	apolloDb "cosmosmonitor/db/apollo-db"
 	bandDb "cosmosmonitor/db/band-db"
+	cosmosDb "cosmosmonitor/db/cosmos-db"
 	evmosDb "cosmosmonitor/db/evmos-db"
+	gopherDb "cosmosmonitor/db/gopher-db"
+	heroDb "cosmosmonitor/db/hero-db"
 	injectiveDb "cosmosmonitor/db/injective-db"
+	junoDb "cosmosmonitor/db/juno-db"
+	neutron_consumerDb "cosmosmonitor/db/neutron-consumer-db"
 	neutronDb "cosmosmonitor/db/neutron-db"
 	nyxDb "cosmosmonitor/db/nyx-db"
 	persistenceDb "cosmosmonitor/db/persistence-db"
@@ -33,13 +37,17 @@ import (
 	sputnikDb "cosmosmonitor/db/sputnik-db"
 	teritoriDb "cosmosmonitor/db/teritori-db"
 	xplaDb "cosmosmonitor/db/xpla-db"
+	gopherRpc "cosmosmonitor/rpc/gopher-rpc"
+	heroRpc "cosmosmonitor/rpc/hero-rpc"
 
+	acrechainRpc "cosmosmonitor/rpc/acrechain-rpc"
 	apolloRpc "cosmosmonitor/rpc/apollo-rpc"
 	bandRpc "cosmosmonitor/rpc/band-rpc"
 	cosmosRpc "cosmosmonitor/rpc/cosmos-rpc"
 	evmosRpc "cosmosmonitor/rpc/evmos-rpc"
 	injectiveRpc "cosmosmonitor/rpc/injective-rpc"
 	junoRpc "cosmosmonitor/rpc/juno-rpc"
+	neutron_consumerRpc "cosmosmonitor/rpc/neutron-consumer-rpc"
 	neutronRpc "cosmosmonitor/rpc/neutron-rpc"
 	nyxRpc "cosmosmonitor/rpc/nyx-rpc"
 	persistenceRpc "cosmosmonitor/rpc/persistence-rpc"
@@ -81,6 +89,29 @@ func NewMonitor() (*Monitor, error) {
 	proposalsChan := make(map[string]chan []*types.Proposal)
 	valIsActiveChan := make(map[string]chan []*types.ValIsActive)
 	valRankingChan := make(map[string]chan []*types.ValRanking)
+	if viper.GetBool("alert.acrechainIsMonitored") {
+		acrechainRpcCli, err := acrechainRpc.InitAcrechainRpcCli()
+		if err != nil {
+			logger.Error("connect acrechain rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["acrechain"] = acrechainRpcCli
+		acrechainDbCli, err := acrechainDb.InitAcrechainDbCli()
+		if err != nil {
+			logger.Error("connect acrechain db client error:", err)
+			return nil, err
+		}
+		dbClis["acrechain"] = acrechainDbCli
+		valIsJailedChan["acrechain"] = make(chan []*types.ValIsJail)
+		missedSignChan["acrechain"] = make(chan []*types.ValSignMissed)
+		proposalsChan["acrechain"] = make(chan []*types.Proposal)
+		valIsActiveChan["acrechain"] = make(chan []*types.ValIsActive)
+		valRankingChan["acrechain"] = make(chan []*types.ValRanking)
+		preValJailed["acrechain"] = make(map[string]struct{}, 0)
+		preValinActive["acrechain"] = make(map[string]struct{}, 0)
+		preProposalId["acrechain"] = make(map[int64]struct{}, 0)
+	}
+
 	if viper.GetBool("alert.apolloIsMonitored") {
 		apolloRpcCli, err := apolloRpc.InitApolloRpcCli()
 		if err != nil {
@@ -173,6 +204,52 @@ func NewMonitor() (*Monitor, error) {
 		preProposalId["evmos"] = make(map[int64]struct{}, 0)
 	}
 
+	if viper.GetBool("alert.gopherIsMonitored") {
+		gopherRpcCli, err := gopherRpc.InitGopherRpcCli()
+		if err != nil {
+			logger.Error("connect gopher rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["gopher"] = gopherRpcCli
+		gopherDbCli, err := gopherDb.InitGopherDbCli()
+		if err != nil {
+			logger.Error("connect gopher db client error:", err)
+			return nil, err
+		}
+		dbClis["gopher"] = gopherDbCli
+		valIsJailedChan["gopher"] = make(chan []*types.ValIsJail)
+		missedSignChan["gopher"] = make(chan []*types.ValSignMissed)
+		proposalsChan["gopher"] = make(chan []*types.Proposal)
+		valIsActiveChan["gopher"] = make(chan []*types.ValIsActive)
+		valRankingChan["gopher"] = make(chan []*types.ValRanking)
+		preValJailed["gopher"] = make(map[string]struct{}, 0)
+		preValinActive["gopher"] = make(map[string]struct{}, 0)
+		preProposalId["gopher"] = make(map[int64]struct{}, 0)
+	}
+
+	if viper.GetBool("alert.heroIsMonitored") {
+		heroRpcCli, err := heroRpc.InitHeroRpcCli()
+		if err != nil {
+			logger.Error("connect hero rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["hero"] = heroRpcCli
+		heroDbCli, err := heroDb.InitHeroDbCli()
+		if err != nil {
+			logger.Error("connect hero db client error:", err)
+			return nil, err
+		}
+		dbClis["hero"] = heroDbCli
+		valIsJailedChan["hero"] = make(chan []*types.ValIsJail)
+		missedSignChan["hero"] = make(chan []*types.ValSignMissed)
+		proposalsChan["hero"] = make(chan []*types.Proposal)
+		valIsActiveChan["hero"] = make(chan []*types.ValIsActive)
+		valRankingChan["hero"] = make(chan []*types.ValRanking)
+		preValJailed["hero"] = make(map[string]struct{}, 0)
+		preValinActive["hero"] = make(map[string]struct{}, 0)
+		preProposalId["hero"] = make(map[int64]struct{}, 0)
+	}
+
 	if viper.GetBool("alert.injectiveIsMonitored") {
 		injectiveRpcCli, err := injectiveRpc.InitInjectiveRpcCli()
 		if err != nil {
@@ -217,6 +294,29 @@ func NewMonitor() (*Monitor, error) {
 		preValJailed["juno"] = make(map[string]struct{}, 0)
 		preValinActive["juno"] = make(map[string]struct{}, 0)
 		preProposalId["juno"] = make(map[int64]struct{}, 0)
+	}
+
+	if viper.GetBool("alert.neutronconsumerIsMonitored") {
+		neutronConsumerRpcCli, err := neutron_consumerRpc.InitNeutronconsumerRpcCli()
+		if err != nil {
+			logger.Error("connect neutronconsumer rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["neutronconsumer"] = neutronConsumerRpcCli
+		neutronConsumerDbCli, err := neutron_consumerDb.InitNeutronconsumerDbCli()
+		if err != nil {
+			logger.Error("connect neutronconsumer db client error:", err)
+			return nil, err
+		}
+		dbClis["neutronconsumer"] = neutronConsumerDbCli
+		valIsJailedChan["neutronconsumer"] = make(chan []*types.ValIsJail)
+		missedSignChan["neutronconsumer"] = make(chan []*types.ValSignMissed)
+		proposalsChan["neutronconsumer"] = make(chan []*types.Proposal)
+		valIsActiveChan["neutronconsumer"] = make(chan []*types.ValIsActive)
+		valRankingChan["neutronconsumer"] = make(chan []*types.ValRanking)
+		preValJailed["neutronconsumer"] = make(map[string]struct{}, 0)
+		preValinActive["neutronconsumer"] = make(map[string]struct{}, 0)
+		preProposalId["neutronconsumer"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.neutronIsMonitored") {
@@ -474,13 +574,17 @@ func (m *Monitor) Start() {
 	epochTicker := time.NewTicker(time.Duration(viper.GetInt("alert.timeInterval")) * time.Second)
 	consumerChains := make(map[string]string, 0)
 	consumerChains["apollo"] = "provider"
+	consumerChains["gopher"] = "provider"
+	consumerChains["hero"] = "provider"
+	consumerChains["neutronconsumer"] = "provider"
 	consumerChains["sputnik"] = "provider"
+
 	for project := range m.RpcClis {
 		startHeight[project] = m.RpcClis[project].GetBlockHeight()
 	}
 	for range epochTicker.C {
 		for project := range m.RpcClis {
-			if project == "apollo" || project == "sputnik" {
+			if project == "apollo" || project == "gopher" || project == "hero" || project == "neutronconsumer" || project == "sputnik" {
 				go m.consumer(project, consumerChains)
 			} else {
 				go m.provider(project)

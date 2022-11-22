@@ -26,7 +26,6 @@ var RetryFlag = make(chan bool)
 
 func Retry(f func() bool, rules []int) bool {
 	index := 0
-
 	for {
 		go time.AfterFunc(time.Duration(rules[index])*time.Second, func() {
 			RetryFlag <- f()

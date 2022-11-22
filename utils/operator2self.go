@@ -23,10 +23,12 @@ func Operator2SelfAddr(operator string) string {
 
 	var selfAddr string
 	switch hrp {
+	case "acrevaloper":
+		selfAddr, err = bech32.Encode("acre", operatorByte) // acrechain
 	case "bandvaloper":
 		selfAddr, err = bech32.Encode("band", operatorByte) //band
 	case "cosmosvaloper":
-		selfAddr, err = bech32.Encode("cosmos", operatorByte) //cosmos
+		selfAddr, err = bech32.Encode("cosmos", operatorByte) // cosmos and cosmos's consumer chain
 	case "evmosvaloper":
 		selfAddr, err = bech32.Encode("evmos", operatorByte) // evmos
 	case "injvaloper":
@@ -70,6 +72,8 @@ func Operator2Cons(operatorHex, project string) string {
 	}
 	var consAddr string
 	switch project {
+	case "acrechain":
+		consAddr, err = bech32.Encode("acrevalcons", conv) // acrechain
 	case "apollo":
 		consAddr, err = bech32.Encode("cosmosvalcons", conv) // apollo
 	case "band":
@@ -78,10 +82,16 @@ func Operator2Cons(operatorHex, project string) string {
 		consAddr, err = bech32.Encode("cosmosvalcons", conv) // cosmos
 	case "evmos":
 		consAddr, err = bech32.Encode("evmosvalcons", conv) // evmos
+	case "gopher":
+		consAddr, err = bech32.Encode("cosmosvalcons", conv) // gopher
+	case "hero":
+		consAddr, err = bech32.Encode("cosmosvalcons", conv) // hero
 	case "injective":
 		consAddr, err = bech32.Encode("injvalcons", conv) // injective
 	case "juno":
 		consAddr, err = bech32.Encode("junovalcons", conv) // juno
+	case "neutronconsumer":
+		consAddr, err = bech32.Encode("cosmosvalcons", conv) // neutron consumer chain
 	case "neutron":
 		consAddr, err = bech32.Encode("neutronvalcons", conv) // neutron
 	case "nyx":

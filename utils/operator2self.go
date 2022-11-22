@@ -25,6 +25,8 @@ func Operator2SelfAddr(operator string) string {
 	switch hrp {
 	case "acrevaloper":
 		selfAddr, err = bech32.Encode("acre", operatorByte) // acrechain
+	case "akashvaloper":
+		selfAddr, err = bech32.Encode("akash", operatorByte) // akash
 	case "bandvaloper":
 		selfAddr, err = bech32.Encode("band", operatorByte) //band
 	case "cosmosvaloper":
@@ -74,6 +76,8 @@ func Operator2Cons(operatorHex, project string) string {
 	switch project {
 	case "acrechain":
 		consAddr, err = bech32.Encode("acrevalcons", conv) // acrechain
+	case "akash":
+		consAddr, err = bech32.Encode("akashvalcons", conv) // akash
 	case "apollo":
 		consAddr, err = bech32.Encode("cosmosvalcons", conv) // apollo
 	case "band":

@@ -1,0 +1,21 @@
+time="2022-12-08T17:42:36+08:00" level=error msg="Failed to query the delegate reward by address evmos1c0xns2vz5v43knnx52puwc5hgucg8fugdqzkmp to validator , err:rpc error: code = InvalidArgument desc = empty validator address \n" module=rpc
+time="2022-12-08T17:42:36+08:00" level=error msg="Failed to get delegate reward, err:rpc error: code = InvalidArgument desc = empty validator address" module=handler
+time="2022-12-08T17:42:38+08:00" level=error msg="Failed to query the delegate reward by address evmos1c0xns2vz5v43knnx52puwc5hgucg8fugdqzkmp to validator , err:rpc error: code = InvalidArgument desc = empty validator address \n" module=rpc
+time="2022-12-08T17:42:38+08:00" level=error msg="Failed to get delegate reward, err:rpc error: code = InvalidArgument desc = empty validator address" module=handler
+time="2022-12-08T17:44:03+08:00" level=error msg="Failed to query the delegate reward by address evmos1c0xns2vz5v43knnx52puwc5hgucg8fugdqzkmp to validator , err:rpc error: code = InvalidArgument desc = empty validator address \n" module=rpc
+time="2022-12-08T17:44:03+08:00" level=error msg="Failed to get delegate reward, err:rpc error: code = InvalidArgument desc = empty validator address" module=handler
+time="2022-12-08T17:47:18+08:00" level=error msg="Failed to query the delegate reward by address evmos1c0xns2vz5v43knnx52puwc5hgucg8fugdqzkmp to validator , err:rpc error: code = InvalidArgument desc = empty validator address \n" module=rpc
+time="2022-12-08T17:47:18+08:00" level=info msg="delegateRewards:[]" module=handler
+time="2022-12-08T17:47:18+08:00" level=error msg="Failed to get delegate reward, err:rpc error: code = InvalidArgument desc = empty validator address" module=handler
+time="2022-12-08T17:54:08+08:00" level=info msg="init handler success" module=handler
+time="2022-12-08T17:54:25+08:00" level=error msg="Failed to query the delegate reward by address evmos1c0xns2vz5v43knnx52puwc5hgucg8fugdqzkmp to validator , err:rpc error: code = InvalidArgument desc = empty validator address \n" module=rpc
+time="2022-12-08T17:54:25+08:00" level=info msg="delegateRewards:[]" module=handler
+time="2022-12-08T17:54:25+08:00" level=error msg="Failed to get delegate reward, err:rpc error: code = InvalidArgument desc = empty validator address" module=handler
+time="2022-12-08T17:55:29+08:00" level=info msg="init handler success" module=handler
+time="2022-12-08T17:55:40+08:00" level=info msg="delegateRewards:[0xc00037a6c0]" module=handler
+time="2022-12-08T17:56:45+08:00" level=info msg="init handler success" module=handler
+time="2022-12-08T17:56:50+08:00" level=info msg="delegateRewards:[0xc0001682a0]" module=handler
+time="2022-12-08T18:03:38+08:00" level=info msg="init handler success" module=handler
+time="2022-12-08T18:03:44+08:00" level=info msg="delegateRewards:[0xc0005626c0]" module=handler
+time="2022-12-08T18:07:44+08:00" level=info msg="init handler success" module=handler
+time="2022-12-08T18:07:49+08:00" level=info msg="delegateRewards:[0xc0001b5320]" module=handler

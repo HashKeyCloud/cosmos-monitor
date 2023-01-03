@@ -50,6 +50,12 @@ postgres:
   apolloHost: "apollo database host ip"
   apolloPort: "apollo database host port"
 
+  axelarUser: "axelar database user"
+  axelarPassword: "axelar database password"
+  axelarName: "axelar database name"
+  axelarHost: "axelar database host ip"
+  axelarPort: "axelar database host port"
+
   bandUser: "band database user"
   bandPassword: "band database password"
   bandName: "band database name"
@@ -110,6 +116,12 @@ postgres:
   nyxHost: "nyx database host ip"
   nyxPort: "nyx database host port"
 
+  okp4User: "okp4 database user"
+  okp4Password: "okp4 database password"
+  okp4Name: "okp4 database name"
+  okp4Host: "okp4 database host ip"
+  okp4Port: "okp4 database host port"
+
   persistenceUser: "persistence database user"
   persistencePassword: "persistence database password"
   persistenceName: "persistence database name"
@@ -169,6 +181,9 @@ gRpc:
   apolloIp: "apollo grpc host ip"
   apolloPort: "apollo grpc host grpc port"
 
+  axelarIp: "axelar grpc host ip"
+  axelarPort: "axelar grpc host grpc port"
+
   bandIp: "band grpc host ip"
   bandPort: "band grpc host grpc port"
 
@@ -199,6 +214,9 @@ gRpc:
   nyxIp: "nyx grpc host ip"
   nyxPort: "nyx grpc host grpc port"
 
+  okp4Ip: "okp4 grpc host ip"
+  okp4Port: "okp4 grpc host grpc port"
+
   persistenceIp: "persistence grpc host ip"
   persistencePort: "persistence grpc host grpc port"
 
@@ -227,6 +245,7 @@ alert:
   acrechainOperatorAddr: "acrevaloperxxxxx,acrevaloperyyyy"    # The address starts with "acrevaloper"
   akashOperatorAddr: "akashvaloperxxxxx,akashvaloperyyyy"    # The address starts with "akashvaloper"
   apolloOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "cosmosvaloper"
+  axelarOperatorAddr: "axelarvaloperxxxxx,axelarvaloperyyyy"    # The address starts with "axelarvaloper"
   bandOperatorAddr: "bandvaloperxxxx,bandvaloperyyyy" # The address starts with "bandvaloper"
   cosmosOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "cosmosvaloper"
   evmosOperatorAddr: "evmosvaloperxxxx,evmosvaloperyyyy" # The address starts with "evmosvaloper"
@@ -237,6 +256,7 @@ alert:
   neutronconsumerOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "neutronconsumer"
   neutronOperatorAddr: "neutronvaloperxxxx,neutronvaloperyyyy" # The address starts with "neutronvaloper"
   nyxOperatorAddr: "nvaloperxxxxx,nvaloperyyyy"    # The address starts with "nvaloper"
+  okp4OperatorAddr: "okp4valoperxxxxx,okp4valoperyyyy"    # The address starts with "okp4valoper"
   persistenceOperatorAddr: "persistencevaloperxxxx,persistencevaloperyyyy" # The address starts with "persistencevaloper"
   providerOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "cosmosvaloper"
   rizonOperatorAddr: "rizonvaloperxxxxx,rizonvaloperyyyy"    # The address starts with "rizonvaloper"
@@ -253,6 +273,7 @@ alert:
   acrechainRankingThreshold: 100    # The  acrechain validator ranking threshold
   akashRankingThreshold: 100    # The akash validator ranking threshold
   apolloRankingThreshold: 100    # The apollo validator ranking threshold
+  axelarRankingThreshold: 100    # The axelar validator ranking threshold
   bandRankingThreshold: 100  # The band validator ranking threshold
   cosmosRankingThreshold: 100    # The cosmos validator ranking threshold
   evmosRankingThreshold: 100 # The evmos validator ranking threshold
@@ -261,6 +282,7 @@ alert:
   injectiveRankingThreshold: 100 # The injective validator ranking threshold
   junoRankingThreshold: 100  # The juno validator ranking threshold
   nyxRankingThreshold: 100   # The nyx validator ranking threshold
+  okp4RankingThreshold: 100   # The okp4 validator ranking threshold
   neutronconsumerRankingThreshold: 100   # The neutron consumer validator ranking threshold
   neutronRankingThreshold: 100   # The neutron validator ranking threshold
   persistenceRankingThreshold: 100    # The persistence validator ranking threshold
@@ -276,6 +298,7 @@ alert:
   acrechainIsMonitored: true
   akashIsMonitored: true
   apolloIsMonitored: true
+  axelarIsMonitored: true
   bandIsMonitored: true
   cosmosIsMonitored: true
   evmosIsMonitored: true
@@ -284,6 +307,7 @@ alert:
   injectiveIsMonitored: true
   junoIsMonitored: true
   nyxIsMonitored: true
+  okp4IsMonitored: true
   neutronconsumerIsMonitored: true
   neutronIsMonitored: true
   persistenceIsMonitored: true
@@ -307,6 +331,8 @@ mail:
   akashReceiver2: "akash receiver2 mail address" # Receive all alert emails of akash
   apolloReceiver1: "apollo receiver1 mail address" # Receive all alert emails of apollo
   apolloReceiver2: "apollo receiver2 mail address" # Receive all alert emails of apollo
+  axelarReceiver1: "axelar receiver1 mail address" # Receive all alert emails of axelar
+  axelarReceiver2: "axelar receiver2 mail address" # Receive all alert emails of axelar
   bandReceiver1: "band receiver1 mail address" # Receive all alert emails of band
   bandReceiver2: "band receiver2 mail address" # Only receive emergency alert emails of band, like jailed/inactive, etc.
   cosmosReceiver1: "cosmos receiver1 mail address" # Receive all alert emails of cosmos
@@ -327,6 +353,8 @@ mail:
   neutronReceiver2: "neutron receiver2 mail address" # Only receive emergency alert emails of neutron, like jailed/inactive, etc.
   nyxReceiver1: "nyx receiver1 mail address" # Receive all alert emails of nyx
   nyxReceiver2: "nyx receiver2 mail address" # Only receive emergency alert emails of nyx, like jailed/inactive, etc.
+  okp4Receiver1: "okp4 receiver1 mail address" # Receive all alert emails of okp4
+  okp4Receiver2: "okp4 receiver2 mail address" # Only receive emergency alert emails of okp4, like jailed/inactive, etc.
   persistenceReceiver1: "persistence receiver1 mail address" # Receive all alert emails of persistence
   persistenceReceiver2: "persistence receiver2 mail address" # Only receive emergency alert emails of persistence, like jailed/inactive, etc.
   providerReceiver1: "provider receiver1 mail address" # Receive all alert emails of provider

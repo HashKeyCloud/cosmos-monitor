@@ -20,6 +20,7 @@ import (
 	acrechainDb "cosmosmonitor/db/acrechain-db"
 	akashDb "cosmosmonitor/db/akash-db"
 	apolloDb "cosmosmonitor/db/apollo-db"
+	axelarDb "cosmosmonitor/db/axelar-db"
 	bandDb "cosmosmonitor/db/band-db"
 	cosmosDb "cosmosmonitor/db/cosmos-db"
 	evmosDb "cosmosmonitor/db/evmos-db"
@@ -30,6 +31,7 @@ import (
 	neutron_consumerDb "cosmosmonitor/db/neutron-consumer-db"
 	neutronDb "cosmosmonitor/db/neutron-db"
 	nyxDb "cosmosmonitor/db/nyx-db"
+	okp4Db "cosmosmonitor/db/okp4-db"
 	persistenceDb "cosmosmonitor/db/persistence-db"
 	providerDb "cosmosmonitor/db/provider-db"
 	rizonDb "cosmosmonitor/db/rizon-db"
@@ -44,6 +46,7 @@ import (
 	acrechainRpc "cosmosmonitor/rpc/acrechain-rpc"
 	akashRpc "cosmosmonitor/rpc/akash-rpc"
 	apolloRpc "cosmosmonitor/rpc/apollo-rpc"
+	axelarRpc "cosmosmonitor/rpc/axelar-rpc"
 	bandRpc "cosmosmonitor/rpc/band-rpc"
 	cosmosRpc "cosmosmonitor/rpc/cosmos-rpc"
 	evmosRpc "cosmosmonitor/rpc/evmos-rpc"
@@ -52,6 +55,7 @@ import (
 	neutron_consumerRpc "cosmosmonitor/rpc/neutron-consumer-rpc"
 	neutronRpc "cosmosmonitor/rpc/neutron-rpc"
 	nyxRpc "cosmosmonitor/rpc/nyx-rpc"
+	okp4Rpc "cosmosmonitor/rpc/okp4-rpc"
 	persistenceRpc "cosmosmonitor/rpc/persistence-rpc"
 	providerRpc "cosmosmonitor/rpc/provider-rpc"
 	rizonRpc "cosmosmonitor/rpc/rizon-rpc"
@@ -158,6 +162,29 @@ func NewMonitor() (*Monitor, error) {
 		preValJailed["apollo"] = make(map[string]struct{}, 0)
 		preValinActive["apollo"] = make(map[string]struct{}, 0)
 		preProposalId["apollo"] = make(map[int64]struct{}, 0)
+	}
+
+	if viper.GetBool("alert.axelarIsMonitored") {
+		axelarRpcCli, err := axelarRpc.InitAxelarRpcCli()
+		if err != nil {
+			logger.Error("connect axelar rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["axelar"] = axelarRpcCli
+		axelarDbCli, err := axelarDb.InitAxelarDbCli()
+		if err != nil {
+			logger.Error("connect axelar db client error:", err)
+			return nil, err
+		}
+		dbClis["axelar"] = axelarDbCli
+		valIsJailedChan["axelar"] = make(chan []*types.ValIsJail)
+		missedSignChan["axelar"] = make(chan []*types.ValSignMissed)
+		proposalsChan["axelar"] = make(chan []*types.Proposal)
+		valIsActiveChan["axelar"] = make(chan []*types.ValIsActive)
+		valRankingChan["axelar"] = make(chan []*types.ValRanking)
+		preValJailed["axelar"] = make(map[string]struct{}, 0)
+		preValinActive["axelar"] = make(map[string]struct{}, 0)
+		preProposalId["axelar"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.bandIsMonitored") {
@@ -388,6 +415,29 @@ func NewMonitor() (*Monitor, error) {
 		preValJailed["nyx"] = make(map[string]struct{}, 0)
 		preValinActive["nyx"] = make(map[string]struct{}, 0)
 		preProposalId["nyx"] = make(map[int64]struct{}, 0)
+	}
+
+	if viper.GetBool("alert.okp4IsMonitored") {
+		okp4RpcCli, err := okp4Rpc.InitOkp4RpcCli()
+		if err != nil {
+			logger.Error("connect okp4 rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["okp4"] = okp4RpcCli
+		okp4DbCli, err := okp4Db.InitOkp4DbCli()
+		if err != nil {
+			logger.Error("connect okp4 db client error:", err)
+			return nil, err
+		}
+		dbClis["okp4"] = okp4DbCli
+		valIsJailedChan["okp4"] = make(chan []*types.ValIsJail)
+		missedSignChan["okp4"] = make(chan []*types.ValSignMissed)
+		proposalsChan["okp4"] = make(chan []*types.Proposal)
+		valIsActiveChan["okp4"] = make(chan []*types.ValIsActive)
+		valRankingChan["okp4"] = make(chan []*types.ValRanking)
+		preValJailed["okp4"] = make(map[string]struct{}, 0)
+		preValinActive["okp4"] = make(map[string]struct{}, 0)
+		preProposalId["okp4"] = make(map[int64]struct{}, 0)
 	}
 
 	if viper.GetBool("alert.persistenceIsMonitored") {

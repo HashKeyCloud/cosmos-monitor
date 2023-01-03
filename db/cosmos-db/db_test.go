@@ -184,7 +184,7 @@ func TestGetBlockHeightFromDb(t *testing.T) {
 		logger.Errorf("Connected failed.err:%v\n", err)
 	}
 	dbCli := db.DbCli{dbcli}
-	height, err := dbCli.GetBlockHeightFromDb("cosmos")
+	height, err := dbCli.GetBlockHeightFromDb()
 	if err != nil {
 		logger.Error("get block height fail, err:", err)
 	}

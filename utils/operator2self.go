@@ -27,6 +27,8 @@ func Operator2SelfAddr(operator string) string {
 		selfAddr, err = bech32.Encode("acre", operatorByte) // acrechain
 	case "akashvaloper":
 		selfAddr, err = bech32.Encode("akash", operatorByte) // akash
+	case "axelarvaloper":
+		selfAddr, err = bech32.Encode("axelar", operatorByte) // axelar
 	case "bandvaloper":
 		selfAddr, err = bech32.Encode("band", operatorByte) //band
 	case "cosmosvaloper":
@@ -41,6 +43,8 @@ func Operator2SelfAddr(operator string) string {
 		selfAddr, err = bech32.Encode("neutron", operatorByte) // neutron
 	case "nvaloper":
 		selfAddr, err = bech32.Encode("n", operatorByte) // nyx
+	case "okp4valoper":
+		selfAddr, err = bech32.Encode("okp4", operatorByte) // okp4
 	case "persistencevaloper":
 		selfAddr, err = bech32.Encode("persistence", operatorByte) // persistence
 	case "rizonvaloper":
@@ -80,6 +84,8 @@ func Operator2Cons(operatorHex, project string) string {
 		consAddr, err = bech32.Encode("akashvalcons", conv) // akash
 	case "apollo":
 		consAddr, err = bech32.Encode("cosmosvalcons", conv) // apollo
+	case "axelar":
+		consAddr, err = bech32.Encode("axelarvalcons", conv) // axelar
 	case "band":
 		consAddr, err = bech32.Encode("bandvalcons", conv) // band
 	case "cosmos":
@@ -100,6 +106,8 @@ func Operator2Cons(operatorHex, project string) string {
 		consAddr, err = bech32.Encode("neutronvalcons", conv) // neutron
 	case "nyx":
 		consAddr, err = bech32.Encode("nvalcons", conv) // nyx
+	case "okp4":
+		consAddr, err = bech32.Encode("okp4valcons", conv) // okp4
 	case "persistence":
 		consAddr, err = bech32.Encode("persistencevalcons", conv) // persistence
 	case "provider":

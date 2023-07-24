@@ -40,8 +40,7 @@ import (
 	sputnikDb "cosmosmonitor/db/sputnik-db"
 	teritoriDb "cosmosmonitor/db/teritori-db"
 	xplaDb "cosmosmonitor/db/xpla-db"
-	gopherRpc "cosmosmonitor/rpc/gopher-rpc"
-	heroRpc "cosmosmonitor/rpc/hero-rpc"
+	zetaDb "cosmosmonitor/db/zeta-db"
 
 	acrechainRpc "cosmosmonitor/rpc/acrechain-rpc"
 	akashRpc "cosmosmonitor/rpc/akash-rpc"
@@ -50,6 +49,8 @@ import (
 	bandRpc "cosmosmonitor/rpc/band-rpc"
 	cosmosRpc "cosmosmonitor/rpc/cosmos-rpc"
 	evmosRpc "cosmosmonitor/rpc/evmos-rpc"
+	gopherRpc "cosmosmonitor/rpc/gopher-rpc"
+	heroRpc "cosmosmonitor/rpc/hero-rpc"
 	injectiveRpc "cosmosmonitor/rpc/injective-rpc"
 	junoRpc "cosmosmonitor/rpc/juno-rpc"
 	neutron_consumerRpc "cosmosmonitor/rpc/neutron-consumer-rpc"
@@ -64,6 +65,7 @@ import (
 	sputnikRpc "cosmosmonitor/rpc/sputnik-rpc"
 	teritoriRpc "cosmosmonitor/rpc/teritori-rpc"
 	xplaRpc "cosmosmonitor/rpc/xpla-rpc"
+	zetaRpc "cosmosmonitor/rpc/zeta-rpc"
 )
 
 type Monitor struct {
@@ -622,6 +624,29 @@ func NewMonitor() (*Monitor, error) {
 		preValJailed["xpla"] = make(map[string]struct{}, 0)
 		preValinActive["xpla"] = make(map[string]struct{}, 0)
 		preProposalId["xpla"] = make(map[int64]struct{}, 0)
+	}
+
+	if viper.GetBool("alert.zetaIsMonitored") {
+		zetaRpcCli, err := zetaRpc.InitZetaRpcCli()
+		if err != nil {
+			logger.Error("connect zeta rpc client error: ", err)
+			return nil, err
+		}
+		rpcClis["zeta"] = zetaRpcCli
+		zetaDbCli, err := zetaDb.InitZetaDbCli()
+		if err != nil {
+			logger.Error("connect zeta db client error:", err)
+			return nil, err
+		}
+		dbClis["zeta"] = zetaDbCli
+		valIsJailedChan["zeta"] = make(chan []*types.ValIsJail)
+		missedSignChan["zeta"] = make(chan []*types.ValSignMissed)
+		proposalsChan["zeta"] = make(chan []*types.Proposal)
+		valIsActiveChan["zeta"] = make(chan []*types.ValIsActive)
+		valRankingChan["zeta"] = make(chan []*types.ValRanking)
+		preValJailed["zeta"] = make(map[string]struct{}, 0)
+		preValinActive["zeta"] = make(map[string]struct{}, 0)
+		preProposalId["zeta"] = make(map[int64]struct{}, 0)
 	}
 
 	// init email client

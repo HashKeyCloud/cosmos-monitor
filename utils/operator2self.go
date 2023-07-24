@@ -57,6 +57,8 @@ func Operator2SelfAddr(operator string) string {
 		selfAddr, err = bech32.Encode("tori", operatorByte) // teritori
 	case "xplavaloper":
 		selfAddr, err = bech32.Encode("xpla", operatorByte) // xpla
+	case "zetavaloper":
+		selfAddr, err = bech32.Encode("zeta", operatorByte) // zeta
 	}
 
 	if err != nil {
@@ -124,6 +126,8 @@ func Operator2Cons(operatorHex, project string) string {
 		consAddr, err = bech32.Encode("torivalcons", conv) // teritori
 	case "xpla":
 		consAddr, err = bech32.Encode("xplavalcons", conv) // xpla
+	case "zeta":
+		consAddr, err = bech32.Encode("zetavalcons", conv) // xpla
 	}
 
 	if err != nil {

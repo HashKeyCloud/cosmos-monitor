@@ -170,6 +170,12 @@ postgres:
   xplaHost: "xpla database host ip"
   xplaPort: "xpla database host port"
 
+  zetaUser: "zeta database user"
+  zetaPassword: "zeta database password"
+  zetaName: "zeta database name"
+  zetaHost: "zeta database host ip"
+  zetaPort: "zeta database host port"
+
 # gRPC
 gRpc:
   acrechainIp: "acrechain grpc host ip"
@@ -241,6 +247,9 @@ gRpc:
   xplaIp: "xpla grpc host ip"
   xplaPort: "xpla grpc host grpc port"
 
+  zetaIp: "zeta grpc host ip"
+  zetaPort: "zeta grpc host grpc port"
+
 alert:
   acrechainOperatorAddr: "acrevaloperxxxxx,acrevaloperyyyy"    # The address starts with "acrevaloper"
   akashOperatorAddr: "akashvaloperxxxxx,akashvaloperyyyy"    # The address starts with "akashvaloper"
@@ -265,6 +274,7 @@ alert:
   sputnikOperatorAddr: "cosmosvaloperxxxxx,cosmosvaloperyyyy"    # The address starts with "cosmosvaloper"
   teritoriOperatorAddr: "teritorivaloperxxxxx,teritorivaloperyyyy"    # The address starts with "teritorivaloper"
   xplaOperatorAddr: "xplavaloperxxxxx,xplavaloperyyyy"    # The address starts with "xplavaloper"
+  zetaOperatorAddr: "zetavaloperxxxxx,zetavaloperyyyy"    # The address starts with "zetavaloper"
 
   timeInterval: 600  # Monitoring time interval. 600 means the cosmos-monitor runs every 600 seconds
   blockInterval: 100 # Used to calculate the recent signature rate. 100 means to count the signatures rate of the last 100 blocks
@@ -293,6 +303,7 @@ alert:
   sputnikRankingThreshold: 100   # The sputnik validator ranking threshold
   teritoriRankingThreshold: 100  # The teritori validator ranking threshold
   xplaRankingThreshold: 100  # The xpla validator ranking threshold
+  zetaRankingThreshold: 100  # The zeta validator ranking threshold
 
   #  Whether the project is monitored, if set true it will be monitored
   acrechainIsMonitored: true
@@ -318,6 +329,7 @@ alert:
   sputnikIsMonitored: true
   teritoriIsMonitored: true
   xplaIsMonitored: true
+  zetaIsMonitored: true
 
 mail:
   host: "mail host"
@@ -371,12 +383,15 @@ mail:
   teritoriReceiver2: "teritori receiver2 mail address" # Only receive emergency alert emails of teritori, like jailed/inactive, etc.
   xplaReceiver1: "xpla receiver1 mail address" # Receive all alert emails of xpla
   xplaReceiver2: "xpla receiver2 mail address" # Only receive emergency alert emails of xpla, like jailed/inactive, etc.
+  zetaReceiver1: "zeta receiver1 mail address" # Receive all alert emails of zeta
+  zetaReceiver2: "zeta receiver2 mail address" # Only receive emergency alert emails of zeta, like jailed/inactive, etc.
 
 log:
   path: "log save location"
   level: "log level" # info, error
   eventlogpath: "event log save location"
 ```
+
 ## 4. Deployment monitoring
 - 4.1 Install go
 > TIP
